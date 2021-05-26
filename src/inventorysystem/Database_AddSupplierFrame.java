@@ -168,14 +168,19 @@ public class Database_AddSupplierFrame extends javax.swing.JFrame {
     {
         supplierDatabaseManager = new SupplierDatabaseManager();
         
-        String name = database_supplierName.getText();
-        String address = database_supplierAddress.getText();
-        String contact = database_supplierContact.getText();
+        String name = goodString(database_supplierName.getText());
+        String address = goodString(database_supplierAddress.getText());
+        String contact = goodString(database_supplierContact.getText());
         
         try
         {
             supplierDatabaseManager.insertData(name, address, contact);
         }catch(Exception e){ShowFreakingError(e + "");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean emptyChecker(String s)
     {

@@ -432,7 +432,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         int invoiceNumber = Integer.parseInt(stockout_invoiceField.getText());
         int deliveryNumber = Integer.parseInt(stockout_deliveryField.getText());
         int purchaseNumber = Integer.parseInt(stockout_purchaseField.getText());
-        String address = stockout_comboBox.getSelectedItem().toString();
+        String address = goodString(stockout_comboBox.getSelectedItem().toString());
         String invoice_date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex()+ "-" + dayCombo.getSelectedItem();
         for(int i = 0; i < items.size(); i++)
         {
@@ -441,6 +441,11 @@ public class StockOutFrame extends javax.swing.JFrame {
                 invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, itemSupplier.get(i));
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         String quantity = "";

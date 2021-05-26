@@ -156,13 +156,18 @@ public class Database_AddBranchFrame extends javax.swing.JFrame {
     {
         branchDatabaseManager = new BranchDatabaseManager();
         
-        String name = database_branchName.getText();
-        String address = database_branchAddress.getText();
+        String name = goodString(database_branchName.getText());
+        String address = goodString(database_branchAddress.getText());
         
         try
         {
             branchDatabaseManager.insertData(name, address);
         }catch(Exception e){ShowFreakingError(e + " - Error 0026");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean emptyChecker(String s)
     {

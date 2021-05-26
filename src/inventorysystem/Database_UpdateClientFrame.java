@@ -189,13 +189,18 @@ public class Database_UpdateClientFrame extends javax.swing.JFrame {
         ClientDatabaseManager clientDatabaseManager = new ClientDatabaseManager();
          
         String id = currentId;
-        String name = database_clientName.getText();
-        String address = database_clientAddress.getText();
-        String contact = database_clientContact.getText();
+        String name = goodString(database_clientName.getText());
+        String address = goodString(database_clientAddress.getText());
+        String contact = goodString(database_clientContact.getText());
         try
         {
             clientDatabaseManager.updateData(Integer.parseInt(id), name, address, contact);
         }catch(Exception e){ShowFreakingError(e + " - Error 0029");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean emptyChecker(String s)
     {

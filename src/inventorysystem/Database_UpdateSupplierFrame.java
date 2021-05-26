@@ -174,13 +174,18 @@ public class Database_UpdateSupplierFrame extends javax.swing.JFrame {
         SupplierDatabaseManager supplierDatabaseManager = new SupplierDatabaseManager();
          
         String id = currentId;
-        String name = database_supplierName.getText();
-        String address = database_supplierAddress.getText();
-        String contact = database_supplierContact.getText();
+        String name = goodString(database_supplierName.getText());
+        String address = goodString(database_supplierAddress.getText());
+        String contact = goodString(database_supplierContact.getText());
         try
         {
             supplierDatabaseManager.updateData(Integer.parseInt(id), name, address, contact);
         }catch(Exception e){ShowFreakingError(e + "");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean emptyChecker(String s)
     {

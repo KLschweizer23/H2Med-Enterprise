@@ -491,15 +491,15 @@ public class Database_UpdateFrame extends javax.swing.JFrame {
     {
         itemDatabaseManager = new ItemDatabaseManager();
         String id = currentID;
-        String name = database_itemName.getText();
+        String name = goodString(database_itemName.getText());
         String category = database_itemCategory.getItemAt(database_itemCategory.getSelectedIndex());
         double quantity = Double.parseDouble(database_itemQuantity.getText());
         double cost = Double.parseDouble(database_itemCost.getText());
         double price = Double.parseDouble(database_itemPrice.getText());
         double stockOut = currentStockOut;
-        String supplier = database_itemSupplier.getSelectedItem().toString();
-        String brand = database_itemBrand.getText();
-        String article = database_itemArticle.getText();
+        String supplier = goodString(database_itemSupplier.getSelectedItem().toString());
+        String brand = goodString(database_itemBrand.getText());
+        String article = goodString(database_itemArticle.getText());
         String purchaseDate, expirationDate;
         
         if(monthCombo.getSelectedIndex() != 0)
@@ -514,6 +514,11 @@ public class Database_UpdateFrame extends javax.swing.JFrame {
         {
             itemDatabaseManager.updateData(Integer.parseInt(id), name, category, quantity, cost, price, stockOut, purchaseDate, expirationDate, supplier, brand, article);
         }catch(Exception e){ShowFreakingError(e + " - Error 0025");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean numberChecker(String s)
     {

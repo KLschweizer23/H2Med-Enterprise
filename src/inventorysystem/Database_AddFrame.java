@@ -413,15 +413,15 @@ public class Database_AddFrame extends javax.swing.JFrame {
     {
         itemDatabaseManager = new ItemDatabaseManager();
         
-        String name = database_itemName.getText().trim().strip();
+        String name = goodString(database_itemName.getText().trim().strip());
         String category = database_itemCategory.getItemAt(database_itemCategory.getSelectedIndex());
         double quantity = Double.parseDouble(database_itemQuantity.getText().trim().strip());
         double cost = Double.parseDouble(database_itemCost.getText().trim().strip());
         double price = Double.parseDouble(database_itemPrice.getText().trim().strip());
         double stockOut = 0;
         String supplier = database_itemSupplier.getSelectedItem().toString();
-        String brand = database_itemBrand.getText();
-        String article = database_itemArticle.getText();
+        String brand = goodString(database_itemBrand.getText());
+        String article = goodString(database_itemArticle.getText());
         
         String purchaseDate, expirationDate;
         
@@ -445,6 +445,11 @@ public class Database_AddFrame extends javax.swing.JFrame {
         {
             itemDatabaseManager.insertData(name, category, quantity, cost, price, stockOut, purchaseDate, expirationDate, supplier, brand, article);
         }catch(Exception e){ShowFreakingError(e + " - Error 0023");}
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private boolean numberChecker(String s)
     {

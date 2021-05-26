@@ -461,7 +461,7 @@ public class StockInFrame extends javax.swing.JFrame {
                         int id = Integer.parseInt(newItemIdList.get(i));
                         double newVal = newItemQuantityList.get(i);
                         double cost = newItemCostList.get(i);
-                        String supplier = newItemSupplierList.get(i);
+                        String supplier = goodString(newItemSupplierList.get(i));
                         double stockIn = newItemStockInList.get(i);
                         String date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex() + "-" + dayCombo.getSelectedItem();
                         String method = newTransactionMethodList.get(i);
@@ -597,7 +597,11 @@ public class StockInFrame extends javax.swing.JFrame {
             oldTable.setRowSelectionInterval(0, 0); 
         oldTable.setRowHeight(30);
     }
-
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
+    }
     private void updateComboBox() 
     {
         ArrayList<String> listOfCat = new ArrayList<>();
