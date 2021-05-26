@@ -112,9 +112,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="main_button_stockOutTransfer" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="main_button_history" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="main_button_records" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="main_button_invoice" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="main_button_invoices" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="main_button_sales" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -128,13 +128,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="61" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="button_main_stockIn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="main_button_stockOutTransfer" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_history" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="main_button_records" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="main_button_database" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_invoice" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="main_button_invoices" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="main_button_sales" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -160,7 +160,7 @@
             <Component class="javax.swing.JButton" name="button_main_stockIn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                  <Color blue="97" green="97" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Stock In"/>
               </Properties>
@@ -173,13 +173,13 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Stock Out/Transfer"/>
+                <Property name="text" type="java.lang.String" value="Stock Out"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_stockOutTransferActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_history">
+            <Component class="javax.swing.JButton" name="main_button_records">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -187,7 +187,7 @@
                 <Property name="text" type="java.lang.String" value="Records"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_historyActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_recordsActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="main_button_database">
@@ -201,7 +201,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_databaseActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_invoice">
+            <Component class="javax.swing.JButton" name="main_button_invoices">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -209,7 +209,7 @@
                 <Property name="text" type="java.lang.String" value="Invoices"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_invoiceActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_invoicesesActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="main_button_sales">
@@ -278,7 +278,7 @@
                               <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jScrollPane1" pref="597" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="623" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
