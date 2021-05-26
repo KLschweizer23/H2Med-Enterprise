@@ -841,6 +841,7 @@ public class DatabaseFrame extends javax.swing.JFrame
         listOfCat.add("Janitorial Supplies");
         listOfCat.add("General Merchandise");
         listOfCat.add("Foods");
+        listOfCat.add("Laboratory Supplies");
         for(int i = 0; i <listOfCat.size(); i++)
         {
             categoryCombo.addItem(listOfCat.get(i));

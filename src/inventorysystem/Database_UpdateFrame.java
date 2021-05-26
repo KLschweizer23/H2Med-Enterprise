@@ -584,6 +584,7 @@ public class Database_UpdateFrame extends javax.swing.JFrame {
         listOfCat.add("Janitorial Supplies");
         listOfCat.add("General Merchandise");
         listOfCat.add("Foods");
+        listOfCat.add("Laboratory Supplies");
         for(int i = 0; i <listOfCat.size(); i++)
         {
             database_itemCategory.addItem(listOfCat.get(i));

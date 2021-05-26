@@ -69,6 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         listOfCat.add("Janitorial Supplies");
         listOfCat.add("General Merchandise");
         listOfCat.add("Foods");
+        listOfCat.add("Laboratory Supplies");
         for(int i = 0; i <listOfCat.size(); i++)
         {
             jComboBox1.addItem(listOfCat.get(i));
