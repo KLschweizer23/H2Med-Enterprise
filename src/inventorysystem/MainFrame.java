@@ -108,9 +108,9 @@ public class MainFrame extends javax.swing.JFrame {
         if(mode == MODE_PROCESS)
             itemDatabaseManager.processAllData(MODE_SORT);
         else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(jComboBox1.getSelectedItem().toString(), null, MODE_SORT);
+            itemDatabaseManager.filterByCategory(goodString(jComboBox1.getSelectedItem().toString()), null, MODE_SORT);
         else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(keyword, category, null, MODE_SORT);
+            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), null, MODE_SORT);
 
         itemIdList = itemDatabaseManager.getItemIdList();
         ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
@@ -149,6 +149,11 @@ public class MainFrame extends javax.swing.JFrame {
             displayTable.setRowSelectionInterval(0, 0);
         }
         displayTable.setRowHeight(30);
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private String setFormat(String date)
     {
@@ -264,7 +269,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("H2MED Business Software");
 
-        button_main_stockIn.setBackground(new java.awt.Color(255, 151, 151));
+        button_main_stockIn.setBackground(new java.awt.Color(255, 255, 255));
         button_main_stockIn.setText("Stock In");
         button_main_stockIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

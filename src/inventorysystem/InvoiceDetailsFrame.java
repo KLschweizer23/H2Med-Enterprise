@@ -361,13 +361,18 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         
         try
         {
-            invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, invoice_client.getText());
+            invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, goodString(invoice_client.getText()));
             SalesDatabaseManager salesDB = new SalesDatabaseManager();
-            salesDB.insertSales(Integer.parseInt(invoice_number.getText()), date, payment, invoice_client.getText());
+            salesDB.insertSales(Integer.parseInt(invoice_number.getText()), date, payment, goodString(invoice_client.getText()));
         }catch(Exception e){ShowFreakingError(e + " - Error 0038");}
         dispose();
         invoiceFrame.setAlwaysOnTop(true);
         invoiceFrame.setAlwaysOnTop(false);
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private String setFormat2(String date)
     {
@@ -431,7 +436,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         InvoiceDatabaseManager invoiceDB = new InvoiceDatabaseManager();
         try
         {
-            invoiceDB.getItemsByInvoiceNumber(currentInvoiceNumber, invoice_client.getText());
+            invoiceDB.getItemsByInvoiceNumber(currentInvoiceNumber, goodString(invoice_client.getText()));
         }catch(Exception e){ShowFreakingError(e + " - Error 0039");}
         itemList = invoiceDB.getItemsList();
         priceList = invoiceDB.getPriceList();

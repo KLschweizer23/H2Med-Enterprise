@@ -569,9 +569,9 @@ public class StockInFrame extends javax.swing.JFrame {
         if(mode == MODE_PROCESS)
             itemDatabaseManager.processAllData(MODE_UNSORT);
         else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(categoryCombo.getSelectedItem().toString(), supplierCombo.getSelectedItem().toString(),MODE_UNSORT);
+            itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()),MODE_UNSORT);
         else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(keyword, category, supplierCombo.getSelectedItem().toString(),MODE_UNSORT);
+            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()),MODE_UNSORT);
 
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();

@@ -701,9 +701,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         if(mode == MODE_PROCESS)
             itemDatabaseManager.processAllData(MODE_UNSORT);
         else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(categoryCombo.getSelectedItem().toString(), supplierCombo.getSelectedItem().toString(), MODE_UNSORT);
+            itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
         else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(keyword, category, supplierCombo.getSelectedItem().toString(), MODE_UNSORT);
+            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
         
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
@@ -887,8 +887,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                         if(cost < returnValDouble)
                         {
                             newItemPriceList.set(num, returnValDouble);
-                            newTable.setValueAt((char)8369 + "" + returnValDouble + "", num, 2);
-                            newTable.setValueAt((char)8369 + "" + (returnValDouble * newItemStockOutList.get(num)), num, 4);
+                            newTable.setValueAt((char)8369 + "" + returnValDouble + "", num, 5);
+                            newTable.setValueAt((char)8369 + "" + (returnValDouble * newItemStockOutList.get(num)), num, 7);
                             processStockStats();
                         }
                         else

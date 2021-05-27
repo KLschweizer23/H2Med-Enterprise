@@ -4,9 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 
 public class InvoiceFrame extends javax.swing.JFrame {
 
@@ -235,10 +232,14 @@ public class InvoiceFrame extends javax.swing.JFrame {
         try
         {
             String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
-            updateTableData(MODE_FILTER_SEARCH, keyword, address);
+            updateTableData(MODE_FILTER_SEARCH, goodString(keyword), goodString(address));
         }catch(Exception e){ShowFreakingError(e + " - Error 0031");}
     }//GEN-LAST:event_invoice_filterKeyReleased
-
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
+    }
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         myFrame.setEnabled(true);
     }//GEN-LAST:event_formWindowClosed

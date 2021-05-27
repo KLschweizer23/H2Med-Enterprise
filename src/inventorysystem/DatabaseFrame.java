@@ -658,9 +658,9 @@ public class DatabaseFrame extends javax.swing.JFrame
                 if(mode == MODE_PROCESS)
                     itemDatabaseManager.processAllData(MODE_UNSORT);
                 else if(mode == MODE_FILTER_CATEGORY)
-                    itemDatabaseManager.filterByCategory(categoryCombo.getItemAt(selectedTrueCategory), supplierCombo.getSelectedItem().toString(), MODE_UNSORT);
+                    itemDatabaseManager.filterByCategory(goodString(categoryCombo.getItemAt(selectedTrueCategory)), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
                 else if(mode == MODE_FILTER_SEARCH)
-                    itemDatabaseManager.filterBySearch(keyword, category, supplierCombo.getSelectedItem().toString(), MODE_UNSORT);
+                    itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
                 
                 itemIdList = itemDatabaseManager.getItemIdList();
                 ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
@@ -759,6 +759,11 @@ public class DatabaseFrame extends javax.swing.JFrame
             database_mainTable.setRowSelectionInterval(0, 0);
         }
         database_mainTable.setRowHeight(30);
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private String checkDate(String s)
     {

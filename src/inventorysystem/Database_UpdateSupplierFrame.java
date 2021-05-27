@@ -33,6 +33,9 @@ public class Database_UpdateSupplierFrame extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -159,6 +162,12 @@ public class Database_UpdateSupplierFrame extends javax.swing.JFrame {
         dbFrame.setAlwaysOnTop(true);
         dbFrame.setAlwaysOnTop(false);
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        database_supplierAddress.requestFocus();
+        database_supplierContact.requestFocus();
+        database_supplierName.requestFocus();
+    }//GEN-LAST:event_formWindowOpened
     private void prepareAllData(String id)
     {
         SupplierDatabaseManager supplierDatabaseManager = new SupplierDatabaseManager();

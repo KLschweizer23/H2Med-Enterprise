@@ -262,7 +262,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         ItemDatabaseManager itemDb = new ItemDatabaseManager();
         try
         {
-            itemDb.getItemsBySupplier(supplierCombo.getSelectedItem().toString());
+            itemDb.getItemsBySupplier(goodString(supplierCombo.getSelectedItem().toString()));
         }catch(Exception e){ShowFreakingError(e + " - Error 0046");}
         
         itemIdList = itemDb.getItemIdList();
@@ -312,6 +312,11 @@ public class RecordsFrame extends javax.swing.JFrame {
         }
         salesTable.setRowHeight(30);
     }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
+    }
     private int findSales(String _supplier, String _name)
     {
         int count = 0;
@@ -319,7 +324,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         InvoiceDatabaseManager invoiceDb = new InvoiceDatabaseManager();
         try
         {
-            invoiceDb.getDataBySupplier(_supplier, _name);
+            invoiceDb.getDataBySupplier(goodString(_supplier), goodString(_name));
         }catch(Exception e){ShowFreakingError(e + " - Error 0047");}
         
         ArrayList<String> clientList = invoiceDb.getAddressList();

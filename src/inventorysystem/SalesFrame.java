@@ -689,7 +689,7 @@ public class SalesFrame extends javax.swing.JFrame {
     {
         try
         {
-            salesDb.getDataByMode(_mode, address);
+            salesDb.getDataByMode(_mode, goodString(address));
         }catch(Exception e){ShowFreakingError(e + "");};
         salesIdList = salesDb.getSalesIdList();
         totalSalesList = salesDb.getTotalSalesList();
@@ -702,6 +702,11 @@ public class SalesFrame extends javax.swing.JFrame {
         }
         recordModeList = salesDb.getRecordModeList();
         addressList = salesDb.getAddressList();
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private void processInformation()
     {
