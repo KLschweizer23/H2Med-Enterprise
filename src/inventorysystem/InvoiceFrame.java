@@ -1,5 +1,6 @@
 package inventorysystem;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,8 +12,11 @@ import java.util.ArrayList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class InvoiceFrame extends javax.swing.JFrame {
 
@@ -232,7 +236,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         try
         {
             String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
-            updateTableData(MODE_FILTER_SEARCH, goodString(keyword), goodString(address));
+            updateTableData(MODE_FILTER_SEARCH, keyword, address);
         }catch(Exception e){ShowFreakingError(e + " - Error 0031");}
     }//GEN-LAST:event_invoice_filterKeyReleased
     private String goodString(String data)
@@ -317,9 +321,9 @@ public class InvoiceFrame extends javax.swing.JFrame {
         if(mode == MODE_PROCESS)
             invoiceDatabaseManager.processAllData();
         else if(mode==MODE_FILTER_CATEGORY)
-            invoiceDatabaseManager.filterByCategory(address);
+            invoiceDatabaseManager.filterByCategory(goodString(address));
         else if(mode==MODE_FILTER_SEARCH)
-            invoiceDatabaseManager.filterBySearch(keyword, address);
+            invoiceDatabaseManager.filterBySearch(goodString(keyword), goodString(address));
         
         invoiceIdList = invoiceDatabaseManager.getIdList();
         invoiceNumberList = invoiceDatabaseManager.getInvoiceNumberList();
@@ -512,6 +516,23 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoiceDetailsFrame.setLocation(x,y);
         this.setEnabled(false);
     }
+    public void resizeColumnWidth(JTable table) 
+    {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
     public void openInvoiceFrame(MainFrame main)
     {
         myFrame = main;
@@ -532,6 +553,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
                 }
             }
         });
+        resizeColumnWidth(invoiceTable);
         ready = true;
     }
     public void ShowFreakingError(String message)

@@ -1,10 +1,14 @@
 package inventorysystem;
 
+import java.awt.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class InvoiceDetailsFrame extends javax.swing.JFrame {
 
@@ -327,7 +331,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         InvoiceDatabaseManager invoiceDb = new InvoiceDatabaseManager();
         try
         {
-            invoiceDb.deleteData(id, address);
+            invoiceDb.deleteData(id, goodString(address));
         }catch(Exception e){ShowFreakingError(e + " - Error 0042");}
         dispose();
     }
@@ -457,7 +461,23 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         }
         invoiceTable.setRowHeight(30);
     }
-    
+    public void resizeColumnWidth(JTable table) 
+    {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
     public void openDetailsFrame(InvoiceFrame invoice, int invoiceNum, String totalPrice, String totalPaid, String status, String client, String date, String delivery, String purchase)
     {
         invoiceFrame = invoice;
@@ -478,6 +498,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         invoice_outstanding.setText((char)8369 + " " + outstanding + "");
         invoice_paid.setText((char)8369 + " " + paid);
         invoice_status.setText(status);
+        resizeColumnWidth(invoiceTable);
         updateTableData();
     }
     public void ShowFreakingError(String message)

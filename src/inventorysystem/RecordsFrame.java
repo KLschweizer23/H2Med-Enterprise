@@ -1,5 +1,6 @@
 package inventorysystem;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,8 +10,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class RecordsFrame extends javax.swing.JFrame {
     
@@ -396,6 +400,23 @@ public class RecordsFrame extends javax.swing.JFrame {
         sample.add(adjust);
         sample.show(me.getComponent(), me.getX(), me.getY());
     }
+    public void resizeColumnWidth(JTable table) 
+    {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
     public void openRecordsFrame(MainFrame main)
     {
         myFrame = main;
@@ -414,6 +435,8 @@ public class RecordsFrame extends javax.swing.JFrame {
                 }
             }
         });
+        resizeColumnWidth(purchaseTable);
+        resizeColumnWidth(salesTable);
         ready = true;
     }
     public void ShowFreakingError(String message)

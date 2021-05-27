@@ -1,5 +1,6 @@
 package inventorysystem;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,9 +9,12 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class SalesFrame extends javax.swing.JFrame {
 
@@ -828,6 +832,23 @@ public class SalesFrame extends javax.swing.JFrame {
         dayCombo1.setSelectedIndex(selectedDay - 1);
         yearCombo1.setSelectedItem(selectedYear + "");
     }
+    public void resizeColumnWidth(JTable table) 
+    {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
     public void openFrame(MainFrame main)
     {
         myFrame = main;
@@ -840,7 +861,7 @@ public class SalesFrame extends javax.swing.JFrame {
 //        progress1.setValue(100);
         processInformation();
         displayStatus();
-        
+        resizeColumnWidth(transactionTable);
     }
     public void ShowFreakingError(String message)
     {

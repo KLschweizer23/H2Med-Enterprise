@@ -1,5 +1,6 @@
 package inventorysystem;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,8 +9,11 @@ import java.util.ArrayList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class RecordDetailsFrame extends javax.swing.JFrame {
 
@@ -199,7 +203,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         StockInDatabaseManager stockInDb = new StockInDatabaseManager();
         try
         {
-            stockInDb.getDataBySupplierAndItem(_supplier, selectedId);
+            stockInDb.getDataBySupplierAndItem(goodString(_supplier), selectedId);
         }catch(Exception e){ShowFreakingError(e + " - Error 0043");}
         ArrayList<String> idList = stockInDb.getIdList();
         itemNameList = stockInDb.getFkItemNameList();
@@ -224,6 +228,11 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
             recordTable.setRowSelectionInterval(0, 0);
         }
         recordTable.setRowHeight(30);
+    }
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
     }
     private String determineMethod(String method)
     {
@@ -314,6 +323,23 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         sample.add(adjust);
         sample.show(me.getComponent(), me.getX(), me.getY());
     }
+    public void resizeColumnWidth(JTable table) 
+    {
+        final TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) 
+        {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) 
+            {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
     public void openDetailsFrame(RecordsFrame rec, int id, String supplier, String name)
     {
         recordsFrame = rec;
@@ -335,6 +361,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
                 }
             }
         });
+        resizeColumnWidth(recordTable);
     }
     public void ShowFreakingError(String message)
     {
