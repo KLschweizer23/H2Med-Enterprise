@@ -76,68 +76,76 @@ public class MainFrame extends javax.swing.JFrame {
             updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
         resizeColumnWidth(displayTable);
-        buttonDesigns();
+        buttonHover(button_main_stockIn, "Stockin_icon.png");
+        buttonHover(main_button_stockOutTransfer, "Stockout_icon.png");
+        buttonHover(main_button_records, "Record_icon.png");
+        buttonHover(main_button_invoices, "Invoices_icon.png");
+        buttonHover(main_button_sales, "Sales_icon.png");
+        buttonHover(main_button_database, "Database_icon.png");
         main_searchBar.requestFocus();
     }
-    private void buttonDesigns()
+    private void buttonHover(JButton button, String icon)
     {
-        button_main_stockIn.getModel().addChangeListener(new ChangeListener() {
+        button.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
-                float t = 1;
-                if(model.isRollover())
-                {
-                        if(t <= 0.5f)
-                            System.out.println(2.0f * t * t);
-                        t -= 0.5f;
-                        System.out.println(2.0f * t * (1.0f - t) + 0.5f);
-                } else {
-                    
-                }
+                iterate(button, model.isRollover(), icon);
             }
         });
     }
-    float InOutQuadBlend(float t)
-    {
-        if(t <= 0.5f)
-            return 2.0f * t * t;
-        t -= 0.5f;
-        return 2.0f * t * (1.0f - t) + 0.5f;
-    }
-    public void iterate(JButton button)
+    private void iterate(JButton button, boolean hover, String icon)
     {
         Thread t = new Thread()
         {
             public void run()
             {
-                int speed = 20;
-                int cap = 220;
-                for(int i = 0; i < cap; i+=speed)
+                int r_color = 0;
+                int g_color = 57;
+                int b_color = 191;
+                
+                int r = button.getBackground().getRed();
+                int g = button.getBackground().getGreen();
+                int b = button.getBackground().getBlue();
+                
+                int r_goal = hover ? r_color : 255;
+                int g_goal = hover ? g_color : 255;
+                int b_goal = hover ? b_color : 255;
+                
+                int counts = 10;
+                
+                int r_step = (r - r_goal) / counts;
+                int g_step = (g - g_goal) / counts;
+                int b_step = (b - b_goal) / counts;
+                
+                if(hover)
+                    button.setIcon(getScaledImageIcon("2" + icon, 30, 30));
+                else
+                    button.setIcon(getScaledImageIcon(icon, 30, 30));
+                
+                while(counts > 0)
                 {
-                    if(i > (cap * 0.6))
-                    {
-                        double leftTarget = cap * 0.4;
-                        double rate = speed / leftTarget;
-                        double minusValue = speed * rate;
-                        double result = speed - minusValue;
-                        result = result <= 1 ? 1 : result;
-                        i -= speed;
-                        i += (speed - result);
-                    }
+                    r -= r_step;
+                    g -= g_step;
+                    b -= b_step;
                     
-                    final int percent = i;
+                    final int _r = r;
+                    final int _g = g;
+                    final int _b = b;
+                    
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()
                         {
-                            //progress1.setSize(percent, progress1.getHeight());
+                            button.setBackground(new Color(_r,_g,_b));
+                            button.setForeground(hover ? Color.white : Color.black);
                         }
                     });
                     try
                     {
-                        Thread.sleep(40);
+                        Thread.sleep(20);
                     }catch(InterruptedException e){}
+                    counts--;
                 }
             }
         };
