@@ -22,6 +22,8 @@ public class InvoiceDatabaseManager
     final private String DELIVERY_NUMBER = "DELIVERY_NUMBER";
     final private String PURCHASE_NUMBER = "PURCHASE_NUMBER";
     final private String ITEM_SUPPLIER = "ITEM_SUPPLIER";
+    final private String CHEQUE_NUMBER = "CHEQUE_NUMBER";
+    final private String DUE_DATE = "DUE_DATE";
     
     private ArrayList<Integer> idList = new ArrayList<>();
     private ArrayList<Integer> invoiceNumberList = new ArrayList<>();
@@ -36,6 +38,8 @@ public class InvoiceDatabaseManager
     private ArrayList<Integer> deliveryNumberList = new ArrayList<>();
     private ArrayList<Integer> purchaseNumberList = new ArrayList<>();
     private ArrayList<String> itemSupplierList = new ArrayList<>();
+    private ArrayList<String> itemChequeList = new ArrayList<>();
+    private ArrayList<String> itemDueDateList = new ArrayList<>();
     
     private ArrayList<Integer> distinctInvoiceNumber = new ArrayList<>();
     private ArrayList<Integer> distinctDeliveryNumber = new ArrayList<>();
@@ -118,6 +122,8 @@ public class InvoiceDatabaseManager
         deliveryNumberList.clear();
         purchaseNumberList.clear();
         itemSupplierList.clear();
+        itemChequeList.clear();
+        itemDueDateList.clear();
         while(result.next())
         {
             idList.add(result.getInt(ID));
@@ -133,9 +139,11 @@ public class InvoiceDatabaseManager
             deliveryNumberList.add(result.getInt(DELIVERY_NUMBER));
             purchaseNumberList.add(result.getInt(PURCHASE_NUMBER));
             itemSupplierList.add(result.getString(ITEM_SUPPLIER));
+            itemChequeList.add(result.getString(CHEQUE_NUMBER));
+            itemDueDateList.add(result.getString(DUE_DATE));
         }
     }
-    public void insertData(int _invoice_number, String _items, double _cost, double _price, double _quantity, String _address, int _paid, String _invoice_date, int _invoice_status, int _delivery_number, int _purchase_number, String _item_supplier) throws Exception
+    public void insertData(int _invoice_number, String _items, double _cost, double _price, double _quantity, String _address, int _paid, String _invoice_date, int _invoice_status, int _delivery_number, int _purchase_number, String _item_supplier, String _cheque, String _due) throws Exception
     {
         Connection con = getConnection();
         PreparedStatement insertQuery = con.prepareStatement("call sp_invoiceInsert(" 
@@ -150,7 +158,9 @@ public class InvoiceDatabaseManager
                 + _invoice_status + ", "
                 + _delivery_number + ", "
                 + _purchase_number + ", '"
-                + _item_supplier + "'"
+                + _item_supplier + "', '"
+                + _cheque + "', '"
+                + _due + "'"
                 + ");");
         insertQuery.executeUpdate();
         con.close();
@@ -331,5 +341,13 @@ public class InvoiceDatabaseManager
     public ArrayList<String> getItemSupplierList()
     {
         return itemSupplierList;
+    }
+    public ArrayList<String> getItemChequeList()
+    {
+        return itemChequeList;
+    }
+    public ArrayList<String> getItemDueDateList()
+    {
+        return itemDueDateList;
     }
 }

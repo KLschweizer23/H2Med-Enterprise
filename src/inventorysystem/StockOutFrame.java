@@ -65,6 +65,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel8 = new javax.swing.JLabel();
         categoryCombo = new javax.swing.JComboBox<>();
         stockOut_searchBar = new javax.swing.JTextField();
@@ -77,7 +78,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         oldTable = new javax.swing.JTable();
         stockout_comboBox = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        stockout_invoiceField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -95,12 +95,22 @@ public class StockOutFrame extends javax.swing.JFrame {
         monthCombo = new javax.swing.JComboBox<>();
         dayCombo = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
-        yearCombo = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         stockout_purchaseField = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         stockout_deliveryField = new javax.swing.JTextField();
         supplierCombo = new javax.swing.JComboBox<>();
+        cashRadio = new javax.swing.JRadioButton();
+        stockout_invoiceField = new javax.swing.JTextField();
+        chequeRadio = new javax.swing.JRadioButton();
+        stockout_chequeField = new javax.swing.JTextField();
+        yearCombo = new javax.swing.JComboBox<>();
+        jLabel23 = new javax.swing.JLabel();
+        monthCombo1 = new javax.swing.JComboBox<>();
+        jLabel24 = new javax.swing.JLabel();
+        dayCombo1 = new javax.swing.JComboBox<>();
+        yearCombo1 = new javax.swing.JComboBox<>();
+        jLabel25 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Out");
@@ -151,7 +161,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 confirmButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 420, 76, 30));
+        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 480, 76, 30));
 
         newTable.setBackground(new java.awt.Color(255, 252, 237));
         newTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -221,79 +231,74 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Invoice #");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 180, -1, 20));
-
-        stockout_invoiceField.setBackground(new java.awt.Color(255, 255, 255));
-        stockout_invoiceField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        stockout_invoiceField.setText("000");
-        getContentPane().add(stockout_invoiceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 180, 140, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 180, -1, 20));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Stock out Date");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 210, -1, 20));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 210, -1, 20));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel11.setText("Total Item/s");
         jLabel11.setToolTipText("");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 280, -1, -1));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 370, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel12.setText("Total Cost");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 320, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 410, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel13.setText("Total Price");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 340, -1, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 430, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText((char)8369 + "");
         jLabel14.setToolTipText("");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 320, -1, -1));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 410, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel15.setText((char)8369 + "");
         jLabel15.setToolTipText("");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 300, -1, -1));
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 390, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel16.setText("Total Income");
-        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 300, 80, -1));
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 390, 80, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel17.setText((char)8369 + "");
         jLabel17.setToolTipText("");
-        getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 340, -1, -1));
+        getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 430, -1, -1));
 
         labelItem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelItem.setText("0.0");
-        getContentPane().add(labelItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 280, -1, -1));
+        getContentPane().add(labelItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 370, -1, -1));
 
         labelCost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelCost.setText("0.0");
-        getContentPane().add(labelCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 320, -1, -1));
+        getContentPane().add(labelCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 410, -1, -1));
 
         labelPrice.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelPrice.setText("0.0");
-        getContentPane().add(labelPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 340, -1, -1));
+        getContentPane().add(labelPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 430, -1, -1));
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel22.setText("Client");
-        getContentPane().add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 240, -1, 20));
+        getContentPane().add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 240, -1, 20));
 
         labelGain.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelGain.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelGain.setText("0.0");
-        getContentPane().add(labelGain, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 300, -1, -1));
+        getContentPane().add(labelGain, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 390, -1, -1));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel18.setText("/");
@@ -312,16 +317,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel19.setText("/");
         getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 210, 10, 20));
 
-        yearCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yearComboActionPerformed(evt);
-            }
-        });
-        getContentPane().add(yearCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 210, 80, -1));
-
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setText("Purchase Order #");
-        getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, -1, 20));
+        getContentPane().add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 150, -1, 20));
 
         stockout_purchaseField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_purchaseField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -330,7 +328,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel21.setText("Delivery Receipt #");
-        getContentPane().add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 120, -1, 20));
+        getContentPane().add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 120, -1, 20));
 
         stockout_deliveryField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_deliveryField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -343,6 +341,69 @@ public class StockOutFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(supplierCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 170, -1));
+
+        cashRadio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cashRadio.setSelected(true);
+        cashRadio.setText("Cash");
+        cashRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cashRadioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cashRadio, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 270, -1, 20));
+
+        stockout_invoiceField.setBackground(new java.awt.Color(255, 255, 255));
+        stockout_invoiceField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        stockout_invoiceField.setText("000");
+        getContentPane().add(stockout_invoiceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 180, 140, -1));
+
+        chequeRadio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chequeRadio.setText("Cheque #");
+        chequeRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chequeRadioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(chequeRadio, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 300, -1, 20));
+
+        stockout_chequeField.setBackground(new java.awt.Color(255, 255, 255));
+        stockout_chequeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        getContentPane().add(stockout_chequeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 300, 140, -1));
+
+        yearCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearComboActionPerformed(evt);
+            }
+        });
+        getContentPane().add(yearCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 210, 80, -1));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel23.setText("Due Date");
+        getContentPane().add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 330, 80, 20));
+
+        monthCombo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthCombo1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(monthCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 330, 70, -1));
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel24.setText("/");
+        getContentPane().add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 330, 10, 20));
+
+        getContentPane().add(dayCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 330, 60, -1));
+
+        yearCombo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearCombo1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(yearCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 330, 80, -1));
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel25.setText("/");
+        getContentPane().add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 330, 10, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -438,11 +499,13 @@ public class StockOutFrame extends javax.swing.JFrame {
         int purchaseNumber = Integer.parseInt(stockout_purchaseField.getText());
         String address = goodString(stockout_comboBox.getSelectedItem().toString());
         String invoice_date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex()+ "-" + dayCombo.getSelectedItem();
+        String cheque = cashRadio.isSelected() ? "Cash" : stockout_chequeField.getText();
+        String dueDate = cashRadio.isSelected() ? "- - / - -" : yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem();
         for(int i = 0; i < items.size(); i++)
         {
             try
             {
-                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, itemSupplier.get(i));
+                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, itemSupplier.get(i), cheque, dueDate);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
     }
@@ -570,10 +633,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_monthComboActionPerformed
 
-    private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_yearComboActionPerformed
-
     private void supplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierComboActionPerformed
         if(ready)
         {
@@ -583,6 +642,37 @@ public class StockOutFrame extends javax.swing.JFrame {
             }catch(Exception e){ShowFreakingError(e + " - Error 0052");}
         }
     }//GEN-LAST:event_supplierComboActionPerformed
+
+    private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearComboActionPerformed
+
+    private void monthCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthCombo1ActionPerformed
+        if(ready)
+            updateDate(monthCombo1, dayCombo1, yearCombo1, monthCombo1.getSelectedIndex());
+    }//GEN-LAST:event_monthCombo1ActionPerformed
+
+    private void yearCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearCombo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearCombo1ActionPerformed
+
+    private void cashRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashRadioActionPerformed
+        radioActivation(true);
+    }//GEN-LAST:event_cashRadioActionPerformed
+
+    private void chequeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chequeRadioActionPerformed
+        radioActivation(false);
+    }//GEN-LAST:event_chequeRadioActionPerformed
+    private void radioActivation(boolean bool)
+    {
+        stockout_chequeField.setEnabled(!bool);
+        jLabel23.setEnabled(!bool);
+        yearCombo1.setEnabled(!bool);
+        jLabel24.setEnabled(!bool);
+        monthCombo1.setEnabled(!bool);
+        jLabel25.setEnabled(!bool);
+        dayCombo1.setEnabled(!bool);
+    }
     private void addToOtherTable(int number, double newQuantity)
     {
         newItemIdList.add(itemIdList.get(number));
@@ -873,7 +963,11 @@ public class StockOutFrame extends javax.swing.JFrame {
         createColumns2();
         prepareFieldNumbers();
         updateDate(monthCombo, dayCombo, yearCombo, 0);
+        updateDate(monthCombo1, dayCombo1, yearCombo1, 0);
         newTable.setRowHeight(30);
+        buttonGroup1.add(cashRadio);
+        buttonGroup1.add(chequeRadio);
+        radioActivation(true);
         try
         {
             updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
@@ -931,9 +1025,13 @@ public class StockOutFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cashRadio;
     private javax.swing.JComboBox<String> categoryCombo;
+    private javax.swing.JRadioButton chequeRadio;
     private javax.swing.JButton confirmButton;
     private javax.swing.JComboBox<String> dayCombo;
+    private javax.swing.JComboBox<String> dayCombo1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -947,6 +1045,9 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -957,14 +1058,17 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelPrice;
     private javax.swing.JButton minusButton;
     private javax.swing.JComboBox<String> monthCombo;
+    private javax.swing.JComboBox<String> monthCombo1;
     private javax.swing.JTable newTable;
     private javax.swing.JTable oldTable;
     private javax.swing.JTextField stockOut_searchBar;
+    private javax.swing.JTextField stockout_chequeField;
     private javax.swing.JComboBox<String> stockout_comboBox;
     private javax.swing.JTextField stockout_deliveryField;
     private javax.swing.JTextField stockout_invoiceField;
     private javax.swing.JTextField stockout_purchaseField;
     private javax.swing.JComboBox<String> supplierCombo;
     private javax.swing.JComboBox<String> yearCombo;
+    private javax.swing.JComboBox<String> yearCombo1;
     // End of variables declaration//GEN-END:variables
 }

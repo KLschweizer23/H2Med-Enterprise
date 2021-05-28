@@ -37,6 +37,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
     ArrayList<Integer> invoiceStatusList;
     ArrayList<Integer> deliveryNumberList;
     ArrayList<Integer> purchaseNumberList;
+    ArrayList<String> chequeNumberList;
+    ArrayList<String> dueDateList;
     
     ArrayList<Integer> distinctInvoiceNumberList;
     ArrayList<Integer> invoiceNumberLocations = new ArrayList<>();
@@ -281,8 +283,10 @@ public class InvoiceFrame extends javax.swing.JFrame {
         dtm.addColumn("Issue Date");
         dtm.addColumn("Days Old");
         dtm.addColumn("Client");
+        dtm.addColumn("Payment Method");
         dtm.addColumn("Total");
         dtm.addColumn("Paid");
+        dtm.addColumn("Due Date");
         dtm.addColumn("Status");
     }
     private void updateComboBox()
@@ -337,6 +341,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoiceStatusList = invoiceDatabaseManager.getInvoiceStatusList();
         deliveryNumberList = invoiceDatabaseManager.getDeliveryNumberList();
         purchaseNumberList = invoiceDatabaseManager.getPurchaseNumberList();
+        chequeNumberList = invoiceDatabaseManager.getItemChequeList();
+        dueDateList = invoiceDatabaseManager.getItemDueDateList();
         
         invoiceNumberLocations.clear();
         distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
@@ -361,8 +367,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
             currentTotalPaid += currentPaid;
             
             String[] rowData = {distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
-                date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)),
-                (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid,
+                date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(i),
+                (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(i),
                 getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
             };
             dtm.addRow(rowData);
@@ -499,16 +505,20 @@ public class InvoiceFrame extends javax.swing.JFrame {
         MainFrame myFrame = new MainFrame();
         
         int selected = invoiceTable.getSelectedRow();
-        
-        String totalPrice = invoiceTable.getValueAt(selected, 6).toString().substring(2);
-        String totalPaid = invoiceTable.getValueAt(selected, 7).toString().substring(2);
-        String status = invoiceTable.getValueAt(selected, 8).toString();
+        String totalPrice = invoiceTable.getValueAt(selected, 7).toString().substring(2);
+        String totalPaid = invoiceTable.getValueAt(selected, 8).toString().substring(2);
+        String status = invoiceTable.getValueAt(selected, 10).toString();
         String client = invoiceTable.getValueAt(selected, 5).toString();
         String date = invoiceTable.getValueAt(selected, 3).toString();
         String delivery = invoiceTable.getValueAt(selected, 1).toString();
         String purchase = invoiceTable.getValueAt(selected, 2).toString();
         
-        invoiceDetailsFrame.openDetailsFrame(this, num, totalPrice, totalPaid, status, client, date, delivery, purchase);
+        String method = invoiceTable.getValueAt(selected, 6).toString();
+        String dueDate = invoiceTable.getValueAt(selected, 10).toString();
+        
+        boolean isCash = method.toLowerCase().charAt(0) == 'c';
+         
+        invoiceDetailsFrame.openDetailsFrame(this, num, totalPrice, totalPaid, status, client, date, delivery, purchase, isCash, method, dueDate);
         
         invoiceDetailsFrame.setVisible(true);
         int x = (myFrame.getWidth() - invoiceDetailsFrame.getWidth()) / 2;

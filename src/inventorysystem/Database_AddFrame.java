@@ -81,6 +81,8 @@ public class Database_AddFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel4.setText("Cost");
 
+        database_itemQuantity.setText("0");
+        database_itemQuantity.setEnabled(false);
         database_itemQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 database_itemQuantityFocusLost(evt);
@@ -337,16 +339,16 @@ public class Database_AddFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean isAllTrue = noError[0] && noError[1] && noError[2] && noError[3] && noError[4] && noError[5];
-        double cost = Double.parseDouble(database_itemCost.getText());
-        double price = Double.parseDouble(database_itemPrice.getText());
-        if(cost > price)
+        if(isAllTrue)
         {
-            this.setAlwaysOnTop(false);
-            JOptionPane.showMessageDialog(null, "Item Cost is greater than Item Price!", "Invalid Cost Value!", JOptionPane.ERROR_MESSAGE);
-        }
-        else
-        {
-            if(isAllTrue)
+            double cost = Double.parseDouble(database_itemCost.getText());
+            double price = Double.parseDouble(database_itemPrice.getText());
+            if(cost > price)
+            {
+                this.setAlwaysOnTop(false);
+                JOptionPane.showMessageDialog(null, "Item Cost is greater than Item Price!", "Invalid Cost Value!", JOptionPane.ERROR_MESSAGE);
+            }
+            else
             {
                 insertItemData();
                 closeWindow();
