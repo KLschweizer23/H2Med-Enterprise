@@ -40,6 +40,8 @@ public class InvoiceDatabaseManager
     private ArrayList<String> itemSupplierList = new ArrayList<>();
     private ArrayList<String> itemChequeList = new ArrayList<>();
     private ArrayList<String> itemDueDateList = new ArrayList<>();
+    private ArrayList<Integer> itemResult = new ArrayList<>();
+    private ArrayList<Double> itemTotal = new ArrayList<>();
     
     private ArrayList<Integer> distinctInvoiceNumber = new ArrayList<>();
     private ArrayList<Integer> distinctDeliveryNumber = new ArrayList<>();
@@ -107,6 +109,30 @@ public class InvoiceDatabaseManager
         con.close();   
         processAllData();
     }
+    public void processMostSales() throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement processQuery = con.prepareStatement("SELECT *, COUNT(*) AS RESULT FROM " + invoicetable + " GROUP BY " + ITEMS + " ORDER BY RESULT DESC LIMIT 3");
+        ResultSet result = processQuery.executeQuery();
+        re_initializeVariables(result);
+        con.close();
+    }
+    public void processLongestInvoice() throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement processQuery = con.prepareStatement("SELECT * FROM " + invoicetable + " WHERE " + INVOICE_STATUS + "=" + 0 +" GROUP BY " + INVOICE_NUMBER + " ORDER BY " + INVOICE_DATE + " ASC LIMIT 3");
+        ResultSet result = processQuery.executeQuery();
+        re_initializeVariables(result);
+        con.close();
+    }
+    public void processMostOutstanding() throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement processQuery = con.prepareStatement("SELECT *, SUM(" + PRICE + " * " + QUANTITY + ") AS TOTAL FROM " + invoicetable + " WHERE " + INVOICE_STATUS + " = " + 0 + " GROUP BY " + ADDRESS + " ORDER BY TOTAL DESC LIMIT 3");
+        ResultSet result = processQuery.executeQuery();
+        re_initializeVariables(result);
+        con.close();
+    }
     private void re_initializeVariables(ResultSet result) throws Exception
     {
         idList.clear();
@@ -124,6 +150,8 @@ public class InvoiceDatabaseManager
         itemSupplierList.clear();
         itemChequeList.clear();
         itemDueDateList.clear();
+        itemResult.clear();
+        itemTotal.clear();
         while(result.next())
         {
             idList.add(result.getInt(ID));
@@ -141,6 +169,14 @@ public class InvoiceDatabaseManager
             itemSupplierList.add(result.getString(ITEM_SUPPLIER));
             itemChequeList.add(result.getString(CHEQUE_NUMBER));
             itemDueDateList.add(result.getString(DUE_DATE));
+            try
+            {
+                itemResult.add(result.getInt("RESULT"));
+            }catch(Exception e){}
+            try
+            {
+                itemTotal.add(result.getDouble("TOTAL"));
+            }catch(Exception e){}
         }
     }
     public void insertData(int _invoice_number, String _items, double _cost, double _price, double _quantity, String _address, int _paid, String _invoice_date, int _invoice_status, int _delivery_number, int _purchase_number, String _item_supplier, String _cheque, String _due) throws Exception
@@ -349,5 +385,13 @@ public class InvoiceDatabaseManager
     public ArrayList<String> getItemDueDateList()
     {
         return itemDueDateList;
+    }
+    public ArrayList<Integer> getItemResultList()
+    {
+        return itemResult;
+    }
+    public ArrayList<Double> getItemTotalList()
+    {
+        return itemTotal;
     }
 }

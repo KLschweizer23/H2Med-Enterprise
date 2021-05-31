@@ -330,7 +330,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         {
             invoiceDb.getDataBySupplier(goodString(_supplier), goodString(_name));
         }catch(Exception e){ShowFreakingError(e + " - Error 0047");}
-        
         ArrayList<String> clientList = invoiceDb.getAddressList();
         ArrayList<String> dateList = invoiceDb.getInvoiceDateList();
         ArrayList<Double> priceList = invoiceDb.getPriceList();

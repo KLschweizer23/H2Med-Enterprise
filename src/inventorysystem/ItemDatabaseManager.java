@@ -85,6 +85,16 @@ public class ItemDatabaseManager
         re_initializeVariables(result);
         con.close();
     }
+    public void processItemsByQuantity(boolean asc) throws Exception
+    {
+        String order = asc ? "ASC" : "DESC";
+        
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_QUANTITY + " " + order + " LIMIT 3");
+        ResultSet result = getQuery.executeQuery();
+        re_initializeVariables(result);
+        con.close();
+    }
     private void re_initializeVariables(ResultSet result) throws Exception
     {
         itemIdList.clear();

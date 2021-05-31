@@ -15,9 +15,11 @@ import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -61,12 +63,42 @@ public class MainFrame extends javax.swing.JFrame {
         updateComboBox();
         changeIcons();
         setupTable(displayTable, Color.white, new Dimension(0,30), Color.black);
+        updateStatus();
         try
         {
             updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
         resizeColumnWidth(displayTable);
         main_searchBar.requestFocus();
+    }
+    private void updateStatus()
+    {
+        SystemStatusManager system = new SystemStatusManager();
+        
+        JLabel[] sales = {sales1, sales2, sales3};
+        ArrayList<String> saleData = system.getMostItemSales();
+        for(int i = 0; i < saleData.size(); i++)
+            sales[i].setText(i + 1 + ". " + saleData.get(i));
+        
+        JLabel[] invoices = {invoice1, invoice2, invoice3};
+        ArrayList<String> longInvoices = system.getLongestInvoices();
+        for(int i = 0; i < longInvoices.size(); i++)
+            invoices[i].setText(i + 1 + ". " + longInvoices.get(i));
+        
+        JLabel[] outstandings = {outstanding1, outstanding2, outstanding3};
+        ArrayList<String> outstandingData = system.getMostOutstanding();
+        for(int i = 0; i < outstandingData.size(); i++)
+            outstandings[i].setText(i + 1 + ". " + outstandingData.get(i));
+        
+        JLabel[] leasts = {least1, least2, least3};
+        ArrayList<String> leastsData = system.getItemQuantity(true);
+        for(int i = 0; i < leastsData.size(); i++)
+            leasts[i].setText(i + 1 + ". " + leastsData.get(i));
+        
+        JLabel[] mosts = {most1, most2, most3};
+        ArrayList<String> mostsData = system.getItemQuantity(false);
+        for(int i = 0; i < mostsData.size(); i++)
+            mosts[i].setText(i + 1 + ". " + mostsData.get(i));
     }
     private void changeIcons()
     {
@@ -209,11 +241,8 @@ public class MainFrame extends javax.swing.JFrame {
         ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
         ArrayList<String> itemCategoryList = itemDatabaseManager.getItemCategoryList();
         ArrayList<Double> itemQuantityList = itemDatabaseManager.getItemQuantityList();
-        ArrayList<Double> itemCostList = itemDatabaseManager.getItemCostList();
         ArrayList<Double> itemPriceList = itemDatabaseManager.getItemPriceList();
         ArrayList<Double> itemStockOutList = itemDatabaseManager.getItemStockOutList();
-        ArrayList<Date> itemPurchaseDateList = itemDatabaseManager.getItemPurchaseDateList();
-        ArrayList<Date> itemExpirationDateList = itemDatabaseManager.getItemExpirationDateList();
         ArrayList<String> itemArticleList = itemDatabaseManager.getItemArticleList();
         ArrayList<String> itemBrandList = itemDatabaseManager.getItemBrandList();
         ArrayList<String> itemSupplierList = itemDatabaseManager.getItemSupplierList();
@@ -356,6 +385,26 @@ public class MainFrame extends javax.swing.JFrame {
         wing2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        sales1 = new javax.swing.JLabel();
+        sales2 = new javax.swing.JLabel();
+        sales3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        outstanding3 = new javax.swing.JLabel();
+        outstanding1 = new javax.swing.JLabel();
+        outstanding2 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        least1 = new javax.swing.JLabel();
+        least2 = new javax.swing.JLabel();
+        least3 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        most1 = new javax.swing.JLabel();
+        most2 = new javax.swing.JLabel();
+        most3 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        invoice3 = new javax.swing.JLabel();
+        invoice1 = new javax.swing.JLabel();
+        invoice2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTable = new javax.swing.JTable();
@@ -498,23 +547,156 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jLabel1.setText("Name");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Status Lists");
+
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Most Item Sales");
+
+        sales1.setBackground(new java.awt.Color(0, 0, 0));
+        sales1.setText("N/A");
+
+        sales2.setBackground(new java.awt.Color(0, 0, 0));
+        sales2.setText("N/A");
+
+        sales3.setBackground(new java.awt.Color(0, 0, 0));
+        sales3.setText("N/A");
+
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setText("Large Outstandings");
+
+        outstanding3.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding3.setText("N/A");
+
+        outstanding1.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding1.setText("N/A");
+
+        outstanding2.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding2.setText("N/A");
+
+        jLabel11.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setText("Item Least Quantity");
+
+        least1.setBackground(new java.awt.Color(0, 0, 0));
+        least1.setText("N/A");
+
+        least2.setBackground(new java.awt.Color(0, 0, 0));
+        least2.setText("N/A");
+
+        least3.setBackground(new java.awt.Color(0, 0, 0));
+        least3.setText("N/A");
+
+        jLabel15.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel15.setText("Item Most Quantity");
+
+        most1.setBackground(new java.awt.Color(0, 0, 0));
+        most1.setText("N/A");
+
+        most2.setBackground(new java.awt.Color(0, 0, 0));
+        most2.setText("N/A");
+
+        most3.setBackground(new java.awt.Color(0, 0, 0));
+        most3.setText("N/A");
+
+        jLabel19.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel19.setText("Unpaid Invoices");
+
+        invoice3.setBackground(new java.awt.Color(0, 0, 0));
+        invoice3.setText("N/A");
+
+        invoice1.setBackground(new java.awt.Color(0, 0, 0));
+        invoice1.setText("N/A");
+
+        invoice2.setBackground(new java.awt.Color(0, 0, 0));
+        invoice2.setText("N/A");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(sales1)
+                    .addComponent(sales2)
+                    .addComponent(sales3)
+                    .addComponent(outstanding1)
+                    .addComponent(outstanding2)
+                    .addComponent(outstanding3)
+                    .addComponent(jLabel11)
+                    .addComponent(least1)
+                    .addComponent(least2)
+                    .addComponent(least3)
+                    .addComponent(jLabel15)
+                    .addComponent(most1)
+                    .addComponent(most2)
+                    .addComponent(most3))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addComponent(invoice1)
+                    .addComponent(invoice2)
+                    .addComponent(invoice3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sales1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sales2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sales3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(invoice1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(invoice2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(invoice3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outstanding1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outstanding2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outstanding3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(least1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(least2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(least3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(most1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(most2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(most3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -685,6 +867,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             updateTableData(MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0005");}
+        updateStatus();
     }//GEN-LAST:event_formWindowActivated
 
     private void main_button_invoicesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_invoicesesActionPerformed
@@ -752,14 +935,25 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_main_stockIn;
     private javax.swing.JTable displayTable;
+    private javax.swing.JLabel invoice1;
+    private javax.swing.JLabel invoice2;
+    private javax.swing.JLabel invoice3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel least1;
+    private javax.swing.JLabel least2;
+    private javax.swing.JLabel least3;
     private javax.swing.JLabel logo;
     private javax.swing.JButton main_button_database;
     private javax.swing.JButton main_button_invoices;
@@ -767,6 +961,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton main_button_sales;
     private javax.swing.JButton main_button_stockOutTransfer;
     private javax.swing.JTextField main_searchBar;
+    private javax.swing.JLabel most1;
+    private javax.swing.JLabel most2;
+    private javax.swing.JLabel most3;
+    private javax.swing.JLabel outstanding1;
+    private javax.swing.JLabel outstanding2;
+    private javax.swing.JLabel outstanding3;
+    private javax.swing.JLabel sales1;
+    private javax.swing.JLabel sales2;
+    private javax.swing.JLabel sales3;
     private javax.swing.JLabel wing;
     private javax.swing.JLabel wing2;
     // End of variables declaration//GEN-END:variables

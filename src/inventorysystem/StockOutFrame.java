@@ -431,7 +431,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 boolean didInvoiceExist = false, didDeliveryExist = false, didPurchaseExist = false;
                 try
                 {
-                    invoiceDatabaseManager.processDistinctNumbers(stockout_comboBox.getSelectedItem().toString());
+                    invoiceDatabaseManager.processDistinctNumbers(goodString(stockout_comboBox.getSelectedItem().toString()));
                     didInvoiceExist = invoiceDatabaseManager.checkInvoiceIfExist(Integer.parseInt(stockout_invoiceField.getText()));
                     didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
                     didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
@@ -473,14 +473,14 @@ public class StockOutFrame extends javax.swing.JFrame {
                                         {
                                             itemDatabaseManager.updateQuantityById(id, quantityLeft);
                                             itemDatabaseManager.addStockOutById(id, newVal);
-                                            stockOutDatabaseManager.insertData(newStockOutIdValue, id + "", newVal, date, stockout_comboBox.getSelectedItem().toString(),cost, price,supplier);
+                                            stockOutDatabaseManager.insertData(newStockOutIdValue, id + "", newVal, date, goodString(stockout_comboBox.getSelectedItem().toString()),cost, price, goodString(supplier));
                                         }catch(Exception e){ShowFreakingError(e + " - Error 0014");}
                                     }
                                     try
                                     {
                                         insertInvoice(newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
                                         SalesDatabaseManager salesDB = new SalesDatabaseManager();
-                                        salesDB.insertOutstanding(date, stockout_comboBox.getSelectedItem().toString(), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
+                                        salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
                                     }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
                                     dispose();
                                 }
