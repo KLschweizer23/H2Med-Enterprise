@@ -20,6 +20,7 @@ public class StockInDatabaseManager
     final private String TRANSACTION_METHOD = "TRANSACTION_METHOD";
     final private String TRANSACTION_STATUS = "TRANSACTION_STATUS";
     final private String TRANSACTION_DUE = "TRANSACTION_DUE";
+    final private String TRANSACTION_ID = "TRANSACTION_ID";
     
     private ArrayList<String> idList = new ArrayList<>();
     private ArrayList<String> stockInIdList = new ArrayList<>();
@@ -32,6 +33,7 @@ public class StockInDatabaseManager
     private ArrayList<String> transactionMethodList = new ArrayList<>();
     private ArrayList<Integer> transactionStatusList = new ArrayList<>();
     private ArrayList<String> transactionDueList = new ArrayList<>();
+    private ArrayList<Integer> transactionIdList = new ArrayList<>();
     
     private ArrayList<String> distinctId = new ArrayList<String>();
     
@@ -67,6 +69,7 @@ public class StockInDatabaseManager
         transactionMethodList.clear();
         transactionStatusList.clear();
         transactionDueList.clear();
+        transactionIdList.clear();
         while(result.next())
         {
             idList.add(result.getString(ID));
@@ -80,9 +83,10 @@ public class StockInDatabaseManager
             transactionMethodList.add(result.getString(TRANSACTION_METHOD));
             transactionStatusList.add(result.getInt(TRANSACTION_STATUS));
             transactionDueList.add(result.getString(TRANSACTION_DUE));
+            transactionIdList.add(result.getInt(TRANSACTION_ID));
         }
     }
-    public void insertData(String _stockInId, String _fkItemName, double _itemQuantity, String _itemDate, double _cost, String _supplier, double _stockIn, String _method, int _status, String _due) throws Exception
+    public void insertData(String _stockInId, String _fkItemName, double _itemQuantity, String _itemDate, double _cost, String _supplier, double _stockIn, String _method, int _status, String _due, int _transaction_id) throws Exception
     {
         Connection con = getConnection();
         PreparedStatement insertQuery = con.prepareStatement("call sp_insertStockInData("+
@@ -95,7 +99,8 @@ public class StockInDatabaseManager
                 _stockIn + ", '" +
                 _method + "', " +
                 _status + ", '" +
-                _due + "'" +
+                _due + "', " +
+                _transaction_id +
                 ");");
         insertQuery.executeUpdate();
         processAllData();
@@ -112,7 +117,7 @@ public class StockInDatabaseManager
     public void updateTransactionStatus(String _supplier, int _id, int _status) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + STOCK_IN_TABLE + " SET " + TRANSACTION_STATUS + " = " + _status + " WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "' AND " + FK_ITEM_NAME + " = " + _id);
+        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + STOCK_IN_TABLE + " SET " + TRANSACTION_STATUS + " = " + _status + " WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "' AND " + ID + " = " + _id);
         updateQuery.executeUpdate();
         con.close();
     }
@@ -172,5 +177,9 @@ public class StockInDatabaseManager
     public ArrayList<String> getTransactionDueList()
     {
         return this.transactionDueList;
+    }
+    public ArrayList<Integer> getTransactionIdList()
+    {
+        return this.transactionIdList;
     }
 }

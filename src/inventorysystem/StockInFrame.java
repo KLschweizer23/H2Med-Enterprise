@@ -10,12 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -49,12 +47,11 @@ public class StockInFrame extends javax.swing.JFrame {
     ArrayList<Integer> newTransactionStatusList = new ArrayList<>();
     ArrayList<String> newTransactionDueList = new ArrayList<>();
 
-    private int MODE_PROCESS = 0;
-    private int MODE_FILTER_CATEGORY = 1;
-    private int MODE_FILTER_SEARCH = 2;
+    private final int MODE_PROCESS = 0;
+    private final int MODE_FILTER_CATEGORY = 1;
+    private final int MODE_FILTER_SEARCH = 2;
 
-    private int MODE_SORT = 0;
-    private int MODE_UNSORT = 1;
+    private final int MODE_UNSORT = 1;
   
     DefaultTableModel dtm;
     DefaultTableModel dtm2;
@@ -270,11 +267,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(newTable);
 
         stockIn_searchBar.setBackground(new java.awt.Color(255, 255, 255));
-        stockIn_searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                stockIn_searchBarFocusLost(evt);
-            }
-        });
         stockIn_searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 stockIn_searchBarKeyReleased(evt);
@@ -434,10 +426,6 @@ public class StockInFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_categoryComboActionPerformed
 
-    private void stockIn_searchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_stockIn_searchBarFocusLost
-
-    }//GEN-LAST:event_stockIn_searchBarFocusLost
-
     private void stockIn_searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_stockIn_searchBarKeyReleased
         String keyword = stockIn_searchBar.getText();
         try 
@@ -549,12 +537,14 @@ public class StockInFrame extends javax.swing.JFrame {
                         String method = newTransactionMethodList.get(i);
                         int status = newTransactionStatusList.get(i);
                         String due = newTransactionDueList.get(i);
+                        double total = newItemTotalCostList.get(i);
                         try 
                         {
-                            this.itemDatabaseManager.updateQuantityById(id, newVal);
-                            stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due);
                             SalesDatabaseManager salesDB = new SalesDatabaseManager();
-                            salesDB.insertCost(date, cost * stockIn);
+                            int trans_id = salesDB.getNewestId();
+                            itemDatabaseManager.updateQuantityById(id, newVal);
+                            stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due, trans_id);
+                            salesDB.insertCost(date, total);
                         } catch (Exception e) {ShowFreakingError("" + e + " - Error 0010");} 
                     } 
                     dispose();

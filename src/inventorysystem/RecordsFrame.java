@@ -24,6 +24,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     
     boolean ready = false;
     
+    ArrayList<String> itemIdKeyList;
     ArrayList<String> itemIdList;
     ArrayList<String> itemNameList;
     

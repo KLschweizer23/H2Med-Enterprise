@@ -23,6 +23,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
     
     DefaultTableModel dtm;
     
+    ArrayList<String> idList;
     ArrayList<String> itemNameList;
     ArrayList<String> itemCostList ;
     ArrayList<String> itemQuantityList;
@@ -30,6 +31,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
     ArrayList<Integer> transactionStatusList;
     ArrayList<String> transactionDueList;
     ArrayList<String> itemDateList;
+    ArrayList<Integer> itemTransactionIdList;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -205,7 +207,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         {
             stockInDb.getDataBySupplierAndItem(goodString(_supplier), selectedId);
         }catch(Exception e){ShowFreakingError(e + " - Error 0043");}
-        ArrayList<String> idList = stockInDb.getIdList();
+        idList = stockInDb.getIdList();
         itemNameList = stockInDb.getFkItemNameList();
         itemCostList = stockInDb.getItemCostList();
         itemQuantityList = stockInDb.getItemStockInList();
@@ -213,6 +215,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         transactionStatusList = stockInDb.getTransactionStatusList();
         transactionDueList = stockInDb.getTransactionDueList();
         itemDateList = stockInDb.getItemDateInList();
+        itemTransactionIdList = stockInDb.getTransactionIdList();
         for(int i = 0; i < idList.size(); i++)
         {
             double totalCost = Double.parseDouble(itemCostList.get(i)) * Double.parseDouble(itemQuantityList.get(i));
@@ -292,23 +295,20 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
                     if(totalCost == returnValDouble)
                     {
                         StockInDatabaseManager stockInDb = new StockInDatabaseManager();
+                        SalesDatabaseManager salesDb = new SalesDatabaseManager();
                         try
                         {
-                            stockInDb.updateTransactionStatus(supplier, selectedId, 0);
+                            stockInDb.updateTransactionStatus(goodString(supplier), Integer.parseInt(idList.get(num)), 0);
+                            salesDb.updateCost(itemTransactionIdList.get(num), totalCost, goodString(supplier));
                         }catch(Exception e){ShowFreakingError(e + " - Error 0044");}
                         for(int i = recordTable.getRowCount(); i > 0; i--)
                             dtm.removeRow(i - 1);
                         prepareData(supplier);
                     }
-                    else
-                        JOptionPane.showMessageDialog(null, "Payment may be too much or not enough!", "Invalid Payment!", JOptionPane.WARNING_MESSAGE);
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Please input a proper value!", "Invalid Payment!", JOptionPane.WARNING_MESSAGE);
+                    else JOptionPane.showMessageDialog(null, "Payment may be too much or not enough!", "Invalid Payment!", JOptionPane.WARNING_MESSAGE);
+                } else JOptionPane.showMessageDialog(null, "Please input a proper value!", "Invalid Payment!", JOptionPane.WARNING_MESSAGE);
             }
-        }
-        else
-            JOptionPane.showMessageDialog(null, "Transaction is already paid!", "Inform", JOptionPane.INFORMATION_MESSAGE);
+        } else JOptionPane.showMessageDialog(null, "Transaction is already paid!", "Inform", JOptionPane.INFORMATION_MESSAGE);
     }
     private void Popup(MouseEvent me, int num, String supplier)
     {
@@ -357,6 +357,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
             {
                 if(SwingUtilities.isRightMouseButton(me))
                 {
+                    System.out.println(idList.get(recordTable.getSelectedRow()));
                     Popup(me, recordTable.getSelectedRow(), supplier);
                 }
             }

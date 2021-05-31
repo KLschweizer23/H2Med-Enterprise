@@ -99,6 +99,13 @@ public class SalesDatabaseManager
         con.close();
         processAllData();
     }
+    public void updateCost(int _id, double _payment, String _supplier) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement updateQuery = con.prepareStatement("UPDATE salestable SET " + TOTAL_COST + " = " + _payment + " WHERE " + SALES_ID + " = " + _id);
+        updateQuery.executeUpdate();
+        con.close();
+    }
     public ArrayList<Integer> getSalesIdList()
     {
         return this.salesIdList;
@@ -126,5 +133,18 @@ public class SalesDatabaseManager
     public ArrayList<String> getAddressList()
     {
         return this.addressList;
+    }
+    
+    public int getNewestId() throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT SALES_ID FROM salestable ORDER BY SALES_ID DESC LIMIT 1");
+        ResultSet result = getQuery.executeQuery();
+        int id = 0;
+        
+        while(result.next())
+            id = result.getInt(SALES_ID);
+        
+        return id+1;
     }
 }
