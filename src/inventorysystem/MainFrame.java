@@ -2,6 +2,7 @@ package inventorysystem;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -57,6 +59,23 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0001");}
         createColumns();
         updateComboBox();
+        changeIcons();
+        setupTable(displayTable, Color.white, new Dimension(0,30), Color.black);
+        try
+        {
+            updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+        }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
+        resizeColumnWidth(displayTable);
+        main_searchBar.requestFocus();
+    }
+    private void changeIcons()
+    {
+        buttonHover(button_main_stockIn, "Stockin_icon.png");
+        buttonHover(main_button_stockOutTransfer, "Stockout_icon.png");
+        buttonHover(main_button_records, "Record_icon.png");
+        buttonHover(main_button_invoices, "Invoices_icon.png");
+        buttonHover(main_button_sales, "Sales_icon.png");
+        buttonHover(main_button_database, "Database_icon.png");
         jLabel2.setIcon(getScaledImageIcon("filter.png", 20, 20));
         button_main_stockIn.setIcon(getScaledImageIcon("Stockin_icon.png", 30, 30));
         main_button_stockOutTransfer.setIcon(getScaledImageIcon("Stockout_icon.png", 30, 30));
@@ -71,18 +90,6 @@ public class MainFrame extends javax.swing.JFrame {
         wing2.setIcon(getScaledImageIcon("h2med_sidewings2.png", (w / 2) + w, w));
         
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png")).getImage());
-        try
-        {
-            updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
-        resizeColumnWidth(displayTable);
-        buttonHover(button_main_stockIn, "Stockin_icon.png");
-        buttonHover(main_button_stockOutTransfer, "Stockout_icon.png");
-        buttonHover(main_button_records, "Record_icon.png");
-        buttonHover(main_button_invoices, "Invoices_icon.png");
-        buttonHover(main_button_sales, "Sales_icon.png");
-        buttonHover(main_button_database, "Database_icon.png");
-        main_searchBar.requestFocus();
     }
     private void buttonHover(JButton button, String icon)
     {
@@ -227,7 +234,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             String [] rowData = {
                 i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i),(char)8369 + " " + itemPriceList.get(i).toString(),
-                itemQuantityList.get(i)+"", itemCategoryList.get(i),(int)stockRate + ""
+                itemQuantityList.get(i)+"", itemCategoryList.get(i),(int)stockRate + " per week"
             };
             dtm.addRow(rowData);
         }
@@ -256,6 +263,17 @@ public class MainFrame extends javax.swing.JFrame {
         Image newImage = image.getScaledInstance(height, width, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newImage);
         return imageIcon;
+    }
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
     }
     public void resizeColumnWidth(JTable table) 
     {
@@ -337,6 +355,7 @@ public class MainFrame extends javax.swing.JFrame {
         wing = new javax.swing.JLabel();
         wing2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTable = new javax.swing.JTable();
@@ -345,7 +364,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Inventory System");
+        setTitle("H2Med Enterprise Software");
         setBackground(new java.awt.Color(153, 153, 153));
         setBounds(new java.awt.Rectangle(0, 0, 1366, 768));
         setResizable(false);
@@ -454,7 +473,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(wing, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(174, 174, 174)
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(wing2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -478,15 +497,25 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel1.setText("Name");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -724,6 +753,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_main_stockIn;
     private javax.swing.JTable displayTable;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

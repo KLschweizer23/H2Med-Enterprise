@@ -54,7 +54,6 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
         totalLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 420));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -109,6 +108,9 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
 
         pdcPanel.setEnabled(false);
 
+        dayCombo1.setBackground(new java.awt.Color(255, 255, 255));
+
+        monthCombo.setBackground(new java.awt.Color(255, 255, 255));
         monthCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthComboActionPerformed(evt);
@@ -118,14 +120,21 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel10.setText("/");
 
+        monthCombo1.setBackground(new java.awt.Color(255, 255, 255));
         monthCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthCombo1ActionPerformed(evt);
             }
         });
 
+        yearCombo1.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel12.setText("/");
+
+        dayCombo.setBackground(new java.awt.Color(255, 255, 255));
+
+        yearCombo.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel11.setText("/");
@@ -141,6 +150,8 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
         labelItem5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem5.setText("Due Date:");
 
+        chequeField.setBackground(new java.awt.Color(255, 255, 255));
+
         labelItem6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem6.setText("Cheque No.:");
@@ -148,6 +159,8 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
         labelItem7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem7.setText("Paid");
+
+        paidField.setBackground(new java.awt.Color(255, 255, 255));
 
         labelItem8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -269,11 +282,13 @@ public class stockin_addDetailsFrame extends javax.swing.JFrame {
                         .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel16))
+                        .addComponent(jLabel16)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
