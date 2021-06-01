@@ -547,7 +547,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Status Lists");
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
