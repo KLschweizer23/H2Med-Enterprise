@@ -505,7 +505,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             try
             {
-                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, itemSupplier.get(i), cheque, dueDate);
+                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
     }

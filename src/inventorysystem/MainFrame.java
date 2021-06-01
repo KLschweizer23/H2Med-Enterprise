@@ -73,6 +73,23 @@ public class MainFrame extends javax.swing.JFrame {
     }
     private void updateStatus()
     {
+        sales1.setText("N/A");
+        sales2.setText("N/A");
+        sales3.setText("N/A");
+        invoice1.setText("N/A");
+        invoice2.setText("N/A");
+        invoice2.setText("N/A");
+        outstanding1.setText("N/A");
+        outstanding2.setText("N/A");
+        outstanding3.setText("N/A");
+        least1.setText("N/A");
+        least2.setText("N/A");
+        least3.setText("N/A");
+        most1.setText("N/A");
+        most2.setText("N/A");
+        most3.setText("N/A");
+        
+        
         SystemStatusManager system = new SystemStatusManager();
         
         JLabel[] sales = {sales1, sales2, sales3};

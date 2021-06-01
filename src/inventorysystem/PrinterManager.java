@@ -36,13 +36,10 @@ public class PrinterManager extends javax.swing.JFrame
         infoLabel3 = new javax.swing.JLabel();
         infoLabel4 = new javax.swing.JLabel();
         infoLabel5 = new javax.swing.JLabel();
-        price = new javax.swing.JLabel();
         LabelLogo6 = new javax.swing.JLabel();
         LabelLogo7 = new javax.swing.JLabel();
         LabelLogo8 = new javax.swing.JLabel();
         LabelLogo9 = new javax.swing.JLabel();
-        item1 = new javax.swing.JLabel();
-        quantity = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Print Preview");
@@ -70,7 +67,7 @@ public class PrinterManager extends javax.swing.JFrame
 
         LabelLogo.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         LabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        printPanel.add(LabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 36, 345, 117));
+        printPanel.add(LabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 36, 345, 100));
 
         LabelLogo5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LabelLogo5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -107,11 +104,6 @@ public class PrinterManager extends javax.swing.JFrame
         infoLabel5.setText("000000000");
         printPanel.add(infoLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(729, 59, -1, -1));
 
-        price.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        price.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        price.setText("Price1");
-        printPanel.add(price, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 260, -1, -1));
-
         LabelLogo6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LabelLogo6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LabelLogo6.setText("Product Description");
@@ -131,16 +123,6 @@ public class PrinterManager extends javax.swing.JFrame
         LabelLogo9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LabelLogo9.setText("Quantity");
         printPanel.add(LabelLogo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, 150, 20));
-
-        item1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        item1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        item1.setText("Item1");
-        printPanel.add(item1, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 265, 40, -1));
-
-        quantity.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        quantity.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        quantity.setText("Quantity1");
-        printPanel.add(quantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 260, -1, 20));
 
         jScrollPane1.setViewportView(printPanel);
 
@@ -283,12 +265,9 @@ public class PrinterManager extends javax.swing.JFrame
     private javax.swing.JLabel infoLabel3;
     private javax.swing.JLabel infoLabel4;
     private javax.swing.JLabel infoLabel5;
-    private javax.swing.JLabel item1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel price;
     private javax.swing.JButton printButton;
     private javax.swing.JPanel printPanel;
-    private javax.swing.JLabel quantity;
     // End of variables declaration//GEN-END:variables
 }

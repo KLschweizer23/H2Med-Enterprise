@@ -338,7 +338,7 @@ public class Database_AddFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean isAllTrue = noError[0] && noError[1] && noError[2] && noError[3] && noError[4] && noError[5];
+        boolean isAllTrue = noError[0] && noError[2] && noError[3] && noError[4] && noError[5];
         if(isAllTrue)
         {
             double cost = Double.parseDouble(database_itemCost.getText());
@@ -365,7 +365,7 @@ public class Database_AddFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_database_itemNameFocusLost
 
     private void database_itemQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_database_itemQuantityFocusLost
-        noError[1] = noErrorNumber(database_itemQuantity);
+        
     }//GEN-LAST:event_database_itemQuantityFocusLost
 
     private void database_itemCostFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_database_itemCostFocusLost
@@ -416,12 +416,12 @@ public class Database_AddFrame extends javax.swing.JFrame {
         itemDatabaseManager = new ItemDatabaseManager();
         
         String name = goodString(database_itemName.getText().trim().strip());
-        String category = database_itemCategory.getItemAt(database_itemCategory.getSelectedIndex());
+        String category = goodString(database_itemCategory.getItemAt(database_itemCategory.getSelectedIndex()));
         double quantity = Double.parseDouble(database_itemQuantity.getText().trim().strip());
         double cost = Double.parseDouble(database_itemCost.getText().trim().strip());
         double price = Double.parseDouble(database_itemPrice.getText().trim().strip());
         double stockOut = 0;
-        String supplier = database_itemSupplier.getSelectedItem().toString();
+        String supplier = goodString(database_itemSupplier.getSelectedItem().toString());
         String brand = goodString(database_itemBrand.getText());
         String article = goodString(database_itemArticle.getText());
         
