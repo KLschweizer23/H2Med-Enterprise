@@ -45,7 +45,11 @@ public class SystemStatusManager
         ArrayList<String> allData = new ArrayList<>();
         
         for(int i = 0; i < invoiceNum.size(); i++)
-            allData.add("#" + invoiceNum.get(i) + " from " + address.get(i) + ", started " + getDetailedAging(dayInterval(today, dates.get(i))));
+        {
+            String concatinatedString = "Invoice #" + invoiceNum.get(i) + " from " + address.get(i) + ", started " + getDetailedAging(dayInterval(today, dates.get(i)));
+            System.out.println(concatinatedString);
+            allData.add(concatinatedString);
+        }
         
         return allData;
     }
@@ -63,7 +67,10 @@ public class SystemStatusManager
         ArrayList<String> allData = new ArrayList<>();
         
         for(int i = 0; i < address.size(); i++)
-            allData.add(address.get(i) + " has " + (char)8369 + " " + total.get(i));
+        {
+            String concatinatedString = address.get(i) + " has " + (char)8369 + " " + total.get(i);
+            allData.add(concatinatedString);
+        }
         
         return allData;
     }
@@ -86,7 +93,9 @@ public class SystemStatusManager
         {
             String article = itemArticle.get(i).equals("None") ? "" : " " + itemArticle.get(i);
             String brand = itemBrand.get(i).equals("None") ? "" : "-" + itemBrand.get(i);
-            allData.add(itemName.get(i) + article + brand + " has " + itemQuantity.get(i) + " left");
+            
+            String concatinatedString = itemName.get(i) + article + brand + " has " + itemQuantity.get(i) + " left";
+            allData.add(concatinatedString);
         }
         
         return allData;

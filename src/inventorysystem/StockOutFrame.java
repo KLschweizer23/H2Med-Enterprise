@@ -1,6 +1,8 @@
 package inventorysystem;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -16,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -111,6 +116,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         dayCombo1 = new javax.swing.JComboBox<>();
         yearCombo1 = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
+        printButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Out");
@@ -161,9 +167,13 @@ public class StockOutFrame extends javax.swing.JFrame {
                 confirmButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 480, 76, 30));
+        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 480, 76, 30));
 
-        newTable.setBackground(new java.awt.Color(255, 252, 237));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        newTable.setBackground(new java.awt.Color(255, 255, 255));
+        newTable.setForeground(new java.awt.Color(0, 0, 0));
         newTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -201,7 +211,11 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         getContentPane().add(minusButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 330, 47, 45));
 
-        oldTable.setBackground(new java.awt.Color(255, 252, 237));
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        oldTable.setBackground(new java.awt.Color(255, 255, 255));
+        oldTable.setForeground(new java.awt.Color(0, 0, 0));
         oldTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -405,6 +419,15 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel25.setText("/");
         getContentPane().add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 330, 10, 20));
 
+        printButton.setBackground(new java.awt.Color(255, 255, 255));
+        printButton.setText("Print");
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(printButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 480, 76, 30));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -482,7 +505,10 @@ public class StockOutFrame extends javax.swing.JFrame {
                                         SalesDatabaseManager salesDB = new SalesDatabaseManager();
                                         salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
                                     }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
-                                    dispose();
+                                    
+                                    //confirmButton.setEnabled(false);
+                                    //printButton.setEnabled(true);
+                                    
                                 }
                             }else JOptionPane.showMessageDialog(null, "No data to Stock Out!");
                         }else JOptionPane.showMessageDialog(null, "Purchase Number already exists!");
@@ -663,6 +689,42 @@ public class StockOutFrame extends javax.swing.JFrame {
     private void chequeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chequeRadioActionPerformed
         radioActivation(false);
     }//GEN-LAST:event_chequeRadioActionPerformed
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+            PrinterManager printerManager = new PrinterManager();
+            MainFrame main = new MainFrame();
+
+            ArrayList<Double> quantityList = new ArrayList<>();
+            ArrayList<String> itemList = new ArrayList<>();
+            ArrayList<String> descriptionList = new ArrayList<>();
+            ArrayList<Double> priceList = new ArrayList<>();
+            
+            for(int i = 0; i < newTable.getRowCount(); i++)
+            {
+                quantityList.add(Double.parseDouble(newTable.getValueAt(i, 6).toString()));
+                itemList.add(newTable.getValueAt(i, 1).toString());
+                String article = newTable.getValueAt(i, 2).toString().equals("None") ? "" : newTable.getValueAt(i,2).toString() + "-";
+                String brand = newTable.getValueAt(i, 3).toString().equals("None") ? "" : newTable.getValueAt(i,3).toString();
+                descriptionList.add(article + brand);
+                priceList.add(Double.parseDouble(newTable.getValueAt(i, 5).toString().substring(1)));
+            }
+            Map<String, String> data = new HashMap<String, String>();
+            
+            data.put("invoice", stockout_invoiceField.getText());
+            data.put("purchase", stockout_purchaseField.getText());
+            data.put("delivery", stockout_deliveryField.getText());
+            data.put("invoiceDate", monthCombo.getSelectedItem() + " " + dayCombo.getSelectedItem() + ", " + yearCombo.getSelectedItem());
+            data.put("client", stockout_comboBox.getSelectedItem().toString());
+            data.put("mode", cashRadio.isSelected() + "");
+            data.put("cheque", stockout_chequeField.getText());
+            data.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
+            
+            printerManager.openPrinterManager(quantityList, itemList, descriptionList, priceList, data);
+            int x = (main.getWidth() - printerManager.getWidth()) / 2;
+            int y = (main.getHeight() - printerManager.getHeight()) / 2;
+            printerManager.setLocation(x, y);
+            printerManager.setVisible(true);
+    }//GEN-LAST:event_printButtonActionPerformed
     private void radioActivation(boolean bool)
     {
         stockout_chequeField.setEnabled(!bool);
@@ -952,6 +1014,17 @@ public class StockOutFrame extends javax.swing.JFrame {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+    }
     public void openStockOutFrame(MainFrame main)
     {
         myFrame = main;
@@ -982,6 +1055,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                 }
             }
         });
+        setupTable(newTable, Color.white, new Dimension(0,30), Color.black);
+        setupTable(oldTable, Color.white, new Dimension(0,30), Color.black);
         resizeColumnWidth(newTable);
         resizeColumnWidth(oldTable);
         ready = true;
@@ -1061,6 +1136,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> monthCombo1;
     private javax.swing.JTable newTable;
     private javax.swing.JTable oldTable;
+    private javax.swing.JButton printButton;
     private javax.swing.JTextField stockOut_searchBar;
     private javax.swing.JTextField stockout_chequeField;
     private javax.swing.JComboBox<String> stockout_comboBox;

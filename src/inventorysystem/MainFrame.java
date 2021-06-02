@@ -89,33 +89,32 @@ public class MainFrame extends javax.swing.JFrame {
         most2.setText("N/A");
         most3.setText("N/A");
         
-        
         SystemStatusManager system = new SystemStatusManager();
         
         JLabel[] sales = {sales1, sales2, sales3};
         ArrayList<String> saleData = system.getMostItemSales();
         for(int i = 0; i < saleData.size(); i++)
-            sales[i].setText(i + 1 + ". " + saleData.get(i));
+            sales[i].setText(displayableString(i + 1 + ". " + saleData.get(i)));
         
         JLabel[] invoices = {invoice1, invoice2, invoice3};
         ArrayList<String> longInvoices = system.getLongestInvoices();
         for(int i = 0; i < longInvoices.size(); i++)
-            invoices[i].setText(i + 1 + ". " + longInvoices.get(i));
+            invoices[i].setText(displayableString(i + 1 + ". " + longInvoices.get(i)));
         
         JLabel[] outstandings = {outstanding1, outstanding2, outstanding3};
         ArrayList<String> outstandingData = system.getMostOutstanding();
         for(int i = 0; i < outstandingData.size(); i++)
-            outstandings[i].setText(i + 1 + ". " + outstandingData.get(i));
+            outstandings[i].setText(displayableString(i + 1 + ". " + outstandingData.get(i)));
         
         JLabel[] leasts = {least1, least2, least3};
         ArrayList<String> leastsData = system.getItemQuantity(true);
         for(int i = 0; i < leastsData.size(); i++)
-            leasts[i].setText(i + 1 + ". " + leastsData.get(i));
+            leasts[i].setText(displayableString(i + 1 + ". " + leastsData.get(i)));
         
         JLabel[] mosts = {most1, most2, most3};
         ArrayList<String> mostsData = system.getItemQuantity(false);
         for(int i = 0; i < mostsData.size(); i++)
-            mosts[i].setText(i + 1 + ". " + mostsData.get(i));
+            mosts[i].setText(displayableString(i + 1 + ". " + mostsData.get(i)));
     }
     private void changeIcons()
     {
@@ -139,6 +138,24 @@ public class MainFrame extends javax.swing.JFrame {
         wing2.setIcon(getScaledImageIcon("h2med_sidewings2.png", (w / 2) + w, w));
         
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png")).getImage());
+    }
+    private String displayableString(String string)
+    {
+        int space = getMiddleSpace(string);
+        if(string.length() > 40)
+            string = "<html> " + string.substring(0, space) + " <br/>" + string.substring(space + 1) + " </html>";
+        return string;
+    }
+    private int getMiddleSpace(String string)
+    {
+        ArrayList<Integer> spaces = new ArrayList<>();
+        for(int i = 0; i < string.length(); i++)
+        {
+            if(string.charAt(i) == ' ')
+                spaces.add(i);
+        }
+        
+        return spaces.size() % 2 == 0 ? spaces.get(spaces.size() / 2) : spaces.get((spaces.size()/2) + 1);
     }
     private void buttonHover(JButton button, String icon)
     {
@@ -401,7 +418,6 @@ public class MainFrame extends javax.swing.JFrame {
         wing = new javax.swing.JLabel();
         wing2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         sales1 = new javax.swing.JLabel();
         sales2 = new javax.swing.JLabel();
@@ -536,17 +552,17 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(main_button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(wing, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                         .addGap(174, 174, 174)
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addComponent(wing2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(132, 132, 132)
+                .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                     .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -562,10 +578,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Status Lists");
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -636,10 +648,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +667,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(most1)
                     .addComponent(most2)
                     .addComponent(most3))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 201, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -673,8 +681,6 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sales1)
@@ -714,7 +720,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(most2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(most3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -783,7 +789,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(main_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -956,7 +962,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel invoice2;
     private javax.swing.JLabel invoice3;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel19;
