@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,9 +46,6 @@ public class StockInFrame extends javax.swing.JFrame {
     ArrayList<String> newItemArticleList = new ArrayList<>();
     
     ArrayList<Double> newItemStockInList = new ArrayList<>();
-    ArrayList<String> newTransactionMethodList = new ArrayList<>();
-    ArrayList<Integer> newTransactionStatusList = new ArrayList<>();
-    ArrayList<String> newTransactionDueList = new ArrayList<>();
 
     private final int MODE_PROCESS = 0;
     private final int MODE_FILTER_CATEGORY = 1;
@@ -62,6 +62,7 @@ public class StockInFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -76,6 +77,15 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         labelCost = new javax.swing.JLabel();
+        cashRadio = new javax.swing.JRadioButton();
+        chequeRadio = new javax.swing.JRadioButton();
+        stockin_chequeField = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        monthCombo1 = new javax.swing.JComboBox<>();
+        jLabel24 = new javax.swing.JLabel();
+        dayCombo1 = new javax.swing.JComboBox<>();
+        yearCombo1 = new javax.swing.JComboBox<>();
+        jLabel25 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         oldTable = new javax.swing.JTable();
@@ -138,6 +148,11 @@ public class StockInFrame extends javax.swing.JFrame {
 
         dayCombo.setBackground(new java.awt.Color(255, 255, 255));
         dayCombo.setFocusable(false);
+        dayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dayComboActionPerformed(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -164,6 +179,51 @@ public class StockInFrame extends javax.swing.JFrame {
         labelCost.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCost.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelCost.setText("0.0");
+
+        cashRadio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cashRadio.setSelected(true);
+        cashRadio.setText("Cash");
+        cashRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cashRadioActionPerformed(evt);
+            }
+        });
+
+        chequeRadio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chequeRadio.setText("Cheque #");
+        chequeRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chequeRadioActionPerformed(evt);
+            }
+        });
+
+        stockin_chequeField.setBackground(new java.awt.Color(255, 255, 255));
+        stockin_chequeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel23.setText("Due Date");
+
+        monthCombo1.setBackground(new java.awt.Color(255, 255, 255));
+        monthCombo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthCombo1ActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel24.setText("/");
+
+        dayCombo1.setBackground(new java.awt.Color(255, 255, 255));
+
+        yearCombo1.setBackground(new java.awt.Color(255, 255, 255));
+        yearCombo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearCombo1ActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel25.setText("/");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -193,20 +253,38 @@ public class StockInFrame extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(labelItem)
                                         .addComponent(labelCost))))
-                            .addGap(198, 198, 198)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel13)
                                 .addComponent(jLabel11))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chequeRadio))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(stockin_chequeField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(monthCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(dayCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(cashRadio, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +292,23 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(108, 108, 108)
+                .addGap(31, 31, 31)
+                .addComponent(cashRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(chequeRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stockin_chequeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(monthCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dayCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelItem)
                     .addComponent(jLabel11))
@@ -449,22 +543,8 @@ public class StockInFrame extends javax.swing.JFrame {
                 pass = isANumber(quantity);
                 if(pass)
                 {
-                    newVal = Double.parseDouble(quantity);
-                    
-                    stockin_addDetailsFrame addFrame = new stockin_addDetailsFrame();
-                    addFrame.openAddDetailsFrame(this);
-                    addFrame.setVisible(true);
-                    setEnabled(false);
-                    addFrame.setLocation((myFrame.getWidth() - addFrame.getWidth()) / 2, (myFrame.getHeight() - addFrame.getHeight()) / 2);
-                    
-                    int row = oldTable.getSelectedRow();
-                    String name = oldTable.getValueAt(row, 1).toString();
-                    String cost = oldTable.getValueAt(row, 6).toString().substring(2);
-                    String supplier = oldTable.getValueAt(row, 4).toString();
-                    double total = Double.parseDouble(cost) * newVal;
-                    addFrame.setDetails(name, cost, supplier, total);
-                    
-                    addToOtherTable(this.oldTable.getSelectedRow(), newVal);
+                    newVal = Double.parseDouble(quantity);                    
+                    addToOtherTable(oldTable.getSelectedRow(), newVal);
                 }
             }
         }while(!pass);
@@ -498,16 +578,19 @@ public class StockInFrame extends javax.swing.JFrame {
         
         if(newTable.getRowCount() >= 1)
             newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1); 
-        processStocksStats();
+        processStocksStats(cashRadio.isSelected());
     }//GEN-LAST:event_minusButtonActionPerformed
 
     private void monthComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthComboActionPerformed
-        updateDate2(dayCombo, yearCombo, monthCombo.getSelectedIndex());
+        if(ready)
+        {
+            int month = monthCombo.getSelectedIndex() == 0 ? 1 : monthCombo.getSelectedIndex();
+            updateDate(monthCombo, month);
+            updateDate2(dayCombo, yearCombo, month, Integer.parseInt(dayCombo.getSelectedItem().toString()), Integer.parseInt(yearCombo.getSelectedItem().toString()));
+            LocalDate custom = LocalDate.of(Integer.parseInt(yearCombo.getSelectedItem().toString()), month, Integer.parseInt(dayCombo.getSelectedItem().toString()));
+            dateUpdater(custom);
+        }
     }//GEN-LAST:event_monthComboActionPerformed
-
-    private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_yearComboActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         if(monthCombo.getSelectedIndex() != 0)
@@ -521,41 +604,41 @@ public class StockInFrame extends javax.swing.JFrame {
 
             if (this.newTable.getRowCount() > 0) 
             {
-                Object[] options = { "Confirm", "Cancel" };
-                JPanel panel = new JPanel();
-                panel.add(new JLabel("Please confirm to proceed!"));
-                int result = JOptionPane.showOptionDialog(null, panel, "Confirm Data", 0, 2, null, options, null);
-                if (result == 0) 
+                if(cashRadio.isSelected() || (chequeRadio.isSelected() && !stockin_chequeField.getText().isBlank()))
                 {
-                    for (int i = 0; i < newTable.getRowCount(); i++) 
+                    Object[] options = { "Confirm", "Cancel" };
+                    JPanel panel = new JPanel();
+                    panel.add(new JLabel("Please confirm to proceed!"));
+                    int result = JOptionPane.showOptionDialog(null, panel, "Confirm Data", 0, 2, null, options, null);
+                    if (result == 0) 
                     {
-                        int id = Integer.parseInt(newItemIdList.get(i));
-                        double newVal = newItemQuantityList.get(i);
-                        double cost = newItemCostList.get(i);
-                        String supplier = goodString(newItemSupplierList.get(i));
-                        double stockIn = newItemStockInList.get(i);
-                        String date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex() + "-" + dayCombo.getSelectedItem();
-                        String method = newTransactionMethodList.get(i);
-                        int status = newTransactionStatusList.get(i);
-                        String due = newTransactionDueList.get(i);
-                        double total = newItemTotalCostList.get(i);
-                        try 
+                        for (int i = 0; i < newTable.getRowCount(); i++) 
                         {
-                            SalesDatabaseManager salesDB = new SalesDatabaseManager();
-                            int trans_id = salesDB.getNewestId();
-                            itemDatabaseManager.updateQuantityById(id, newVal);
-                            stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due, trans_id);
-                            salesDB.insertCost(date, total);
-                        } catch (Exception e) {ShowFreakingError("" + e + " - Error 0010");} 
+                            int id = Integer.parseInt(newItemIdList.get(i));
+                            double newVal = newItemQuantityList.get(i);
+                            double cost = newItemCostList.get(i);
+                            String supplier = goodString(newItemSupplierList.get(i));
+                            double stockIn = newItemStockInList.get(i);
+                            String date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex() + "-" + dayCombo.getSelectedItem();
+                            boolean isCash = cashRadio.isSelected();
+                            String method = isCash ? "cash" : stockin_chequeField.getText();
+                            int status = isCash ? 0 : 1;
+                            String due = yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex() + "-" + dayCombo1.getSelectedItem();
+                            double total = isCash ? Double.parseDouble(labelCost.getText()) : 0.0;
+                            try 
+                            {
+                                SalesDatabaseManager salesDB = new SalesDatabaseManager();
+                                int trans_id = salesDB.getNewestId();
+                                itemDatabaseManager.updateQuantityById(id, newVal);
+                                stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due, trans_id);
+                                salesDB.insertCost(date, total);
+                            } catch (Exception e) {ShowFreakingError("" + e + " - Error 0010");} 
+                        } 
+                        dispose();
                     } 
-                    dispose();
-                } 
-            } 
-            else
-              JOptionPane.showMessageDialog(null, "No data to Stock In!");
-        }
-        else
-            JOptionPane.showMessageDialog(null, "Please set date properly!", "Error Date", JOptionPane.WARNING_MESSAGE);
+                } else JOptionPane.showMessageDialog(null, "Please fill all fields!");
+            } else JOptionPane.showMessageDialog(null, "No data to Stock In!");
+        } else JOptionPane.showMessageDialog(null, "Please set date properly!", "Error Date", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -567,6 +650,40 @@ public class StockInFrame extends javax.swing.JFrame {
         this.myFrame.setAlwaysOnTop(false);
     }//GEN-LAST:event_formWindowClosing
 
+    private void cashRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashRadioActionPerformed
+        radioActivation(true);
+    }//GEN-LAST:event_cashRadioActionPerformed
+
+    private void chequeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chequeRadioActionPerformed
+        radioActivation(false);
+    }//GEN-LAST:event_chequeRadioActionPerformed
+
+    private void monthCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthCombo1ActionPerformed
+        
+    }//GEN-LAST:event_monthCombo1ActionPerformed
+
+    private void yearCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearCombo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearCombo1ActionPerformed
+
+    private void dayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dayComboActionPerformed
+
+    }//GEN-LAST:event_dayComboActionPerformed
+
+    private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
+        yearCombo1.setSelectedItem(yearCombo.getSelectedItem());
+    }//GEN-LAST:event_yearComboActionPerformed
+    private void radioActivation(boolean bool)
+    {
+        bool = !bool;
+        stockin_chequeField.setEnabled(bool);
+        monthCombo1.setEnabled(bool);
+        dayCombo1.setEnabled(bool);
+        yearCombo1.setEnabled(bool);
+        
+        processStocksStats(!bool);
+    }
+    
     private void addToOtherTable(int number, double newQuantity) {
         newItemIdList.add(itemIdList.get(number));
         newItemNameList.add(itemNameList.get(number));
@@ -585,17 +702,34 @@ public class StockInFrame extends javax.swing.JFrame {
             newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1); 
 
         newTable.setRowHeight(30);
-        processStocksStats();
+        processStocksStats(cashRadio.isSelected());
     }
 
-    private void processStocksStats() 
+    private void processStocksStats(boolean isCash) 
     {
-        double totalItem = newItemIdList.size();
-        double totalCost = 0.0D;
-        for (int i = 0; i < newItemTotalCostList.size(); i++)
-            totalCost += (newItemTotalCostList.get(i)); 
-        labelItem.setText("" + totalItem);
-        labelCost.setText("" + totalCost);
+        if(isCash)
+        {
+            double totalItem = newItemIdList.size();
+            double totalCost = 0.0;
+            for (int i = 0; i < newItemTotalCostList.size(); i++)
+                totalCost += (newItemTotalCostList.get(i)); 
+            labelItem.setText("" + totalItem);
+            labelCost.setText("" + totalCost);
+            
+            for(int i = 0; i < newItemStockInList.size(); i++)
+            {
+                newTable.setValueAt(newItemStockInList.get(i), i, 5);
+            }
+        }
+        else
+        {
+            labelCost.setText("0.0");
+            for(int i = 0; i < newItemIdList.size(); i++)
+            {
+                newTable.setValueAt("0.0", i, 5);
+            }
+        }
+
     }
 
     private void createColumns2() 
@@ -716,47 +850,6 @@ public class StockInFrame extends javax.swing.JFrame {
         } 
         return valid;
     }
-    private void updateDate(JComboBox monthCombo, JComboBox dayCombo, JComboBox yearCombo, int selectedMonth)
-    {
-        String[] month = {"None", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        for (String month1 : month)
-            monthCombo.addItem(month1);
-        if(selectedMonth == 0)
-        {
-            dayCombo.addItem("None");
-            yearCombo.addItem("None");
-        }
-        else
-        {
-            monthCombo.setSelectedIndex(selectedMonth);
-            updateDate2(dayCombo, yearCombo, selectedMonth);
-        }
-        
-    }
-    private void updateDate2(JComboBox dayCombo, JComboBox yearCombo, int selectedMonth)
-    {
-        yearCombo.removeAllItems();
-        dayCombo.removeAllItems();
-
-        int days[] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        int year[] = {2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040};
-
-        for(int i = 0; i < days[selectedMonth]; i++)
-        {
-            dayCombo.addItem(i + 1);
-        }
-        if(selectedMonth != 0)
-        {
-            for(int i = 0; i < year.length; i++)
-                yearCombo.addItem(year[i] + "");
-        }
-    }
-    public void addTransactionDetails(String method, int status, String due)
-    {
-        newTransactionMethodList.add(method);
-        newTransactionStatusList.add(status);
-        newTransactionDueList.add(due);
-    }
     public void removeTransactionDetails(boolean applyRemove)
     {
         if(applyRemove)
@@ -775,16 +868,14 @@ public class StockInFrame extends javax.swing.JFrame {
 
             if(newTable.getRowCount() >= 1)
                 newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1); 
-            processStocksStats();
+            processStocksStats(cashRadio.isSelected());
         }
     }
     public void changeTransactionDetails()
     {
         newItemTotalCostList.set(newTable.getSelectedRow(), 0.0);
-        
         newTable.setValueAt((char)8369 + " 0", newTable.getSelectedRow(), 6);
-        
-        processStocksStats();
+        processStocksStats(cashRadio.isSelected());
     }
     private void updateComboBox2()
     {
@@ -837,6 +928,67 @@ public class StockInFrame extends javax.swing.JFrame {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
     }
+    private void updateDate(JComboBox monthCombo, int selectedMonth)
+    {
+        String[] month = {"None","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        monthCombo.removeAllItems();
+        for (String month1 : month)
+            monthCombo.addItem(month1);
+        monthCombo.setSelectedIndex(selectedMonth);
+        
+    }
+    private void updateDate2(JComboBox dayCombo, JComboBox yearCombo, int selectedMonth, int selectedDay, int selectedYear)
+    {
+        yearCombo.removeAllItems();
+        dayCombo.removeAllItems();
+
+        int days[] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int year[] = {2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040};
+
+        for(int i = 0; i < days[selectedMonth]; i++)
+        {
+            dayCombo.addItem(i + 1);
+        }
+        if(selectedMonth != 0)
+        {
+            for(int i = 0; i < year.length; i++)
+                yearCombo.addItem(year[i] + "");
+            int lastDay = selectedDay > dayCombo.getItemCount() ? dayCombo.getItemCount() - 1: selectedDay;
+            dayCombo.setSelectedItem(lastDay);
+            yearCombo.setSelectedItem(selectedYear + "");
+        }
+    }
+    private void dateUpdater(LocalDate customNow) throws DateTimeException
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+        LocalDate now = customNow == null ? LocalDate.now() : customNow;
+        int nextTempYear;
+        int nextTempMonth;
+        if(now.getMonthValue() == 12)
+        {
+            nextTempYear = now.getYear() + 1;
+            nextTempMonth = 1;
+        }
+        else
+        {
+            nextTempYear = now.getYear();
+            nextTempMonth = now.getMonthValue() + 1;
+        }
+        LocalDate next = LocalDate.of(nextTempYear, nextTempMonth, now.getDayOfMonth()); //checkNextMonth(LocalDate.of(nextTempYear, nextTempMonth, now.getDayOfMonth()));
+        String today = dtf.format(now);
+        String nextMonth = dtf.format(next);
+        String data[] = today.split("-");
+        String data2[] = nextMonth.split("-");
+        int year = Integer.parseInt(data[0]);
+        int month = Integer.parseInt(data[1]);
+        int day = Integer.parseInt(data[2]);
+        System.out.println(day);
+        updateDate(monthCombo, month);
+        updateDate2(dayCombo, yearCombo, month, day, year);
+        int month1 = Integer.parseInt(data2[1]);
+        updateDate(monthCombo1, month1);
+        updateDate2(dayCombo1, yearCombo1, month1, day, year);
+    }
     public void openStockInFrame(MainFrame main) {
         initComponents();
         myFrame = main;
@@ -844,7 +996,10 @@ public class StockInFrame extends javax.swing.JFrame {
         createColumns2();
         updateComboBox2();
         updateComboBox();
-        updateDate(monthCombo, dayCombo, yearCombo, 0);
+        dateUpdater(null);
+        buttonGroup1.add(cashRadio);
+        buttonGroup1.add(chequeRadio);
+        radioActivation(cashRadio.isSelected());
         try 
         {
             updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(),categoryCombo.getSelectedItem().toString());
@@ -864,15 +1019,22 @@ public class StockInFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton cashRadio;
     private javax.swing.JComboBox<String> categoryCombo;
+    private javax.swing.JRadioButton chequeRadio;
     private javax.swing.JButton confirmButton;
     private javax.swing.JComboBox<String> dayCombo;
+    private javax.swing.JComboBox<String> dayCombo1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -884,10 +1046,13 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelItem;
     private javax.swing.JButton minusButton;
     private javax.swing.JComboBox<String> monthCombo;
+    private javax.swing.JComboBox<String> monthCombo1;
     private javax.swing.JTable newTable;
     private javax.swing.JTable oldTable;
     private javax.swing.JTextField stockIn_searchBar;
+    private javax.swing.JTextField stockin_chequeField;
     private javax.swing.JComboBox<String> supplierCombo;
     private javax.swing.JComboBox<String> yearCombo;
+    private javax.swing.JComboBox<String> yearCombo1;
     // End of variables declaration//GEN-END:variables
 }

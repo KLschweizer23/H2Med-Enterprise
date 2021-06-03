@@ -270,34 +270,37 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="sales1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="sales2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="sales3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="outstanding1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="outstanding2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="outstanding3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="least1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="least2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="least3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="most1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="most2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="most3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sales1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sales2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sales3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outstanding1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outstanding2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outstanding3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="least1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="least2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="least3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="most1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="most2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="most3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="201" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="invoice1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="invoice2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="invoice3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="201" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="invoice1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="invoice2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="invoice3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

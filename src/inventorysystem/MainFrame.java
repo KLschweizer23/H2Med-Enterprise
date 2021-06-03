@@ -387,15 +387,6 @@ public class MainFrame extends javax.swing.JFrame {
             g2d.fillRect(0, 0, width, height);
         }
     }
-    class displayPanelGradient extends JPanel
-    {
-        @Override
-        protected void paintComponent(Graphics g)
-        {
-            
-        }
-    }
-    //CLASSES
     
     /**
      * This method is called from within the constructor to initialize the form.
