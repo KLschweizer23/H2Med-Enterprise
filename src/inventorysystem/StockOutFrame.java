@@ -387,6 +387,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         printButton.setBackground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print");
+        printButton.setEnabled(false);
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -694,8 +695,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                                         salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
                                     }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
                                     
-                                    //confirmButton.setEnabled(false);
-                                    //printButton.setEnabled(true);
+                                    confirmButton.setEnabled(false);
+                                    printButton.setEnabled(true);
                                     
                                 }
                             }else JOptionPane.showMessageDialog(null, "No data to Stock Out!");
@@ -719,7 +720,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             try
             {
-                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate);
+                invoiceDatabaseManager.insertData(invoiceNumber, items.get(i), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate, 0);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
     }
@@ -879,39 +880,39 @@ public class StockOutFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_chequeRadioActionPerformed
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-            PrinterManager printerManager = new PrinterManager();
-            MainFrame main = new MainFrame();
+        PrinterManager printerManager = new PrinterManager();
+        MainFrame main = new MainFrame();
 
-            ArrayList<Double> quantityList = new ArrayList<>();
-            ArrayList<String> itemList = new ArrayList<>();
-            ArrayList<String> descriptionList = new ArrayList<>();
-            ArrayList<Double> priceList = new ArrayList<>();
-            
-            for(int i = 0; i < newTable.getRowCount(); i++)
-            {
-                quantityList.add(Double.parseDouble(newTable.getValueAt(i, 6).toString()));
-                itemList.add(newTable.getValueAt(i, 1).toString());
-                String article = newTable.getValueAt(i, 2).toString().equals("None") ? "" : newTable.getValueAt(i,2).toString() + "-";
-                String brand = newTable.getValueAt(i, 3).toString().equals("None") ? "" : newTable.getValueAt(i,3).toString();
-                descriptionList.add(article + brand);
-                priceList.add(Double.parseDouble(newTable.getValueAt(i, 5).toString().substring(1)));
-            }
-            Map<String, String> data = new HashMap<String, String>();
-            
-            data.put("invoice", stockout_invoiceField.getText());
-            data.put("purchase", stockout_purchaseField.getText());
-            data.put("delivery", stockout_deliveryField.getText());
-            data.put("invoiceDate", monthCombo.getSelectedItem() + " " + dayCombo.getSelectedItem() + ", " + yearCombo.getSelectedItem());
-            data.put("client", stockout_comboBox.getSelectedItem().toString());
-            data.put("mode", cashRadio.isSelected() + "");
-            data.put("cheque", stockout_chequeField.getText());
-            data.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
-            
-            printerManager.openPrinterManager(quantityList, itemList, descriptionList, priceList, data);
-            int x = (main.getWidth() - printerManager.getWidth()) / 2;
-            int y = (main.getHeight() - printerManager.getHeight()) / 2;
-            printerManager.setLocation(x, y);
-            printerManager.setVisible(true);
+        ArrayList<Double> quantityList = new ArrayList<>();
+        ArrayList<String> itemList = new ArrayList<>();
+        ArrayList<String> descriptionList = new ArrayList<>();
+        ArrayList<Double> priceList = new ArrayList<>();
+
+        for(int i = 0; i < newTable.getRowCount(); i++)
+        {
+            quantityList.add(Double.parseDouble(newTable.getValueAt(i, 6).toString()));
+            itemList.add(newTable.getValueAt(i, 1).toString());
+            String article = newTable.getValueAt(i, 2).toString().equals("None") ? "" : newTable.getValueAt(i,2).toString() + "-";
+            String brand = newTable.getValueAt(i, 3).toString().equals("None") ? "" : newTable.getValueAt(i,3).toString();
+            descriptionList.add(article + brand);
+            priceList.add(Double.parseDouble(newTable.getValueAt(i, 5).toString().substring(1)));
+        }
+        Map<String, String> data = new HashMap<String, String>();
+
+        data.put("invoice", stockout_invoiceField.getText());
+        data.put("purchase", stockout_purchaseField.getText());
+        data.put("delivery", stockout_deliveryField.getText());
+        data.put("invoiceDate", monthCombo.getSelectedItem() + " " + dayCombo.getSelectedItem() + ", " + yearCombo.getSelectedItem());
+        data.put("client", stockout_comboBox.getSelectedItem().toString());
+        data.put("mode", cashRadio.isSelected() + "");
+        data.put("cheque", stockout_chequeField.getText());
+        data.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
+
+        printerManager.openPrinterManager(quantityList, itemList, descriptionList, priceList, data);
+        int x = (main.getWidth() - printerManager.getWidth()) / 2;
+        int y = (main.getHeight() - printerManager.getHeight()) / 2;
+        printerManager.setLocation(x, y);
+        printerManager.setVisible(true);
     }//GEN-LAST:event_printButtonActionPerformed
 
     private void stockout_chequeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockout_chequeFieldActionPerformed

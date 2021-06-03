@@ -18,6 +18,8 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     private double outstanding = 0;
     private double paid = 0;
     
+    private int collectionNumber;
+    
     ArrayList<String> itemList;
     ArrayList<Double> priceList;
     ArrayList<Double> quantityList;
@@ -68,7 +70,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         checkField = new javax.swing.JTextField();
         labelItem14 = new javax.swing.JLabel();
         bankField = new javax.swing.JTextField();
-        dataField = new javax.swing.JTextField();
+        dateField = new javax.swing.JTextField();
         labelItem15 = new javax.swing.JLabel();
         collectionField = new javax.swing.JTextField();
         labelItem16 = new javax.swing.JLabel();
@@ -143,6 +145,8 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         invoice_status.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         invoice_status.setText("Unpaid");
 
+        invoice_Pay.setBackground(new java.awt.Color(0, 204, 0));
+        invoice_Pay.setForeground(new java.awt.Color(255, 255, 255));
         invoice_Pay.setText("Pay Invoice");
         invoice_Pay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +166,8 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         invoice_date.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         invoice_date.setText("0/0/0000");
 
+        invoice_Delete.setBackground(new java.awt.Color(255, 0, 0));
+        invoice_Delete.setForeground(new java.awt.Color(255, 255, 255));
         invoice_Delete.setText("Delete Invoice");
         invoice_Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,7 +249,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
 
         bankField.setBackground(new java.awt.Color(255, 255, 255));
 
-        dataField.setBackground(new java.awt.Color(255, 255, 255));
+        dateField.setBackground(new java.awt.Color(255, 255, 255));
 
         labelItem15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -292,7 +298,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(labelItem15, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataField))
+                        .addComponent(dateField))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(labelItem16, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -309,7 +315,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelItem15)
-                    .addComponent(dataField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelItem8)
@@ -342,66 +348,64 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(invoiceTitle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(invoiceTitle)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelItem4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelItem7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelItem2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(changeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                                    .addComponent(changeLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(99, 99, 99)
-                                        .addComponent(purchase_number, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(99, 99, 99)
-                                        .addComponent(delivery_number, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addComponent(invoice_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addComponent(labelMethod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(invoice_dueDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(invoice_number, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(invoice_client, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(20, 20, 20))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(labelItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelItem3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelItem5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelItem6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(invoice_outstanding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(invoice_paid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(invoice_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(44, 44, 44)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+                            .addComponent(labelItem4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelItem7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelItem2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(changeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                            .addComponent(changeLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(invoice_Pay, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(invoice_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
+                                .addGap(99, 99, 99)
+                                .addComponent(purchase_number, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addComponent(delivery_number, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(invoice_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(labelMethod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(invoice_dueDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(invoice_number, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(invoice_client, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelItem3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelItem5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelItem6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(invoice_outstanding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(invoice_paid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(invoice_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(44, 44, 44)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(invoice_Pay, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(invoice_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -488,48 +492,74 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void invoice_PayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoice_PayActionPerformed
-        String payment = "";
-        boolean pass;
-        double pay = 0;
-        double currentOutstanding = Double.parseDouble(invoice_outstanding.getText().substring(2));
-        if(currentOutstanding == 0)
+        boolean filledUp =
+                !collectionField.getText().isEmpty() &&
+                !dateField.getText().isEmpty() &&
+                !receivedField.getText().isEmpty() &&
+                !addressField.getText().isEmpty() &&
+                !sumField.getText().isEmpty() &&
+                !forField.getText().isEmpty() &&
+                !checkField.getText().isEmpty() &&
+                !bankField.getText().isEmpty()
+                ;
+        CollectionDatabaseManager collectionDb = new CollectionDatabaseManager();
+        boolean doesExist = true;
+        try
         {
-            JOptionPane.showMessageDialog(null, "This is already paid!", "No need for payment", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else
+            doesExist = collectionDb.isReceiptExist(Integer.parseInt(collectionField.getText()));
+        }catch(Exception e){System.out.println(e);}
+        
+        if(filledUp)
         {
-            do
+            if(!doesExist)
             {
-                payment = JOptionPane.showInputDialog("Enter Value of Payment:");
-                if(payment == null)
+                String payment = "";
+                boolean pass;
+                double pay = 0;
+                double currentOutstanding = Double.parseDouble(invoice_outstanding.getText().substring(2));
+                if(currentOutstanding == 0)
                 {
-                    pass = true;
+                    JOptionPane.showMessageDialog(null, "This is already paid!", "No need for payment", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                 {
-                    pass = isANumber(payment);
-                    if(pass)
+                    do
                     {
-                        int result = JOptionPane.showConfirmDialog(null, "Payment is " + (char)8369 + " " + payment + ". Do you wish to Proceed?", "Confirming Data", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if(result == JOptionPane.YES_OPTION)
+                        payment = JOptionPane.showInputDialog("Enter Value of Payment:");
+                        if(payment == null)
                         {
-                            pay = Double.parseDouble(payment);
-                            if(pay > currentOutstanding)
+                            pass = true;
+                        }
+                        else
+                        {
+                            pass = isANumber(payment);
+                            if(pass)
                             {
-                                JOptionPane.showMessageDialog(null, "Payment is too much!", "Invalid Payment", JOptionPane.ERROR_MESSAGE);
-                                pass = false;
+                                int result = JOptionPane.showConfirmDialog(null, "Payment is " + (char)8369 + " " + payment + ". Do you wish to Proceed?", "Confirming Data", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                if(result == JOptionPane.YES_OPTION)
+                                {
+                                    pay = Double.parseDouble(payment);
+                                    if(pay > currentOutstanding)
+                                    {
+                                        JOptionPane.showMessageDialog(null, "Payment is too much!", "Invalid Payment", JOptionPane.ERROR_MESSAGE);
+                                        pass = false;
+                                    }
+                                    else
+                                    {
+                                        processPaymentDetails(pay);
+                                        insertCollectionDetails();
+                                    }
+                                }
+                                else if (result == JOptionPane.NO_OPTION)
+                                {
+                                    pass = false;
+                                }
                             }
-                            else
-                                processPaymentDetails(pay);
                         }
-                        else if (result == JOptionPane.NO_OPTION)
-                        {
-                            pass = false;
-                        }
-                    }
+                    }while(!pass);
                 }
-            }while(!pass);
-        }
+            } else JOptionPane.showMessageDialog(null, "CR# already exist!");
+        } else JOptionPane.showMessageDialog(null, "Please fill up all details before processing payment!");
     }//GEN-LAST:event_invoice_PayActionPerformed
 
     private void invoice_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoice_DeleteActionPerformed
@@ -543,6 +573,24 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             invoiceDb.deleteData(id, goodString(address));
         }catch(Exception e){ShowFreakingError(e + " - Error 0042");}
         dispose();
+    }
+    private void insertCollectionDetails()
+    {
+        CollectionDatabaseManager collectionDb = new CollectionDatabaseManager();
+        
+        int cr = Integer.parseInt(collectionField.getText());
+        String date = dateField.getText();
+        String received = receivedField.getText();
+        String address = addressField.getText();
+        double sum = Double.parseDouble(sumField.getText());
+        String payment = forField.getText();
+        String check = checkField.getText();
+        String bank = bankField.getText();
+        
+        try
+        {
+            collectionDb.insertData(cr, received, address, sum, payment, check, bank, date, currentInvoiceNumber);
+        }catch(Exception e){System.out.println(e);}
     }
     private void processPaymentDetails(double payment)
     {
@@ -577,6 +625,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, goodString(invoice_client.getText()));
             SalesDatabaseManager salesDB = new SalesDatabaseManager();
             salesDB.insertSales(Integer.parseInt(invoice_number.getText()), date, payment, goodString(invoice_client.getText()));
+            invoiceDB.updateCollection(Integer.parseInt(collectionField.getText()), currentInvoiceNumber);
         }catch(Exception e){ShowFreakingError(e + " - Error 0038");}
         dispose();
         invoiceFrame.setAlwaysOnTop(true);
@@ -687,12 +736,49 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
-    public void openDetailsFrame(InvoiceFrame invoice, int invoiceNum, String totalPrice, String totalPaid, String status, String client, String date, String delivery, String purchase, boolean isCash, String cheque, String due)
+    private void prepareFields(String client, boolean isPaid)
+    {
+        if(!isPaid)
+        {
+            receivedField.setText(client);
+            forField.setText(currentInvoiceNumber + "");
+        }
+        else
+        {
+            CollectionDatabaseManager colDb = new CollectionDatabaseManager();
+            try
+            {
+                colDb.getDataByReceipt(collectionNumber);
+            }catch(Exception e){System.out.println(e);}
+            collectionField.setText(colDb.getCollectionList().get(0) + "");
+            dateField.setText(colDb.getDateList().get(0));
+            receivedField.setText(colDb.getReceivedList().get(0));
+            addressField.setText(colDb.getAddressList().get(0));
+            sumField.setText(colDb.getSumList().get(0) + "");
+            forField.setText(colDb.getPaymentList().get(0));
+            checkField.setText(colDb.getCheckList().get(0));
+            bankField.setText(colDb.getBankList().get(0));
+        }
+        enableField(isPaid);
+    }
+    private void enableField(boolean isPaid)
+    {
+        collectionField.setEnabled(!isPaid);
+        dateField.setEnabled(!isPaid);
+        receivedField.setEnabled(!isPaid);
+        addressField.setEnabled(!isPaid);
+        sumField.setEnabled(!isPaid);
+        forField.setEnabled(!isPaid);
+        checkField.setEnabled(!isPaid);
+        bankField.setEnabled(!isPaid);
+    }
+    public void openDetailsFrame(InvoiceFrame invoice, int invoiceNum, String totalPrice, String totalPaid, String status, String client, String date, String delivery, String purchase, boolean isCash, String cheque, String due, int collection)
     {
         invoiceFrame = invoice;
         
         initComponents();
         currentInvoiceNumber = invoiceNum;
+        collectionNumber = collection;
         createColumns();
         
         delivery_number.setText(delivery);
@@ -724,6 +810,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             invoice_dueDate.setText(due);
         }
         
+        prepareFields(client, status.length() <= 4);
         resizeColumnWidth(invoiceTable);
         updateTableData();
     }
@@ -738,7 +825,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     private javax.swing.JLabel changeLabel2;
     private javax.swing.JTextField checkField;
     private javax.swing.JTextField collectionField;
-    private javax.swing.JTextField dataField;
+    private javax.swing.JTextField dateField;
     private javax.swing.JLabel delivery_number;
     private javax.swing.JTextField forField;
     private javax.swing.JTable invoiceTable;

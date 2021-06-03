@@ -24,6 +24,7 @@ public class InvoiceDatabaseManager
     final private String ITEM_SUPPLIER = "ITEM_SUPPLIER";
     final private String CHEQUE_NUMBER = "CHEQUE_NUMBER";
     final private String DUE_DATE = "DUE_DATE";
+    final private String COLLECTION = "COLLECTION";
     
     private ArrayList<Integer> idList = new ArrayList<>();
     private ArrayList<Integer> invoiceNumberList = new ArrayList<>();
@@ -42,6 +43,7 @@ public class InvoiceDatabaseManager
     private ArrayList<String> itemDueDateList = new ArrayList<>();
     private ArrayList<Integer> itemResult = new ArrayList<>();
     private ArrayList<Double> itemTotal = new ArrayList<>();
+    private ArrayList<Integer> collection = new ArrayList<>();
     
     private ArrayList<Integer> distinctInvoiceNumber = new ArrayList<>();
     private ArrayList<Integer> distinctDeliveryNumber = new ArrayList<>();
@@ -152,6 +154,7 @@ public class InvoiceDatabaseManager
         itemDueDateList.clear();
         itemResult.clear();
         itemTotal.clear();
+        collection.clear();
         while(result.next())
         {
             idList.add(result.getInt(ID));
@@ -169,6 +172,7 @@ public class InvoiceDatabaseManager
             itemSupplierList.add(result.getString(ITEM_SUPPLIER));
             itemChequeList.add(result.getString(CHEQUE_NUMBER));
             itemDueDateList.add(result.getString(DUE_DATE));
+            collection.add(result.getInt(COLLECTION));
             try
             {
                 itemResult.add(result.getInt("RESULT"));
@@ -179,7 +183,7 @@ public class InvoiceDatabaseManager
             }catch(Exception e){}
         }
     }
-    public void insertData(int _invoice_number, String _items, double _cost, double _price, double _quantity, String _address, int _paid, String _invoice_date, int _invoice_status, int _delivery_number, int _purchase_number, String _item_supplier, String _cheque, String _due) throws Exception
+    public void insertData(int _invoice_number, String _items, double _cost, double _price, double _quantity, String _address, int _paid, String _invoice_date, int _invoice_status, int _delivery_number, int _purchase_number, String _item_supplier, String _cheque, String _due, int _collection) throws Exception
     {
         Connection con = getConnection();
         PreparedStatement insertQuery = con.prepareStatement("call sp_invoiceInsert(" 
@@ -196,7 +200,8 @@ public class InvoiceDatabaseManager
                 + _purchase_number + ", '"
                 + _item_supplier + "', '"
                 + _cheque + "', '"
-                + _due + "'"
+                + _due + "',"
+                + _collection
                 + ");");
         insertQuery.executeUpdate();
         con.close();
@@ -209,6 +214,12 @@ public class InvoiceDatabaseManager
         deleteQuery.executeUpdate();
         con.close();
         processAllData();
+    }
+    public void updateCollection(int _receiptNumber, int _invoice) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + invoicetable + " SET " + COLLECTION + " = " + _receiptNumber + " WHERE " + INVOICE_NUMBER + " = " + _invoice);
+        updateQuery.executeUpdate();
     }
     public void processDistinctNumbers(String address) throws Exception
     {
@@ -393,5 +404,9 @@ public class InvoiceDatabaseManager
     public ArrayList<Double> getItemTotalList()
     {
         return itemTotal;
+    }
+    public ArrayList<Integer> getCollection()
+    {
+        return collection;
     }
 }

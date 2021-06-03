@@ -39,6 +39,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
     ArrayList<Integer> purchaseNumberList;
     ArrayList<String> chequeNumberList;
     ArrayList<String> dueDateList;
+    ArrayList<Integer> collection;
     
     ArrayList<Integer> distinctInvoiceNumberList;
     ArrayList<Integer> invoiceNumberLocations = new ArrayList<>();
@@ -277,6 +278,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
             }
         };
         invoiceTable.setModel(dtm);
+        dtm.addColumn("CR #");
         dtm.addColumn("Invoice #");
         dtm.addColumn("Delivery #");
         dtm.addColumn("Purchase #");
@@ -343,6 +345,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         purchaseNumberList = invoiceDatabaseManager.getPurchaseNumberList();
         chequeNumberList = invoiceDatabaseManager.getItemChequeList();
         dueDateList = invoiceDatabaseManager.getItemDueDateList();
+        collection = invoiceDatabaseManager.getCollection();
         
         invoiceNumberLocations.clear();
         distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
@@ -366,7 +369,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
             currentTotalPrice += currentPrice;
             currentTotalPaid += currentPaid;
             
-            String[] rowData = {distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
+            String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
+                distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
                 date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(i),
                 (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(i),
                 getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
@@ -505,20 +509,21 @@ public class InvoiceFrame extends javax.swing.JFrame {
         MainFrame myFrame = new MainFrame();
         
         int selected = invoiceTable.getSelectedRow();
-        String totalPrice = invoiceTable.getValueAt(selected, 7).toString().substring(2);
-        String totalPaid = invoiceTable.getValueAt(selected, 8).toString().substring(2);
-        String status = invoiceTable.getValueAt(selected, 10).toString();
-        String client = invoiceTable.getValueAt(selected, 5).toString();
-        String date = invoiceTable.getValueAt(selected, 3).toString();
-        String delivery = invoiceTable.getValueAt(selected, 1).toString();
-        String purchase = invoiceTable.getValueAt(selected, 2).toString();
+        String totalPrice = invoiceTable.getValueAt(selected, 8).toString().substring(2);
+        String totalPaid = invoiceTable.getValueAt(selected, 9).toString().substring(2);
+        String status = invoiceTable.getValueAt(selected, 11).toString();
+        String client = invoiceTable.getValueAt(selected, 6).toString();
+        String date = invoiceTable.getValueAt(selected, 4).toString();
+        String delivery = invoiceTable.getValueAt(selected, 2).toString();
+        String purchase = invoiceTable.getValueAt(selected, 3).toString();
+        int collection = Integer.parseInt(invoiceTable.getValueAt(selected, 0).toString());
         
-        String method = invoiceTable.getValueAt(selected, 6).toString();
-        String dueDate = invoiceTable.getValueAt(selected, 10).toString();
+        String method = invoiceTable.getValueAt(selected, 7).toString();
+        String dueDate = invoiceTable.getValueAt(selected, 11).toString();
         
         boolean isCash = method.toLowerCase().charAt(0) == 'c';
          
-        invoiceDetailsFrame.openDetailsFrame(this, num, totalPrice, totalPaid, status, client, date, delivery, purchase, isCash, method, dueDate);
+        invoiceDetailsFrame.openDetailsFrame(this, num, totalPrice, totalPaid, status, client, date, delivery, purchase, isCash, method, dueDate, collection);
         
         invoiceDetailsFrame.setVisible(true);
         int x = (myFrame.getWidth() - invoiceDetailsFrame.getWidth()) / 2;
@@ -559,7 +564,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
             {
                 if(SwingUtilities.isRightMouseButton(me))
                 {
-                    showRightClickMenu(me, Integer.parseInt(invoiceTable.getValueAt(invoiceTable.getSelectedRow(), 0).toString()));
+                    showRightClickMenu(me, Integer.parseInt(invoiceTable.getValueAt(invoiceTable.getSelectedRow(), 1).toString()));
                 }
             }
         });

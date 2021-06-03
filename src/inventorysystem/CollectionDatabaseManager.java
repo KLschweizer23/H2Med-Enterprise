@@ -50,6 +50,7 @@ public class CollectionDatabaseManager {
         re_initializeVariables(result);
         con.close();
     }
+    
     private void re_initializeVariables(ResultSet result) throws Exception
     {
         idList.clear();
@@ -75,24 +76,55 @@ public class CollectionDatabaseManager {
             dateList .add(result.getString(CDATE));
             invoiceList .add(result.getInt(INVOICE));
         }
-    }    
+    }
+    
     public void insertData(int _collection, String _received, String _address, double _sum, String _payment, String _check, String _bank, String _date, int _invoice) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement insertQuery = con.prepareStatement("call sp_insertCollection("+
-                _collection + "," +
-                _received + "," + 
-                _address + ",'" +
-                _sum + "','" +
-                _address + "', " +
-                _payment + ", " + 
-                _check + ", '" +
-                _bank + "'" +
-                ");");
+        PreparedStatement insertQuery = con.prepareStatement("call sp_insertCollection("
+                + "" + _collection 
+                + ",'" + _received
+                + "','" + _address
+                + "'," + _sum
+                + ",'" + _payment
+                + "','" + _check
+                + "','" + _bank
+                + "','" + _date
+                + "'," + _invoice
+                + ");");
         insertQuery.executeUpdate();
         con.close();
         processAllData();
     }
+    
+    public void getDataByReceipt(int _receiptNumber) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT * FROM " + TABLE + " WHERE " + COLLECTION + " = " + _receiptNumber);
+        ResultSet result = getQuery.executeQuery();
+        re_initializeVariables(result);
+        con.close();
+    }
+    
+    public boolean isReceiptExist(int _receiptNumber) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT IFNULL((SELECT " + COLLECTION + " FROM " + TABLE + " WHERE " + COLLECTION + " = " + _receiptNumber + "), 0) as result;");
+        ResultSet result = getQuery.executeQuery();
+        
+        boolean returnValue = true;
+        
+        while(result.next())
+        {
+            System.out.println(result.getInt("result"));
+            if(result.getInt("result") == 0)
+                returnValue = false;
+        }
+        
+        con.close();
+        return returnValue;
+    }
+    
     public ArrayList<Integer> getIdList() {
         return idList;
     }
