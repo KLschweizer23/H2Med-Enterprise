@@ -142,7 +142,7 @@ public class MainFrame extends javax.swing.JFrame {
     private String displayableString(String string)
     {
         int space = getMiddleSpace(string);
-        if(string.length() > 40)
+        if(string.length() > 50)
             string = "<html> " + string.substring(0, space) + " <br/>" + string.substring(space + 1) + " </html>";
         return string;
     }
@@ -155,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
                 spaces.add(i);
         }
         
-        return spaces.size() % 2 == 0 ? spaces.get(spaces.size() / 2) : spaces.get((spaces.size()/2) + 1);
+        return spaces.size() % 2 == 0 ? spaces.get((spaces.size() / 2) + 1) : spaces.get((spaces.size() / 2));
     }
     private void buttonHover(JButton button, String icon)
     {
@@ -553,7 +553,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -571,68 +571,83 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Most Item Sales");
 
         sales1.setBackground(new java.awt.Color(0, 0, 0));
+        sales1.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         sales1.setText("N/A");
 
         sales2.setBackground(new java.awt.Color(0, 0, 0));
+        sales2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         sales2.setText("N/A");
 
         sales3.setBackground(new java.awt.Color(0, 0, 0));
+        sales3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         sales3.setText("N/A");
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Large Outstandings");
 
         outstanding3.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         outstanding3.setText("N/A");
 
         outstanding1.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding1.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         outstanding1.setText("N/A");
 
         outstanding2.setBackground(new java.awt.Color(0, 0, 0));
+        outstanding2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         outstanding2.setText("N/A");
 
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText("Item Least Quantity");
 
         least1.setBackground(new java.awt.Color(0, 0, 0));
+        least1.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         least1.setText("N/A");
 
         least2.setBackground(new java.awt.Color(0, 0, 0));
+        least2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         least2.setText("N/A");
 
         least3.setBackground(new java.awt.Color(0, 0, 0));
+        least3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         least3.setText("N/A");
 
         jLabel15.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setText("Item Most Quantity");
 
         most1.setBackground(new java.awt.Color(0, 0, 0));
+        most1.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         most1.setText("N/A");
 
         most2.setBackground(new java.awt.Color(0, 0, 0));
+        most2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         most2.setText("N/A");
 
         most3.setBackground(new java.awt.Color(0, 0, 0));
+        most3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         most3.setText("N/A");
 
         jLabel19.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel19.setText("Unpaid Invoices");
 
         invoice3.setBackground(new java.awt.Color(0, 0, 0));
+        invoice3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         invoice3.setText("N/A");
 
         invoice1.setBackground(new java.awt.Color(0, 0, 0));
+        invoice1.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         invoice1.setText("N/A");
 
         invoice2.setBackground(new java.awt.Color(0, 0, 0));
+        invoice2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         invoice2.setText("N/A");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -642,31 +657,32 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(sales1)
-                    .addComponent(sales2)
-                    .addComponent(sales3)
-                    .addComponent(outstanding1)
-                    .addComponent(outstanding2)
-                    .addComponent(outstanding3)
-                    .addComponent(jLabel11)
-                    .addComponent(least1)
-                    .addComponent(least2)
-                    .addComponent(least3)
-                    .addComponent(jLabel15)
-                    .addComponent(most1)
-                    .addComponent(most2)
-                    .addComponent(most3))
-                .addGap(0, 201, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19)
-                    .addComponent(invoice1)
-                    .addComponent(invoice2)
-                    .addComponent(invoice3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(sales1)
+                            .addComponent(sales2)
+                            .addComponent(sales3)
+                            .addComponent(outstanding1)
+                            .addComponent(outstanding2)
+                            .addComponent(outstanding3)
+                            .addComponent(jLabel11)
+                            .addComponent(least1)
+                            .addComponent(least2)
+                            .addComponent(least3)
+                            .addComponent(jLabel15)
+                            .addComponent(most1)
+                            .addComponent(most2)
+                            .addComponent(most3))
+                        .addGap(0, 248, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(invoice1)
+                            .addComponent(invoice2)
+                            .addComponent(invoice3))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -711,7 +727,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(most2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(most3)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -780,7 +796,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(main_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -799,8 +816,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -811,7 +828,9 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("");
@@ -935,8 +954,8 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 myFrame = new MainFrame();
                 myFrame.setVisible(true);
-                myFrame.setSize(1366, 768);
                 myFrame.setExtendedState(myFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+                myFrame.setMaximumSize(myFrame.getSize());
             }
         });
     }

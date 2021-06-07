@@ -53,7 +53,7 @@ public class ItemDatabaseManager
         PreparedStatement allQuery;
         
         if(sort == 1)
-            allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE);
+            allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_NAME + " ASC;");
         else
             allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_STOCK_OUT + " DESC;");
         

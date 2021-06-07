@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.List;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,13 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class StockInFrame extends javax.swing.JFrame {
     
@@ -786,20 +790,18 @@ public class StockInFrame extends javax.swing.JFrame {
         itemQuantityList = itemDatabaseManager.getItemQuantityList();
         itemCostList = itemDatabaseManager.getItemCostList();
         itemSupplierList = itemDatabaseManager.getItemSupplierList();
-        ArrayList<Date> itemPurchaseDateList = itemDatabaseManager.getItemPurchaseDateList();
-        ArrayList<Date> itemExpirationDateList = itemDatabaseManager.getItemExpirationDateList();
         itemBrandList = itemDatabaseManager.getItemBrandList();
         itemArticleList = itemDatabaseManager.getItemArticleList();
 
         dtm.setRowCount(0);
-
+        
         for (int i = 0; i < itemIdList.size(); i++) 
         {
-          String[] rowData = {i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i), 
-              itemQuantityList.get(i).toString(), "" + (char)8369 + " " + itemCostList.get(i),itemCategoryList.get(i) 
-          };
+            String[] rowData = {i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i), 
+                itemQuantityList.get(i).toString(), "" + (char)8369 + " " + itemCostList.get(i),itemCategoryList.get(i) 
+            };
           dtm.addRow(rowData);
-        } 
+        }
         if(oldTable.getRowCount() >= 1)
             oldTable.setRowSelectionInterval(0, 0); 
         oldTable.setRowHeight(30);
@@ -1011,6 +1013,7 @@ public class StockInFrame extends javax.swing.JFrame {
         addButton.setIcon(getScaledImageIcon("plus_icon.png", 30, 30));
         minusButton.setIcon(getScaledImageIcon("minus_icon.png",30,30));
         ready = true;
+        
     }
   
   public void ShowFreakingError(String message) {

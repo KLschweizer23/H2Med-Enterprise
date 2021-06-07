@@ -51,7 +51,7 @@ public class StockInDatabaseManager
     public void processAllData() throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement allQuery = con.prepareStatement("SELECT * FROM " + STOCK_IN_TABLE);
+        PreparedStatement allQuery = con.prepareStatement("SELECT * FROM " + STOCK_IN_TABLE + " ORDER BY" + FK_ITEM_NAME);
         ResultSet result = allQuery.executeQuery();
         re_initializeVariables(result);
         con.close();

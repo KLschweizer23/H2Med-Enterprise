@@ -1,6 +1,8 @@
 package inventorysystem;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -104,6 +107,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         purchaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(purchaseTable);
 
+        supplierCombo.setBackground(new java.awt.Color(255, 255, 255));
         supplierCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supplierComboActionPerformed(evt);
@@ -375,6 +379,17 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         return returnVal;
     }
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+    }
     private void openDetailsFrame(int num)
     {
         RecordDetailsFrame recordFrame = new RecordDetailsFrame();
@@ -385,7 +400,10 @@ public class RecordsFrame extends javax.swing.JFrame {
         int x = (myFrame.getWidth() - recordFrame.getWidth()) / 2;
         int y = (myFrame.getHeight() - recordFrame.getHeight()) / 2;
         recordFrame.setLocation(x,y);
-        this.setEnabled(false);
+        setEnabled(false);
+        
+        setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
+        setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
     }
     private void Popup(MouseEvent me, int num)
     {

@@ -1,6 +1,8 @@
 package inventorysystem;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -183,7 +186,17 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         dtm.addColumn("Status");
         recordTable.setModel(dtm);
     }
-    
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+    }
     private void prepareData(String _supplier)
     {
         StockInDatabaseManager stockInDb = new StockInDatabaseManager();
@@ -346,6 +359,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
             }
         });
         resizeColumnWidth(recordTable);
+        setupTable(recordTable, Color.white, new Dimension(0,30), Color.black);
     }
     public void ShowFreakingError(String message)
     {

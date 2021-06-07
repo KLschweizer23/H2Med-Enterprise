@@ -1,17 +1,16 @@
 package inventorysystem;
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -849,6 +848,17 @@ public class SalesFrame extends javax.swing.JFrame {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+    }
     public void openFrame(MainFrame main)
     {
         myFrame = main;
@@ -862,6 +872,7 @@ public class SalesFrame extends javax.swing.JFrame {
         processInformation();
         displayStatus();
         resizeColumnWidth(transactionTable);
+        setupTable(transactionTable, Color.white, new Dimension(0,30), Color.black);
     }
     public void ShowFreakingError(String message)
     {

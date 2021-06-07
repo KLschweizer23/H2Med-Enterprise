@@ -1,11 +1,14 @@
 package inventorysystem;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -589,7 +592,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         
         try
         {
-            collectionDb.insertData(cr, received, address, sum, payment, check, bank, date, currentInvoiceNumber);
+            collectionDb.insertData(cr, goodString(received), goodString(address), sum, goodString(payment), goodString(check), goodString(bank), goodString(date), currentInvoiceNumber);
         }catch(Exception e){System.out.println(e);}
     }
     private void processPaymentDetails(double payment)
@@ -772,6 +775,17 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         checkField.setEnabled(!isPaid);
         bankField.setEnabled(!isPaid);
     }
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
+    }
     public void openDetailsFrame(InvoiceFrame invoice, int invoiceNum, String totalPrice, String totalPaid, String status, String client, String date, String delivery, String purchase, boolean isCash, String cheque, String due, int collection)
     {
         invoiceFrame = invoice;
@@ -812,6 +826,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         
         prepareFields(client, status.length() <= 4);
         resizeColumnWidth(invoiceTable);
+        setupTable(invoiceTable, Color.white, new Dimension(0,30), Color.black);
         updateTableData();
     }
     public void ShowFreakingError(String message)

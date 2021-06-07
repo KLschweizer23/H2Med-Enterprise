@@ -1,6 +1,8 @@
 package inventorysystem;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JLabel;
@@ -8,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
@@ -764,6 +767,7 @@ public class DatabaseFrame extends javax.swing.JFrame
             database_mainTable.setRowSelectionInterval(0, 0);
         }
         database_mainTable.setRowHeight(30);
+        setupTable(database_mainTable, Color.white, new Dimension(0,30), Color.black);
     }
     private String goodString(String data)
     {
@@ -888,10 +892,18 @@ public class DatabaseFrame extends javax.swing.JFrame
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }    
+    private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
+    {
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(background);
+        headerRenderer.setPreferredSize(dim);
+        headerRenderer.setForeground(foreground);
+        
+        for (int i = 0; i < table.getModel().getColumnCount(); i++) {
+                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+        }
     }
-    /**
-     * @param args the command line arguments
-     */
     public void openDatabaseFrame(MainFrame mainFrame)
     {
         myFrame = mainFrame;
