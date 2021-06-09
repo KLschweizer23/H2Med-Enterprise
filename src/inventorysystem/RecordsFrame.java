@@ -401,9 +401,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         int y = (myFrame.getHeight() - recordFrame.getHeight()) / 2;
         recordFrame.setLocation(x,y);
         setEnabled(false);
-        
-        setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
-        setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
     }
     private void Popup(MouseEvent me, int num)
     {
@@ -455,6 +452,9 @@ public class RecordsFrame extends javax.swing.JFrame {
         });
         resizeColumnWidth(purchaseTable);
         resizeColumnWidth(salesTable);
+        
+        setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
+        setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
         ready = true;
     }
     public void ShowFreakingError(String message)

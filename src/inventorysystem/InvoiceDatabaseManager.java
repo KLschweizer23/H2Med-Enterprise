@@ -215,10 +215,10 @@ public class InvoiceDatabaseManager
         con.close();
         processAllData();
     }
-    public void updateCollection(int _receiptNumber, int _invoice) throws Exception
+    public void updateCollection(int _receiptNumber, int _invoice, String _address) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + invoicetable + " SET " + COLLECTION + " = " + _receiptNumber + " WHERE " + INVOICE_NUMBER + " = " + _invoice);
+        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + invoicetable + " SET " + COLLECTION + " = " + _receiptNumber + " WHERE " + INVOICE_NUMBER + " = " + _invoice + " AND " + ADDRESS + " = '" + _address + "'");
         updateQuery.executeUpdate();
     }
     public void processDistinctNumbers(String address) throws Exception

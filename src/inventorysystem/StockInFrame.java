@@ -722,7 +722,7 @@ public class StockInFrame extends javax.swing.JFrame {
             
             for(int i = 0; i < newItemStockInList.size(); i++)
             {
-                newTable.setValueAt(newItemStockInList.get(i), i, 5);
+                newTable.setValueAt(newItemStockInList.get(i), i, 6);
             }
         }
         else
@@ -730,7 +730,7 @@ public class StockInFrame extends javax.swing.JFrame {
             labelCost.setText("0.0");
             for(int i = 0; i < newItemIdList.size(); i++)
             {
-                newTable.setValueAt("0.0", i, 5);
+                newTable.setValueAt("0.0", i, 6);
             }
         }
 

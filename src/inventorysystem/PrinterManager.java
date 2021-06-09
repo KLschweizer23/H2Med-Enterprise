@@ -73,6 +73,11 @@ public class PrinterManager extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Print Preview");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setMaximumSize(new java.awt.Dimension(943, 471));
 
@@ -266,7 +271,6 @@ public class PrinterManager extends javax.swing.JFrame
         itemTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
         itemTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         itemTable.setShowGrid(false);
-        itemTable.setShowHorizontalLines(false);
         itemTable.setShowVerticalLines(true);
         itemTable.getTableHeader().setReorderingAllowed(false);
         itemTable.setUpdateSelectionOnSort(false);
@@ -356,12 +360,17 @@ public class PrinterManager extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        setAlwaysOnTop(false);
         print();
     }//GEN-LAST:event_printButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        setAlwaysOnTop(true);
+    }//GEN-LAST:event_formWindowActivated
 
     private void print()
     {
@@ -554,10 +563,7 @@ public class PrinterManager extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JButton printButton;
     private javax.swing.JPanel printPanel;

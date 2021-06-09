@@ -628,7 +628,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, goodString(invoice_client.getText()));
             SalesDatabaseManager salesDB = new SalesDatabaseManager();
             salesDB.insertSales(Integer.parseInt(invoice_number.getText()), date, payment, goodString(invoice_client.getText()));
-            invoiceDB.updateCollection(Integer.parseInt(collectionField.getText()), currentInvoiceNumber);
+            invoiceDB.updateCollection(Integer.parseInt(collectionField.getText()), currentInvoiceNumber, goodString(invoice_client.getText()));
         }catch(Exception e){ShowFreakingError(e + " - Error 0038");}
         dispose();
         invoiceFrame.setAlwaysOnTop(true);
