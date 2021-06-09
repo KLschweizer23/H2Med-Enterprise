@@ -80,7 +80,7 @@ public class ItemDatabaseManager
     public void getItemsBySupplier(String _supplier) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement getQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "'");
+        PreparedStatement getQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "' ORDER BY " + ITEM_NAME);
         ResultSet result = getQuery.executeQuery();
         re_initializeVariables(result);
         con.close();
