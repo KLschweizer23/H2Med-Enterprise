@@ -2,22 +2,18 @@ package inventorysystem;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.print.PageFormat;
-import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,11 +33,8 @@ public class PrinterManager extends javax.swing.JFrame
         printPanel = new javax.swing.JPanel();
         LabelLogo = new javax.swing.JLabel();
         infoLabel = new javax.swing.JLabel();
-        infoLabel2 = new javax.swing.JLabel();
-        infoLabel3 = new javax.swing.JLabel();
         infoLabel4 = new javax.swing.JLabel();
         infoLabel5 = new javax.swing.JLabel();
-        infoLabel7 = new javax.swing.JLabel();
         invoiceNum = new javax.swing.JLabel();
         infoLabel10 = new javax.swing.JLabel();
         infoLabel11 = new javax.swing.JLabel();
@@ -69,6 +62,10 @@ public class PrinterManager extends javax.swing.JFrame
         detailsTable = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         totalTable = new javax.swing.JTable();
+        infoLabel6 = new javax.swing.JLabel();
+        infoLabel8 = new javax.swing.JLabel();
+        infoLabel9 = new javax.swing.JLabel();
+        infoLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Print Preview");
@@ -110,16 +107,6 @@ public class PrinterManager extends javax.swing.JFrame
         infoLabel.setText("H2-MED ENTERPRISES");
         printPanel.add(infoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 36, -1, -1));
 
-        infoLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        infoLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        infoLabel2.setText("Prk. 7, Brgy. Ising, Davao Del Norte");
-        printPanel.add(infoLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 82, -1, -1));
-
-        infoLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        infoLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        infoLabel3.setText("h2med.lezil@gmail.com");
-        printPanel.add(infoLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 105, -1, -1));
-
         infoLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         infoLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel4.setText("INVOICE");
@@ -129,11 +116,6 @@ public class PrinterManager extends javax.swing.JFrame
         infoLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         infoLabel5.setText("09071807417/09352920126");
         printPanel.add(infoLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 59, -1, -1));
-
-        infoLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        infoLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        infoLabel7.setText("Invoice Number");
-        printPanel.add(infoLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, -1, -1));
 
         invoiceNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         invoiceNum.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -202,7 +184,7 @@ public class PrinterManager extends javax.swing.JFrame
 
         infoLabel22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         infoLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        infoLabel22.setText("Approved by:");
+        infoLabel22.setText("Released by:");
         printPanel.add(infoLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 1160, -1, -1));
 
         infoLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -241,7 +223,7 @@ public class PrinterManager extends javax.swing.JFrame
         printPanel.add(infoLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 1190, -1, -1));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setToolTipText("");
         jScrollPane2.setFocusable(false);
@@ -316,32 +298,51 @@ public class PrinterManager extends javax.swing.JFrame
 
         printPanel.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 950, 450, 30));
 
+        infoLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        infoLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        infoLabel6.setText("Prk. 7, Brgy. Ising, Carmen,");
+        printPanel.add(infoLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 82, -1, -1));
+
+        infoLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        infoLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        infoLabel8.setText("Davao del Norte, 8100");
+        printPanel.add(infoLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 102, -1, 20));
+
+        infoLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        infoLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        infoLabel9.setText("h2med.lezil@gmail.com");
+        printPanel.add(infoLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 122, -1, 20));
+
+        infoLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        infoLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        infoLabel12.setText("Invoice Number");
+        printPanel.add(infoLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, -1, -1));
+
         jScrollPane1.setViewportView(printPanel);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -353,7 +354,7 @@ public class PrinterManager extends javax.swing.JFrame
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -437,7 +438,6 @@ public class PrinterManager extends javax.swing.JFrame
         itemTable.setModel(dtm);
         dtm.addColumn("Quantity");
         dtm.addColumn("Item");
-        dtm.addColumn("Description");
         dtm.addColumn("Unit Price");
         dtm.addColumn("Amount");
     }
@@ -497,7 +497,7 @@ public class PrinterManager extends javax.swing.JFrame
         {
             double currentTotal = quantityList.get(i) * priceList.get(i);
             String [] rowData = {
-                quantityList.get(i) + "", itemList.get(i), descriptionList.get(i), (char)8369 + " " + priceList.get(i),
+                quantityList.get(i) + "", itemList.get(i), (char)8369 + " " + priceList.get(i),
                 (char)8369 + " " + currentTotal
             };
             dtm.addRow(rowData);
@@ -537,12 +537,12 @@ public class PrinterManager extends javax.swing.JFrame
     private javax.swing.JLabel infoLabel;
     private javax.swing.JLabel infoLabel10;
     private javax.swing.JLabel infoLabel11;
+    private javax.swing.JLabel infoLabel12;
     private javax.swing.JLabel infoLabel13;
     private javax.swing.JLabel infoLabel15;
     private javax.swing.JLabel infoLabel17;
     private javax.swing.JLabel infoLabel18;
     private javax.swing.JLabel infoLabel19;
-    private javax.swing.JLabel infoLabel2;
     private javax.swing.JLabel infoLabel20;
     private javax.swing.JLabel infoLabel21;
     private javax.swing.JLabel infoLabel22;
@@ -553,10 +553,11 @@ public class PrinterManager extends javax.swing.JFrame
     private javax.swing.JLabel infoLabel27;
     private javax.swing.JLabel infoLabel28;
     private javax.swing.JLabel infoLabel29;
-    private javax.swing.JLabel infoLabel3;
     private javax.swing.JLabel infoLabel4;
     private javax.swing.JLabel infoLabel5;
-    private javax.swing.JLabel infoLabel7;
+    private javax.swing.JLabel infoLabel6;
+    private javax.swing.JLabel infoLabel8;
+    private javax.swing.JLabel infoLabel9;
     private javax.swing.JLabel invoiceDate;
     private javax.swing.JLabel invoiceNum;
     private javax.swing.JTable itemTable;

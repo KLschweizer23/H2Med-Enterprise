@@ -283,6 +283,8 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         extraIdList = new ArrayList<>(itemIdList);
         extraNameList = new ArrayList<>(itemNameList);
+        System.out.println(itemNameList);
+        System.out.println(extraNameList);
         int temp = 0;
         for(int i = 0; i < itemIdList.size(); i++)
         {
@@ -307,7 +309,9 @@ public class RecordsFrame extends javax.swing.JFrame {
                 dtm.addRow(emptyData);
                 temp++;
             }
+            temp++;
         }
+        System.out.println(extraNameList);
         extraIdList2 = extraIdList;
         if(purchaseTable.getRowCount() >= 1)
         {
@@ -446,6 +450,7 @@ public class RecordsFrame extends javax.swing.JFrame {
             {
                 if(SwingUtilities.isRightMouseButton(me))
                 {
+                    int x = purchaseTable.getSelectedRow();
                     Popup(me, purchaseTable.getSelectedRow());
                 }
             }

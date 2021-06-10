@@ -1,10 +1,7 @@
 package inventorysystem;
 
-import datechooser.model.multiple.PeriodSet;
 import java.awt.Color;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
