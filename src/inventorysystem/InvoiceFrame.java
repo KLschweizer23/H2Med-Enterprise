@@ -3,6 +3,7 @@ package inventorysystem;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -30,6 +31,7 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -313,16 +315,17 @@ public class InvoiceFrame extends javax.swing.JFrame {
             for(int i = 0; i < invList.size(); i++)
             {
                 collectionList.add(invList.get(i));
-                System.out.println(invList.get(i).getItem() + " - " + (i + 1));
             }
             
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
             
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("CollectionBeanParam", itemsJRBean);
+            parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
             
             InputStream input = new FileInputStream(new File(reportPath));
             JasperDesign jdesign = JRXmlLoader.load(input);
+            
             
             JasperReport jreport = JasperCompileManager.compileReport(jdesign);
             JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
@@ -333,6 +336,15 @@ public class InvoiceFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_printButtonActionPerformed
+
+    private ImageIcon getScaledImageIcon(String imageName, int height, int width)
+    {
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(getClass().getResource("/Images/" + imageName)).getImage());
+        Image image = imageIcon.getImage();
+        Image newImage = image.getScaledInstance(height, width, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newImage);
+        return imageIcon;
+    }
     private void createColumns()
     {
         //dtm = (DefaultTableModel) displayTable.getModel();
