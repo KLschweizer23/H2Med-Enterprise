@@ -221,6 +221,20 @@ public class InvoiceDatabaseManager
         PreparedStatement updateQuery = con.prepareStatement("UPDATE " + invoicetable + " SET " + COLLECTION + " = " + _receiptNumber + " WHERE " + INVOICE_NUMBER + " = " + _invoice + " AND " + ADDRESS + " = '" + _address + "'");
         updateQuery.executeUpdate();
     }
+    public ArrayList<Integer> getDistinctInvoiceNumber(String address) throws Exception
+    {
+        ArrayList<Integer> invList = new ArrayList<>();
+        
+        Connection con = getConnection();
+        PreparedStatement invoiceQuery = con.prepareStatement("SELECT DISTINCT(" + INVOICE_NUMBER + ") FROM " + invoicetable + " WHERE " + INVOICE_STATUS + " != 2 AND " + ADDRESS + " = '" + address + "';");
+        ResultSet result = invoiceQuery.executeQuery();
+        
+        while(result.next())
+        {
+            invList.add(result.getInt(INVOICE_NUMBER));
+        }
+        return invList;
+    }
     public void processDistinctNumbers(String address) throws Exception
     {
         distinctInvoiceNumber.clear();

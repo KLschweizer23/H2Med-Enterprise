@@ -44,7 +44,9 @@
                       <Component id="labelItem1" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="invoice_addressCombo" min="-2" pref="175" max="-2" attributes="0"/>
-                      <EmptySpace pref="245" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="printButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="180" max="32767" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -70,6 +72,7 @@
                           <Component id="labelItem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="invoice_addressCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="labelItem1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="printButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -242,5 +245,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="printButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Print"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printButtonActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +23,23 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+
+//Sample//
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+//--End--//
 
 public class InvoiceFrame extends javax.swing.JFrame {
 
@@ -69,6 +89,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         invoice_outstanding = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        printButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -178,6 +199,13 @@ public class InvoiceFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        printButton.setText("Print");
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -196,7 +224,9 @@ public class InvoiceFrame extends javax.swing.JFrame {
                         .addComponent(labelItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(printButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -216,7 +246,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelItem)
                             .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelItem1)))
+                            .addComponent(labelItem1)
+                            .addComponent(printButton)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,6 +301,38 @@ public class InvoiceFrame extends javax.swing.JFrame {
             }catch(Exception e){ShowFreakingError(e + " - Error 0032");}
         }
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        try{
+            String reportPath = "D:\\Programming Workspaces\\Java - NetBeans 12.0 Workspace\\H2MED Business Software\\src\\inventorysystem\\JasperSample.jrxml";
+            String client = goodString(invoice_addressCombo.getSelectedItem().toString());
+            StatementOfAccount soa = new StatementOfAccount();
+            List<Invoices> collectionList = new ArrayList<Invoices>();
+            
+            ArrayList <Invoices> invList = soa.GetStatementOfAccount(client);
+            for(int i = 0; i < invList.size(); i++)
+            {
+                collectionList.add(invList.get(i));
+                System.out.println(invList.get(i).getItem() + " - " + (i + 1));
+            }
+            
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
+            
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("CollectionBeanParam", itemsJRBean);
+            
+            InputStream input = new FileInputStream(new File(reportPath));
+            JasperDesign jdesign = JRXmlLoader.load(input);
+            
+            JasperReport jreport = JasperCompileManager.compileReport(jdesign);
+            JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
+            
+            JasperViewer.viewReport(jprint, false);
+        }catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
     private void createColumns()
     {
         //dtm = (DefaultTableModel) displayTable.getModel();
@@ -603,5 +666,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelItem;
     private javax.swing.JLabel labelItem1;
+    private javax.swing.JButton printButton;
     // End of variables declaration//GEN-END:variables
 }
