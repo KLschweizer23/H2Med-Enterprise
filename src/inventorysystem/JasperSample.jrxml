@@ -81,6 +81,10 @@
 	</subDataset>
 	<parameter name="CollectionBeanParam" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="clientName" class="java.lang.String"/>
+	<parameter name="clientAddress" class="java.lang.String"/>
+	<parameter name="totalInvoice" class="java.lang.String"/>
+	<parameter name="totalAmount" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -88,7 +92,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="145" splitType="Stretch">
+		<band height="146" splitType="Stretch">
 			<staticText>
 				<reportElement x="290" y="10" width="260" height="40" uuid="f8ae9612-cc0f-4197-8511-b56b137a0276"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -105,6 +109,84 @@
 				<reportElement x="0" y="0" width="170" height="51" uuid="4b8369a6-362f-4dad-844a-2502330ad953"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
+			<rectangle>
+				<reportElement x="0" y="60" width="250" height="81" uuid="2112cca8-7f90-436e-a67b-0a48a64bae04"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="63" width="55" height="27" uuid="4ebcdd2a-25e2-45ca-9099-0ccb28f1ddfc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Bill To:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="90" width="190" height="15" uuid="b6bb55b4-3bf9-4284-bcc7-48850313547c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{clientName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="105" width="190" height="15" uuid="f7638c16-a64d-460a-9eb7-42f5510f674c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{clientAddress}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="330" y="60" width="219" height="81" uuid="0e86762c-0641-4aae-b4f3-b022fa6867f9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="335" y="63" width="64" height="27" uuid="5b3e395e-aeac-4ef4-9769-fb3ed876a245">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Summary:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="90" width="109" height="15" uuid="9378fa13-b5a3-49ba-a6fc-dd4ba7f12b03">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalInvoice}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="339" y="90" width="69" height="15" uuid="98b28db6-eb87-49c8-b7b9-ea8c4de7a5d2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Total Invoices]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="105" width="69" height="15" uuid="cebe5d1f-df02-42b1-9b19-ec8ed1b03a8b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Total Amount]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="105" width="109" height="15" uuid="f066cb5e-ace8-408b-9c23-3f817c1b8e57">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalAmount}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -114,7 +196,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="96" splitType="Stretch">
+		<band height="87" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="10" width="550" height="70" uuid="5bdfd20e-648c-4882-b20c-7605d023ff78">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -312,7 +394,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{totalAmount}.equals("TOTAL") ? "<style isBold='true'>" + $F{totalAmount} + "</style>" : $F{totalAmount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -324,7 +406,55 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="113" splitType="Stretch"/>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="400" y="103" width="100" height="22" uuid="60df81a6-7133-4350-ae3e-cc4bf49ad668"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="500" y="103" width="20" height="21" uuid="c1730277-0fba-435a-a366-d24a010f80d0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[of]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="520" y="103" width="41" height="21" uuid="7dba37a0-d78d-47ae-a228-70aa83caf8c6"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="18" width="550" height="21" uuid="ab8bc69e-88ee-4567-a5ba-e5181aef65cf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Thank you for your business!]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="39" width="550" height="18" uuid="d0cffbdd-4e90-4649-8a12-07f22c4a0f52"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Should you have any enquiries concerning this statement, please contact with the following information below]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="58" width="550" height="1" uuid="b3ac49e2-252f-49d0-8673-6ce5141c1c2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="59" width="550" height="43" uuid="1512acd8-6057-4597-8674-913881330da6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Prk. 7, Brgy. Ising, Carmen, Davao del Norte, 8100
+09071807417/09352920126
+h2med.lezil@gmail.com]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="3" width="547" height="15" uuid="d8dae52d-8e65-4ad7-9e86-abd18d6d7635">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Your account balance is " + $P{totalAmount} + ". Please make your payment to cover the balance by the due date."]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class StatementOfAccount 
 {
     private ArrayList<Invoices> allList = new ArrayList<>();
+    ArrayList<Integer> invoices = new ArrayList<>();
     private String client;
     
     private ArrayList<Integer> invoice = new ArrayList<>();
@@ -17,20 +18,18 @@ public class StatementOfAccount
     private ArrayList<Double> amount = new ArrayList<>();
     private ArrayList<Double> totalAmount = new ArrayList<>();
     
+    private Double allTotalAmount = 0.0;
+    
     public ArrayList<Invoices> GetStatementOfAccount(String client)
     {
         this.client = client;
         prepareList();
-        for(int i = 0; i < allList.size(); i++)
-        {
-            System.out.println(i + 1 + ". " + allList.get(i).getItem());
-        }
         return allList;
     }
     private void prepareList()
     {
         //Get All The Invoice Numbers (Distinct)
-        ArrayList<Integer> invoices = getDistinctInvoices();
+        invoices = getDistinctInvoices();
         //Get Data Per Invoice Number
         for(int i = 0; i < invoices.size(); i++)
         {
@@ -63,9 +62,11 @@ public class StatementOfAccount
                 inv.setAmount((char)8369 + " " + amount.get(j));
                 inv.setTotalAmount((char)8369 + " " + totalAmount.get(j));
                 OverAllTotalAmount += totalAmount.get(j);
+                allTotalAmount += OverAllTotalAmount;
                 allList.add(inv);
             }
-            allList.add(customInv("TOTAL", (char)8369 + " " + OverAllTotalAmount));
+            allList.add(customInv("TOTAL", (char)8369 + " " + OverAllTotalAmount, false));
+            allList.add(customInv("- - / - -", "- - / - -", true));
         }
     }
     private String goodDate(String date)
@@ -84,16 +85,17 @@ public class StatementOfAccount
         }
         return month + " " + day + ", " + years;
     }
-    private Invoices customInv(String totalString, String Total)
+    private Invoices customInv(String totalString, String Total, boolean isBlank)
     {
         Invoices blank = new Invoices();
-        blank.setInvoice("- - / - -");
-        blank.setPurchase("- - / - -");
-        blank.setDelivery("- - / - -");
-        blank.setDateOfInvoice("- - / - -");
-        blank.setDetails("- - / - -");
-        blank.setQuantity("- - / - -");
-        blank.setItem("- - / - -");
+        String x = isBlank ? "- - / - -" : "";
+        blank.setInvoice(x);
+        blank.setPurchase(x);
+        blank.setDelivery(x);
+        blank.setDateOfInvoice(x);
+        blank.setDetails(x);
+        blank.setQuantity(x);
+        blank.setItem(x);
         blank.setAmount(totalString);
         blank.setTotalAmount(Total);
         return blank;
@@ -145,4 +147,13 @@ public class StatementOfAccount
         }catch(Exception e){System.out.println(e);}
         return invList;
     }
+
+    public Integer getInvoiceTotal() {
+        return invoices.size();
+    }
+
+    public Double getAllTotalAmount() {
+        return allTotalAmount;
+    }
+    
 }

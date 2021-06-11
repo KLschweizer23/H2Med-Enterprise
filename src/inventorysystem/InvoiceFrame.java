@@ -309,19 +309,19 @@ public class InvoiceFrame extends javax.swing.JFrame {
             String reportPath = "D:\\Programming Workspaces\\Java - NetBeans 12.0 Workspace\\H2MED Business Software\\src\\inventorysystem\\JasperSample.jrxml";
             String client = goodString(invoice_addressCombo.getSelectedItem().toString());
             StatementOfAccount soa = new StatementOfAccount();
-            List<Invoices> collectionList = new ArrayList<Invoices>();
+            List<Invoices> collectionList = soa.GetStatementOfAccount(client);
             
-            ArrayList <Invoices> invList = soa.GetStatementOfAccount(client);
-            for(int i = 0; i < invList.size(); i++)
-            {
-                collectionList.add(invList.get(i));
-            }
+            
             
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
             
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("CollectionBeanParam", itemsJRBean);
             parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
+            parameters.put("clientName", invoice_addressCombo.getSelectedItem().toString());
+            parameters.put("clientAddress", getAddress(invoice_addressCombo.getSelectedItem().toString()));
+            parameters.put("totalInvoice", soa.getInvoiceTotal() + "");
+            parameters.put("totalAmount", (char)8369 + " " + soa.getAllTotalAmount());
             
             InputStream input = new FileInputStream(new File(reportPath));
             JasperDesign jdesign = JRXmlLoader.load(input);
@@ -336,7 +336,38 @@ public class InvoiceFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_printButtonActionPerformed
-
+    private String getAddress(String address)
+    {
+        ClientDatabaseManager clientDb = new ClientDatabaseManager();
+        BranchDatabaseManager branchDb = new BranchDatabaseManager();
+        
+        try
+        {
+            clientDb.processAllData();
+            branchDb.processAllData();
+        }catch(Exception e){System.out.println(e);}
+        ArrayList<String> clientName = clientDb.getClientNameList();
+        ArrayList<String> clientAddress = clientDb.getClientAddressList();
+        ArrayList<String> branchName = branchDb.getBranchNameList();
+        ArrayList<String> branchAddress = branchDb.getBranchAddressList();
+        for(int i = 0; i < clientName.size();i++)
+        {
+            if(clientName.get(i).equals(address))
+            {
+                System.out.println(clientName.get(i));
+                return clientAddress.get(i);
+            }
+        }
+        for(int i = 0; i < branchName.size();i++)
+        {
+            if(branchName.get(i).equals(address))
+            {
+                System.out.println(branchName.get(i));
+                return branchAddress.get(i);
+            }
+        }
+        return "";
+    }
     private ImageIcon getScaledImageIcon(String imageName, int height, int width)
     {
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(getClass().getResource("/Images/" + imageName)).getImage());

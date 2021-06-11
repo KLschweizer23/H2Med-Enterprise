@@ -223,7 +223,7 @@ public class PrinterManager extends javax.swing.JFrame
         printPanel.add(infoLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 1190, -1, -1));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setToolTipText("");
         jScrollPane2.setFocusable(false);
