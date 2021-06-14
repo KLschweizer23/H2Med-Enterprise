@@ -309,7 +309,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
         try{
             String reportPath = System.getProperty("user.dir") + "\\JasperSample.jrxml";
-            JOptionPane.showMessageDialog(null, System.getProperty("user.dir"));
             String client = goodString(invoice_addressCombo.getSelectedItem().toString());
             StatementOfAccount soa = new StatementOfAccount();
             List<Invoices> collectionList = soa.GetStatementOfAccount(client);
