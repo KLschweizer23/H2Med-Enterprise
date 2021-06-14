@@ -77,6 +77,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         labelItem15 = new javax.swing.JLabel();
         collectionField = new javax.swing.JTextField();
         labelItem16 = new javax.swing.JLabel();
+        invoice_Update = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -347,6 +348,16 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        invoice_Update.setBackground(new java.awt.Color(255, 255, 255));
+        invoice_Update.setForeground(new java.awt.Color(0, 0, 0));
+        invoice_Update.setText("Update Invoice");
+        invoice_Update.setEnabled(false);
+        invoice_Update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                invoice_UpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -404,11 +415,13 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addGap(54, 54, 54)
                         .addComponent(invoice_Pay, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(invoice_Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(invoice_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,7 +480,8 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(invoice_Delete)
-                            .addComponent(invoice_Pay))
+                            .addComponent(invoice_Pay)
+                            .addComponent(invoice_Update))
                         .addGap(29, 29, 29))))
         );
 
@@ -514,7 +528,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         
         if(filledUp)
         {
-            if(!doesExist)
+            if(!(doesExist && invoice_status.getText().equals("Paid")))
             {
                 String payment = "";
                 boolean pass;
@@ -568,6 +582,60 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     private void invoice_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoice_DeleteActionPerformed
         deleteInvoice(currentInvoiceNumber, invoice_client.getText());
     }//GEN-LAST:event_invoice_DeleteActionPerformed
+
+    private void invoice_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoice_UpdateActionPerformed
+        boolean filledUp =
+                !collectionField.getText().isEmpty() &&
+                !dateField.getText().isEmpty() &&
+                !receivedField.getText().isEmpty() &&
+                !addressField.getText().isEmpty() &&
+                !sumField.getText().isEmpty() &&
+                !forField.getText().isEmpty() &&
+                !checkField.getText().isEmpty() &&
+                !bankField.getText().isEmpty()
+                ;
+        if(filledUp)
+        {
+            String payment = "";
+            boolean pass;
+            double pay = 0;
+            double currentOutstanding = Double.parseDouble(invoice_outstanding.getText().substring(2));
+            do
+            {
+                payment = JOptionPane.showInputDialog("Enter Value of Payment:");
+                if(payment == null)
+                {
+                    pass = true;
+                }
+                else
+                {
+                    pass = isANumber(payment);
+                    if(pass)
+                    {
+                        int result = JOptionPane.showConfirmDialog(null, "Payment is " + (char)8369 + " " + payment + ". Do you wish to Proceed?", "Confirming Data", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if(result == JOptionPane.YES_OPTION)
+                        {
+                            pay = Double.parseDouble(payment);
+                            if(pay > currentOutstanding)
+                            {
+                                JOptionPane.showMessageDialog(null, "Payment is too much!", "Invalid Payment", JOptionPane.ERROR_MESSAGE);
+                                pass = false;
+                            }
+                            else
+                            {
+                                processPaymentDetails(pay);
+                                updateCollectionDetails();
+                            }
+                        }
+                        else if (result == JOptionPane.NO_OPTION)
+                        {
+                            pass = false;
+                        }
+                    }
+                }
+            }while(!pass);
+        } else JOptionPane.showMessageDialog(null, "Please fill up all details before processing payment!");
+    }//GEN-LAST:event_invoice_UpdateActionPerformed
     private void deleteInvoice(int id, String address)
     {
         InvoiceDatabaseManager invoiceDb = new InvoiceDatabaseManager();
@@ -593,6 +661,25 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         try
         {
             collectionDb.insertData(cr, goodString(received), goodString(address), sum, goodString(payment), goodString(check), goodString(bank), goodString(date), currentInvoiceNumber);
+        }catch(Exception e){System.out.println(e);}
+    }
+    
+    private void updateCollectionDetails()
+    {
+        CollectionDatabaseManager collectionDb = new CollectionDatabaseManager();
+        
+        int cr = Integer.parseInt(collectionField.getText());
+        String date = dateField.getText();
+        String received = receivedField.getText();
+        String address = addressField.getText();
+        double sum = Double.parseDouble(sumField.getText());
+        String payment = forField.getText();
+        String check = checkField.getText();
+        String bank = bankField.getText();
+        
+        try
+        {
+            collectionDb.updateData(cr, goodString(received), goodString(address), sum, goodString(payment), goodString(check), goodString(bank), goodString(date), currentInvoiceNumber);
         }catch(Exception e){System.out.println(e);}
     }
     private void processPaymentDetails(double payment)
@@ -807,7 +894,6 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         invoice_outstanding.setText((char)8369 + " " + outstanding + "");
         invoice_paid.setText((char)8369 + " " + paid);
         invoice_status.setText(status);
-        
         if(isCash)
         {
             changeLabel.setText("Payment Method");
@@ -824,10 +910,16 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             invoice_dueDate.setText(due);
         }
         
-        prepareFields(client, status.length() <= 4);
+        prepareFields(client, !status.equals("Unpaid"));
         resizeColumnWidth(invoiceTable);
         setupTable(invoiceTable, Color.white, new Dimension(0,30), Color.black);
         updateTableData();
+        
+        boolean isPartial = status.equals("Partially Paid");
+        
+        enableField(status.equals("Paid"));
+        invoice_Pay.setEnabled(!isPartial);
+        invoice_Update.setEnabled(isPartial);
     }
     public void ShowFreakingError(String message)
     {
@@ -847,6 +939,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     private javax.swing.JLabel invoiceTitle;
     private javax.swing.JButton invoice_Delete;
     private javax.swing.JButton invoice_Pay;
+    private javax.swing.JButton invoice_Update;
     private javax.swing.JLabel invoice_client;
     private javax.swing.JLabel invoice_date;
     private javax.swing.JLabel invoice_dueDate;

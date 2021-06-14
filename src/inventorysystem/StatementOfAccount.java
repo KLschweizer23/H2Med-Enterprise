@@ -62,7 +62,8 @@ public class StatementOfAccount
                 inv.setAmount((char)8369 + " " + amount.get(j));
                 inv.setTotalAmount((char)8369 + " " + totalAmount.get(j));
                 OverAllTotalAmount += totalAmount.get(j);
-                allTotalAmount += OverAllTotalAmount;
+                allTotalAmount += totalAmount.get(j);
+                System.out.println(totalAmount.get(j) + " - " + OverAllTotalAmount + " -- " + allTotalAmount);
                 allList.add(inv);
             }
             allList.add(customInv("TOTAL", (char)8369 + " " + OverAllTotalAmount, false));

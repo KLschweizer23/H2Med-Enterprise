@@ -132,6 +132,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoiceTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(invoiceTable);
 
+        invoice_addressCombo.setBackground(new java.awt.Color(255, 255, 255));
         invoice_addressCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 invoice_addressComboActionPerformed(evt);
@@ -201,7 +202,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        printButton.setText("Print");
+        printButton.setBackground(new java.awt.Color(255, 255, 255));
+        printButton.setText("Statement Of Account");
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -228,7 +230,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
                         .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(printButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -306,7 +308,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
         try{
-            String reportPath = "D:\\Programming Workspaces\\Java - NetBeans 12.0 Workspace\\H2MED Business Software\\src\\inventorysystem\\JasperSample.jrxml";
+            String reportPath = System.getProperty("user.dir") + "\\src\\inventorysystem\\JasperSample.jrxml";
             String client = goodString(invoice_addressCombo.getSelectedItem().toString());
             StatementOfAccount soa = new StatementOfAccount();
             List<Invoices> collectionList = soa.GetStatementOfAccount(client);

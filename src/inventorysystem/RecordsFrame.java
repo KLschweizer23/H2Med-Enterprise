@@ -49,6 +49,8 @@ public class RecordsFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         purchaseTable = new javax.swing.JTable();
         supplierCombo = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
+        records_payValue = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -114,6 +116,14 @@ public class RecordsFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Amount To Pay");
+
+        records_payValue.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        records_payValue.setForeground(new java.awt.Color(0, 0, 0));
+        records_payValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        records_payValue.setText("0.00");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -122,19 +132,24 @@ public class RecordsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(records_payValue))
+                    .addComponent(jScrollPane2))
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(records_payValue)
+                    .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
@@ -147,7 +162,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(459, Short.MAX_VALUE)
+                .addContainerGap(480, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(440, 440, 440))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -207,6 +222,7 @@ public class RecordsFrame extends javax.swing.JFrame {
                 dtm2.removeRow(i - 1);
                 itemIdList.clear();
             }
+            processTotalAmount();
             updateTwoTables();
         }
     }//GEN-LAST:event_supplierComboActionPerformed
@@ -406,6 +422,16 @@ public class RecordsFrame extends javax.swing.JFrame {
         recordFrame.setLocation(x,y);
         setEnabled(false);
     }
+    private void processTotalAmount()
+    {
+        StockInDatabaseManager inDb = new StockInDatabaseManager();
+        String tot = "";
+        try
+        {
+            tot = inDb.getTotalAmount(goodString(supplierCombo.getSelectedItem().toString()));
+        }catch(Exception e){System.out.println(e);}
+        records_payValue.setText(tot);
+    }
     private void Popup(MouseEvent me, int num)
     {
         JPopupMenu sample = new JPopupMenu();
@@ -449,10 +475,7 @@ public class RecordsFrame extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent me)
             {
                 if(SwingUtilities.isRightMouseButton(me))
-                {
-                    int x = purchaseTable.getSelectedRow();
                     Popup(me, purchaseTable.getSelectedRow());
-                }
             }
         });
         resizeColumnWidth(purchaseTable);
@@ -460,6 +483,9 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
         setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
+        
+        processTotalAmount();
+        
         ready = true;
     }
     public void ShowFreakingError(String message)
@@ -468,6 +494,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -475,6 +502,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable purchaseTable;
+    private javax.swing.JLabel records_payValue;
     private javax.swing.JTable salesTable;
     private javax.swing.JComboBox<String> supplierCombo;
     // End of variables declaration//GEN-END:variables

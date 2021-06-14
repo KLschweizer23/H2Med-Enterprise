@@ -134,6 +134,18 @@ public class StockInDatabaseManager
         con.close();
         return distinctId;
     }
+    public String getTotalAmount(String client) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement totalQuery = con.prepareStatement("SELECT SUM(" + ITEM_QUANTITY + " * " + ITEM_COST + ") AS TOTAL FROM " + STOCK_IN_TABLE + " WHERE " + ITEM_SUPPLIER + " = '" + client + "' AND " + TRANSACTION_STATUS + " = 1;");
+        ResultSet result = totalQuery.executeQuery();
+        String resultString = "";
+        while(result.next())
+        {
+            resultString = result.getString("TOTAL");
+        }
+        return (char)8369 + " " + (resultString == null ? "0.00" : resultString); 
+    }
     public ArrayList<String> getIdList()
     {
         return this.idList;

@@ -97,6 +97,24 @@ public class CollectionDatabaseManager {
         processAllData();
     }
     
+    public void updateData(int _collection, String _received, String _address, double _sum, String _payment, String _check, String _bank, String _date, int _invoice) throws Exception
+    {
+        Connection con = getConnection();
+        PreparedStatement insertQuery = con.prepareStatement("UPDATE " + TABLE + " SET " + 
+                RECEIVED + " = '" + _received + "', " + 
+                ADDRESS + " = '" + _address + "', " + 
+                SUM_TOTAL + " = " + _sum + ", " +
+                PAYMENT_FOR + " = '" + _payment + "'," +
+                CHECK_NUM + " = '" + _check + "', " +
+                BANK + " = '" + _bank + "', " + 
+                CDATE + " = '" + _date + "' " + 
+                "WHERE " + COLLECTION + " = " + _collection + " AND " + INVOICE + " = " + _invoice
+                );
+        insertQuery.executeUpdate();
+        con.close();
+        processAllData();
+    }
+        
     public void getDataByReceipt(int _receiptNumber) throws Exception
     {
         Connection con = getConnection();
