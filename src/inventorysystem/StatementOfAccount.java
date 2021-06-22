@@ -126,7 +126,7 @@ public class StatementOfAccount
         {
             String addData = invoiceDb.getItemChequeList().get(i).charAt(0) == 'C' && invoiceDb.getItemDueDateList().get(i).charAt(0) == '-'
                     ? "Cash"
-                    : "Cheque # is " + invoiceDb.getItemChequeList().get(i) + " with due date on " + invoiceDb.getItemDueDateList().get(i)
+                    : "Cheque #: " + invoiceDb.getItemChequeList().get(i) + ", due on " + invoiceDb.getItemDueDateList().get(i)
                     ;
             details.add(addData);
         }

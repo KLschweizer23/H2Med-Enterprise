@@ -272,11 +272,11 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="6f157339-cd9d-4dfa-9426-bcb54b80d84f">
+					<jr:column width="70" uuid="6f157339-cd9d-4dfa-9426-bcb54b80d84f">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="80" height="30" uuid="54ba4b44-aa3f-465d-816e-eb6979d1ff4f"/>
+								<reportElement x="0" y="0" width="70" height="30" uuid="54ba4b44-aa3f-465d-816e-eb6979d1ff4f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -285,7 +285,7 @@
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="80" height="30" uuid="df1c1406-f156-4aec-ae4f-9d2ed0098ac8"/>
+								<reportElement x="0" y="0" width="70" height="30" uuid="df1c1406-f156-4aec-ae4f-9d2ed0098ac8"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -293,20 +293,20 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="3d2a2c5e-0348-43c6-97a4-c099b24c8df6">
+					<jr:column width="90" uuid="3d2a2c5e-0348-43c6-97a4-c099b24c8df6">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="80" height="30" uuid="11a12df7-2ae0-4f76-9390-22fb91abc642"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="11a12df7-2ae0-4f76-9390-22fb91abc642"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<text><![CDATA[Details]]></text>
+								<text><![CDATA[Mode of Transaction]]></text>
 							</staticText>
 						</jr:tableHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="80" height="30" uuid="ad06b4d5-db7f-4873-afe4-9a33d8936784"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="ad06b4d5-db7f-4873-afe4-9a33d8936784"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -394,7 +394,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{totalAmount}.equals("TOTAL") ? "<style isBold='true'>" + $F{totalAmount} + "</style>" : $F{totalAmount}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

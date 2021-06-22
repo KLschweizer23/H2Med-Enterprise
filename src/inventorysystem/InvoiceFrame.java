@@ -456,6 +456,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
         dueDateList = invoiceDatabaseManager.getItemDueDateList();
         collection = invoiceDatabaseManager.getCollection();
         
+        System.out.println(chequeNumberList + " - ");
+        
         invoiceNumberLocations.clear();
         distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
         
@@ -480,8 +482,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
             
             String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
                 distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
-                date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(i),
-                (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(i),
+                date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(invoiceNumberLocations.get(i)),
+                (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(invoiceNumberLocations.get(i)),
                 getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
             };
             dtm.addRow(rowData);
