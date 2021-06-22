@@ -732,18 +732,8 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         displayTable.setBackground(new java.awt.Color(255, 255, 255));
-        displayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            }, new String[]
-            {
-
-            }
-        ));
         displayTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        displayTable.setFillsViewportHeight(true);
         displayTable.setGridColor(new java.awt.Color(51, 204, 0));
         displayTable.setMaximumSize(new java.awt.Dimension(3, 3));
         displayTable.setSelectionBackground(new java.awt.Color(204, 0, 0));

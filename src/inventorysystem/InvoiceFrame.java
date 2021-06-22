@@ -26,8 +26,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 //Sample//
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -347,7 +345,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         {
             clientDb.processAllData();
             branchDb.processAllData();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){ShowFreakingError(e + "");}
         ArrayList<String> clientName = clientDb.getClientNameList();
         ArrayList<String> clientAddress = clientDb.getClientAddressList();
         ArrayList<String> branchName = branchDb.getBranchNameList();
@@ -682,6 +680,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
             updateTableData(MODE_PROCESS, invoice_filter.getText(), address);
         }catch(Exception e){ShowFreakingError(e + "- Error 0054");}
         invoiceTable.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent me)
             {
                 if(SwingUtilities.isRightMouseButton(me))

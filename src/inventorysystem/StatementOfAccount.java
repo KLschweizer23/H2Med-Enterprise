@@ -124,7 +124,7 @@ public class StatementOfAccount
         
         for(int i = 0; i < invoice.size(); i++)
         {
-            String addData = invoiceDb.getItemChequeList().get(i).charAt(i) == 'C' && invoiceDb.getItemDueDateList().get(i).charAt(i) == '-'
+            String addData = invoiceDb.getItemChequeList().get(i).charAt(0) == 'C' && invoiceDb.getItemDueDateList().get(i).charAt(0) == '-'
                     ? "Cash"
                     : "Cheque # is " + invoiceDb.getItemChequeList().get(i) + " with due date on " + invoiceDb.getItemDueDateList().get(i)
                     ;

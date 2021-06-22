@@ -7,10 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,6 +28,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class StockOutFrame extends javax.swing.JFrame {
 
@@ -50,6 +63,8 @@ public class StockOutFrame extends javax.swing.JFrame {
     ArrayList<String> newItemSupplierList = new ArrayList<>();
     ArrayList<String> newItemBrandList = new ArrayList<>();
     ArrayList<String> newItemArticleList = new ArrayList<>();
+    
+    HashMap<String, String> customerNameAddress = new HashMap<>();
     
     final private int MODE_PROCESS = 0;
     final private int MODE_FILTER_CATEGORY = 1;
@@ -434,7 +449,6 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         printButton.setBackground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print");
-        printButton.setEnabled(false);
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -720,41 +734,68 @@ public class StockOutFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_chequeRadioActionPerformed
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-        PrinterManager printerManager = new PrinterManager();
-        MainFrame main = new MainFrame();
 
-        ArrayList<Double> quantityList = new ArrayList<>();
-        ArrayList<String> itemList = new ArrayList<>();
-        ArrayList<String> descriptionList = new ArrayList<>();
-        ArrayList<Double> priceList = new ArrayList<>();
-
-        for(int i = 0; i < newTable.getRowCount(); i++)
+        try{
+            String reportPath = System.getProperty("user.dir") + "\\StockoutReport.jrxml";
+            String client = stockout_comboBox.getSelectedItem().toString();
+            
+            List<StockItems> collectionList = getStocks();
+            
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
+            
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("CollectionBeanParam", itemsJRBean);
+            parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
+            parameters.put("customerName", client);
+            parameters.put("customerAddress", customerNameAddress.get(client));
+            parameters.put("invoiceNumber", stockout_invoiceField.getText());
+            parameters.put("purchaseNumber", stockout_purchaseField.getText());
+            parameters.put("deliveryNumber", stockout_deliveryField.getText());
+            parameters.put("invoiceDate", monthCombo.getSelectedItem() + " " + dayCombo.getSelectedItem() + ", " + yearCombo.getSelectedItem());
+            if(cashRadio.isSelected())
+            {
+                parameters.put("method", "Cash");
+                parameters.put("chequeNumber", "");
+                parameters.put("dueDate", "");
+            }
+            else
+            {
+                parameters.put("method", "Post Dated Check");
+                parameters.put("chequeNumber", stockout_chequeField.getText());
+                parameters.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
+            }
+            
+            InputStream input = new FileInputStream(new File(reportPath));
+            JasperDesign jdesign = JRXmlLoader.load(input);
+            
+            
+            JasperReport jreport = JasperCompileManager.compileReport(jdesign);
+            JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
+            
+            JasperViewer.viewReport(jprint, false);
+        }catch(Exception ex)
         {
-            quantityList.add(Double.parseDouble(newTable.getValueAt(i, 6).toString()));
-            itemList.add(newTable.getValueAt(i, 1).toString());
-            String article = newTable.getValueAt(i, 2).toString().equals("None") ? "" : newTable.getValueAt(i,2).toString() + "-";
-            String brand = newTable.getValueAt(i, 3).toString().equals("None") ? "" : newTable.getValueAt(i,3).toString();
-            descriptionList.add(article + brand);
-            priceList.add(Double.parseDouble(newTable.getValueAt(i, 5).toString().substring(1)));
+            JOptionPane.showMessageDialog(null, ex);
         }
-        Map<String, String> data = new HashMap<String, String>();
-
-        data.put("invoice", stockout_invoiceField.getText());
-        data.put("purchase", stockout_purchaseField.getText());
-        data.put("delivery", stockout_deliveryField.getText());
-        data.put("invoiceDate", monthCombo.getSelectedItem() + " " + dayCombo.getSelectedItem() + ", " + yearCombo.getSelectedItem());
-        data.put("client", stockout_comboBox.getSelectedItem().toString());
-        data.put("mode", cashRadio.isSelected() + "");
-        data.put("cheque", stockout_chequeField.getText());
-        data.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
-
-        printerManager.openPrinterManager(quantityList, itemList, descriptionList, priceList, data);
-        int x = (main.getWidth() - printerManager.getWidth()) / 2;
-        int y = (main.getHeight() - printerManager.getHeight()) / 2;
-        printerManager.setLocation(x, y);
-        printerManager.setVisible(true);
     }//GEN-LAST:event_printButtonActionPerformed
-
+   
+    private ArrayList<StockItems> getStocks()
+    {
+        ArrayList<StockItems> itemsList = new ArrayList<>();
+        
+        for(int i = 0; i < dtm2.getRowCount(); i++)
+        {
+            StockItems items = new StockItems();
+            items.setQuantity(dtm2.getValueAt(i, 6).toString());
+            items.setItem(dtm2.getValueAt(i, 1).toString());
+            items.setUnitPrice(dtm2.getValueAt(i, 5).toString());
+            items.setTotalUnitPrice(dtm2.getValueAt(i, 7).toString());
+            items.setTotalAmount(labelPrice.getText());
+            itemsList.add(items);
+        }
+        return itemsList;
+    }
+    
     private void stockout_chequeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockout_chequeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stockout_chequeFieldActionPerformed
@@ -960,14 +1001,18 @@ public class StockOutFrame extends javax.swing.JFrame {
         
         ArrayList<String> branchNames = branchDatabaseManager.getBranchNameList();
         ArrayList<String> clientNames = clientDatabaseManager.getClientNameList();
+        ArrayList<String> branchAddress = branchDatabaseManager.getBranchAddressList();
+        ArrayList<String> clientAddress = clientDatabaseManager.getClientAddressList();
         
         for(int i = 0; i < branchNames.size(); i++)
         {
             listOfAddress.add(branchNames.get(i));
+            customerNameAddress.put(branchNames.get(i), branchAddress.get(i));
         }
         for(int i = 0; i < clientNames.size(); i++)
         {
             listOfAddress.add(clientNames.get(i));
+            customerNameAddress.put(clientNames.get(i), clientAddress.get(i));
         }
         
         for(int i = 0; i <listOfAddress.size(); i++)

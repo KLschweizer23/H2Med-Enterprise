@@ -498,7 +498,7 @@ public class Database_AddFrame extends javax.swing.JFrame {
             return true;
         }
     }
-        private boolean noErrorNumber(JTextField textField)
+    private boolean noErrorNumber(JTextField textField)
     {
         if(emptyChecker(textField.getText().trim().strip()) || !numberChecker(textField.getText().trim().strip()))
         {
