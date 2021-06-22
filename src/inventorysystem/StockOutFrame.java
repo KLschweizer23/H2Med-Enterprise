@@ -584,9 +584,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         return temp;
     }
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String quantity = "";
+        String quantity;
         boolean pass;
-        double newVal = 0;
+        double newVal;
         do
         {
             quantity = JOptionPane.showInputDialog("Enter quantity to Stock out:");
@@ -743,7 +743,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
             
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             parameters.put("CollectionBeanParam", itemsJRBean);
             parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
             parameters.put("customerName", client);
@@ -854,8 +854,9 @@ public class StockOutFrame extends javax.swing.JFrame {
     private void updateDate(JComboBox monthCombo, JComboBox dayCombo, JComboBox yearCombo, int selectedMonth)
     {
         String[] month = {"None", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        for(int i = 0; i < month.length; i++)
-            monthCombo.addItem(month[i]);
+        for (String month1 : month) {
+            monthCombo.addItem(month1);
+        }
         if(selectedMonth == 0)
         {
             dayCombo.addItem("None");
@@ -890,6 +891,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         //dtm = (DefaultTableModel) displayTable.getModel();
         dtm2 = new DefaultTableModel(0,0)
         {
+            @Override
             public boolean isCellEditable(int row, int column)
             {
                 return false;
@@ -910,6 +912,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         //dtm = (DefaultTableModel) displayTable.getModel();
         dtm = new DefaultTableModel(0,0)
         {
+            @Override
             public boolean isCellEditable(int row, int column)
             {
                 return false;
@@ -928,12 +931,19 @@ public class StockOutFrame extends javax.swing.JFrame {
     {
         itemDatabaseManager = new ItemDatabaseManager();
                 
-        if(mode == MODE_PROCESS)
-            itemDatabaseManager.processAllData(MODE_UNSORT);
-        else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
-        else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+        switch (mode) {
+            case MODE_PROCESS:
+                itemDatabaseManager.processAllData(MODE_UNSORT);
+                break;
+            case MODE_FILTER_CATEGORY:
+                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+                break;
+            case MODE_FILTER_SEARCH:
+                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+                break;
+            default:
+                break;
+        }
         
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
@@ -963,7 +973,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     }
     private String setFormat2(String date)
     {
-        String returnDate = "";
+        String returnDate;
         String splitDate [] = date.split("/");
         returnDate = splitDate[0] + "-" + splitDate[1] + "-" + splitDate[2];
         return returnDate;
@@ -987,7 +997,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     }    
     private void updateComboBox2()
     {
-        ArrayList<String> listOfAddress = new ArrayList<String>();
+        ArrayList<String> listOfAddress = new ArrayList<>();
         listOfAddress.clear();
         
         BranchDatabaseManager branchDatabaseManager = new BranchDatabaseManager();
@@ -1125,6 +1135,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0011");}
         
         newTable.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent me)
             {
                 if(SwingUtilities.isRightMouseButton(me))
@@ -1144,29 +1155,26 @@ public class StockOutFrame extends javax.swing.JFrame {
         double cost = newItemCostList.get(num);
         JPopupMenu sample = new JPopupMenu();
         JMenuItem adjust = new JMenuItem("New Price");
-        adjust.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                String returnVal = JOptionPane.showInputDialog("Enter new Price:");
-                if(returnVal != null)
+        adjust.addActionListener((ActionEvent arg0) -> {
+            String returnVal = JOptionPane.showInputDialog("Enter new Price:");
+            if(returnVal != null)
+            {
+                if(isANumber(returnVal))
                 {
-                    if(isANumber(returnVal))
+                    double returnValDouble = Double.parseDouble(returnVal);
+                    
+                    if(cost < returnValDouble)
                     {
-                        double returnValDouble = Double.parseDouble(returnVal);
-                        
-                        if(cost < returnValDouble)
-                        {
-                            newItemPriceList.set(num, returnValDouble);
-                            newTable.setValueAt((char)8369 + "" + returnValDouble + "", num, 5);
-                            newTable.setValueAt((char)8369 + "" + (returnValDouble * newItemStockOutList.get(num)), num, 7);
-                            processStockStats();
-                        }
-                        else
-                            JOptionPane.showMessageDialog(null, "Price is too low than Item's Cost!", "Invalid Cost Value", JOptionPane.WARNING_MESSAGE);
+                        newItemPriceList.set(num, returnValDouble);
+                        newTable.setValueAt((char)8369 + "" + returnValDouble + "", num, 5);
+                        newTable.setValueAt((char)8369 + "" + (returnValDouble * newItemStockOutList.get(num)), num, 7);
+                        processStockStats();
                     }
                     else
-                        JOptionPane.showMessageDialog(null, "Please input a proper value!", "Invalid Cost Value!", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Price is too low than Item's Cost!", "Invalid Cost Value", JOptionPane.WARNING_MESSAGE);
                 }
+                else
+                    JOptionPane.showMessageDialog(null, "Please input a proper value!", "Invalid Cost Value!", JOptionPane.WARNING_MESSAGE);
             }
         });
         sample.add(adjust);
