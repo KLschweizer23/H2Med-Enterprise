@@ -9,8 +9,17 @@
             <file>file:/D:/Programming%20Workspaces/Java%20-%20NetBeans%2012.0%20Workspace/InventorySystem/src/inventorysystem/DatabaseFrame.java</file>
         </group>
         <group>
+<<<<<<< HEAD
             <file>file:/D:/Programming%20Workspaces/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/MainFrame.java</file>
             <file>file:/D:/Programming%20Workspaces/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/SalesFrame.java</file>
+=======
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/InvoiceFrame.java</file>
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/MainFrame.java</file>
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/DatabaseFrame.java</file>
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/StockOutFrame.java</file>
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/InvoiceDatabaseManager.java</file>
+            <file>file:/D:/H2MED/Java%20-%20NetBeans%2012.0%20Workspace/H2MED%20Business%20Software/src/inventorysystem/StatementOfAccount.java</file>
+>>>>>>> d9858e660de0d77ffe13869ae7172fe68e8222fa
         </group>
     </open-files>
 </project-private>

@@ -844,7 +844,6 @@ public class MainFrame extends javax.swing.JFrame {
         int x = (getWidth() - stockInFrame.getWidth()) / 2;
         int y = (getHeight() - stockInFrame.getHeight()) / 2;
         stockInFrame.setLocation(x,y);
-        myFrame.setEnabled(false);
     }//GEN-LAST:event_button_main_stockInActionPerformed
 
     private void main_button_stockOutTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_stockOutTransferActionPerformed
@@ -854,7 +853,6 @@ public class MainFrame extends javax.swing.JFrame {
         int x = (getWidth() - stockOutFrame.getWidth()) / 2;
         int y = (getHeight() - stockOutFrame.getHeight()) / 2;
         stockOutFrame.setLocation(x,y);
-        myFrame.setEnabled(false);
     }//GEN-LAST:event_main_button_stockOutTransferActionPerformed
 
     private void main_button_recordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_recordsActionPerformed
@@ -862,7 +860,6 @@ public class MainFrame extends javax.swing.JFrame {
         recordsFrame.openRecordsFrame(this);
         recordsFrame.setVisible(true);
         recordsFrame.setLocation((int)(getWidth() - recordsFrame.getWidth()) / 2, (int)(getHeight() - recordsFrame.getHeight()) / 2);
-        setEnabled(false);
     }//GEN-LAST:event_main_button_recordsActionPerformed
 
     private void main_button_databaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_databaseActionPerformed
@@ -872,7 +869,6 @@ public class MainFrame extends javax.swing.JFrame {
         int x = (getWidth() - databaseFrame.getWidth()) / 2;
         int y = (getHeight() - databaseFrame.getHeight()) / 2;
         databaseFrame.setLocation(x,y);
-        setEnabled(false);
     }//GEN-LAST:event_main_button_databaseActionPerformed
 
     private void main_searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_main_searchBarKeyReleased
@@ -898,7 +894,6 @@ public class MainFrame extends javax.swing.JFrame {
         int x = (getWidth() - invoiceFrame.getWidth()) / 2;
         int y = (getHeight() - invoiceFrame.getHeight()) / 2;
         invoiceFrame.setLocation(x,y);
-        myFrame.setEnabled(false);
     }//GEN-LAST:event_main_button_invoicesesActionPerformed
 
     private void main_button_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_salesActionPerformed
@@ -908,7 +903,6 @@ public class MainFrame extends javax.swing.JFrame {
         int x = (getWidth() - salesFrame.getWidth()) / 2;
         int y = (getHeight() - salesFrame.getHeight()) / 2;
         salesFrame.setLocation(x,y);
-        setEnabled(false);
     }//GEN-LAST:event_main_button_salesActionPerformed
     /**
      * @param args the command line arguments

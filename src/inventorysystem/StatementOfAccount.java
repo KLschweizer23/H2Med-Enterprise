@@ -30,6 +30,7 @@ public class StatementOfAccount
     {
         //Get All The Invoice Numbers (Distinct)
         invoices = getDistinctInvoices();
+        System.out.println(invoices + "--invoices");
         //Get Data Per Invoice Number
         for(int i = 0; i < invoices.size(); i++)
         {
@@ -122,7 +123,7 @@ public class StatementOfAccount
         delivery = invoiceDb.getDeliveryNumberList();
         dateOfInvoice = invoiceDb.getInvoiceDateList();
         
-        for(int i = 0; i < invoice.size(); i++)
+        for(int i = 0; invoice != null && i < invoice.size(); i++)
         {
             String addData = invoiceDb.getItemChequeList().get(i).charAt(0) == 'C' && invoiceDb.getItemDueDateList().get(i).charAt(0) == '-'
                     ? "Cash"

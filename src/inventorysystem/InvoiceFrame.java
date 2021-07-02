@@ -311,11 +311,11 @@ public class InvoiceFrame extends javax.swing.JFrame {
             StatementOfAccount soa = new StatementOfAccount();
             List<Invoices> collectionList = soa.GetStatementOfAccount(client);
             
-            
+            System.out.println(collectionList.get(0) + "--assd");
             
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
             
-            Map<String, Object> parameters = new HashMap<String, Object>();
+            Map<String, Object> parameters = new HashMap<>();
             parameters.put("CollectionBeanParam", itemsJRBean);
             parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
             parameters.put("clientName", invoice_addressCombo.getSelectedItem().toString());
