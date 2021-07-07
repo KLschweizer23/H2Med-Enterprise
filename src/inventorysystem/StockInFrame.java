@@ -603,7 +603,7 @@ public class StockInFrame extends javax.swing.JFrame {
             StockInDatabaseManager stockInDatabaseManager = new StockInDatabaseManager();
             String newStockInIdValue = "";
             try {
-                newStockInIdValue = "" + stockInDatabaseManager.getDistinctId().size() + 1;
+                newStockInIdValue = stockInDatabaseManager.getDistinctId().size() + "";
             }catch (Exception e) {ShowFreakingError("" + e + " - Error 0009");} 
 
             if (this.newTable.getRowCount() > 0) 

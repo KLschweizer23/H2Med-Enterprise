@@ -68,6 +68,10 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
         resizeColumnWidth(displayTable);
         main_searchBar.requestFocus();
+                
+        AlarmDialog alarm = new AlarmDialog(this, false, false);
+        boolean hasNotif = alarm.hasNotification();
+        alarmButton.setIcon(getScaledImageIcon("alarm_" + hasNotif + ".png", 25, 25));
     }
     private void updateStatus()
     {
@@ -136,6 +140,11 @@ public class MainFrame extends javax.swing.JFrame {
         wing2.setIcon(getScaledImageIcon("h2med_sidewings2.png", (w / 2) + w, w));
         
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png")).getImage());
+        alarmButton.setIcon(getScaledImageIcon("alarm_false.png", 25, 25));
+        
+        alarmButton.setOpaque(false);
+        alarmButton.setContentAreaFilled(false);
+        alarmButton.setBorderPainted(false);
     }
     private String displayableString(String string)
     {
@@ -161,14 +170,15 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();
-                iterate(button, model.isRollover(), icon);
+                iterate(button, model, icon);
             }
         });
     }
-    private void iterate(JButton button, boolean hover, String icon)
+    private void iterate(JButton button, ButtonModel model, String icon)
     {
         Thread t = new Thread()
         {
+            @Override
             public void run()
             {
                 int r_color = 0;
@@ -179,9 +189,9 @@ public class MainFrame extends javax.swing.JFrame {
                 int g = button.getBackground().getGreen();
                 int b = button.getBackground().getBlue();
                 
-                int r_goal = hover ? r_color : 255;
-                int g_goal = hover ? g_color : 255;
-                int b_goal = hover ? b_color : 255;
+                int r_goal = model.isRollover() ? r_color : 255;
+                int g_goal = model.isRollover() ? g_color : 255;
+                int b_goal = model.isRollover() ? b_color : 255;
                 
                 int counts = 10;
                 
@@ -189,7 +199,7 @@ public class MainFrame extends javax.swing.JFrame {
                 int g_step = (g - g_goal) / counts;
                 int b_step = (b - b_goal) / counts;
                 
-                if(hover)
+                if(model.isRollover())
                     button.setIcon(getScaledImageIcon("2" + icon, 30, 30));
                 else
                     button.setIcon(getScaledImageIcon(icon, 30, 30));
@@ -206,16 +216,17 @@ public class MainFrame extends javax.swing.JFrame {
                     
                     SwingUtilities.invokeLater(new Runnable()
                     {
+                        @Override
                         public void run()
                         {
                             button.setBackground(new Color(_r,_g,_b));
-                            button.setForeground(hover ? Color.white : Color.black);
+                            button.setForeground(model.isRollover() ? Color.white : Color.black);
                         }
                     });
                     try
                     {
                         Thread.sleep(20);
-                    }catch(InterruptedException e){}
+                    }catch(InterruptedException e){System.out.println(e);}
                     counts--;
                 }
             }
@@ -242,6 +253,7 @@ public class MainFrame extends javax.swing.JFrame {
     {
         dtm = new DefaultTableModel(0,0)
         {
+            @Override
             public boolean isCellEditable(int row, int column)
             {
                 return false;
@@ -356,6 +368,7 @@ public class MainFrame extends javax.swing.JFrame {
     //CLASSES
     class backPanelGradient extends JPanel
     {
+        @Override
         protected void paintComponent(Graphics g)
         {
             Graphics2D g2d = (Graphics2D) g;
@@ -433,6 +446,7 @@ public class MainFrame extends javax.swing.JFrame {
         main_searchBar = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        alarmButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("H2Med Enterprise Software");
@@ -528,6 +542,11 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                        .addGap(174, 174, 174)
+                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(132, 132, 132))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(button_main_stockIn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -539,12 +558,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(main_button_sales, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                        .addGap(174, 174, 174)
-                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(132, 132, 132)
+                        .addComponent(main_button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -561,7 +576,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(main_button_database)
                     .addComponent(main_button_invoices)
                     .addComponent(main_button_sales))
-                .addContainerGap())
+                .addGap(5, 5, 5))
             .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -655,32 +670,27 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7)
-                            .addComponent(sales1)
-                            .addComponent(sales2)
-                            .addComponent(sales3)
-                            .addComponent(outstanding1)
-                            .addComponent(outstanding2)
-                            .addComponent(outstanding3)
-                            .addComponent(jLabel11)
-                            .addComponent(least1)
-                            .addComponent(least2)
-                            .addComponent(least3)
-                            .addComponent(jLabel15)
-                            .addComponent(most1)
-                            .addComponent(most2)
-                            .addComponent(most3))
-                        .addGap(0, 248, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
-                            .addComponent(invoice1)
-                            .addComponent(invoice2)
-                            .addComponent(invoice3))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(sales1)
+                    .addComponent(jLabel7)
+                    .addComponent(sales2)
+                    .addComponent(sales3)
+                    .addComponent(outstanding1)
+                    .addComponent(outstanding2)
+                    .addComponent(outstanding3)
+                    .addComponent(jLabel11)
+                    .addComponent(least1)
+                    .addComponent(least2)
+                    .addComponent(least3)
+                    .addComponent(jLabel15)
+                    .addComponent(most1)
+                    .addComponent(most2)
+                    .addComponent(most3)
+                    .addComponent(jLabel19)
+                    .addComponent(invoice1)
+                    .addComponent(invoice2)
+                    .addComponent(invoice3)
+                    .addComponent(jLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,13 +735,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(most2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(most3)
-                .addContainerGap(263, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        displayTable.setBackground(new java.awt.Color(255, 255, 255));
         displayTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         displayTable.setFillsViewportHeight(true);
         displayTable.setGridColor(new java.awt.Color(51, 204, 0));
@@ -742,7 +751,6 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(displayTable);
         displayTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        main_searchBar.setBackground(new java.awt.Color(255, 255, 255));
         main_searchBar.setToolTipText("Enter keyword");
         main_searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -750,7 +758,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -760,6 +767,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 8)); // NOI18N
         //ImageIcon imageIcon = new ImageIcon(new ImageIcon("filter.png").getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));
         //jLabel2.setIcon(imageIcon);
+
+        alarmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alarmButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -772,20 +785,26 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(main_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(alarmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 235, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(main_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(main_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(alarmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)))
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -904,6 +923,14 @@ public class MainFrame extends javax.swing.JFrame {
         int y = (getHeight() - salesFrame.getHeight()) / 2;
         salesFrame.setLocation(x,y);
     }//GEN-LAST:event_main_button_salesActionPerformed
+
+    private void alarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alarmButtonActionPerformed
+        AlarmDialog alarm = new AlarmDialog(this, true, true);
+        int x = (getWidth() - alarm.getWidth()) / 2;
+        int y = (getHeight() - alarm.getHeight()) / 2;
+        alarm.setLocation(x,y);
+        alarm.setVisible(true);
+    }//GEN-LAST:event_alarmButtonActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -915,6 +942,7 @@ public class MainFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -948,6 +976,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton alarmButton;
     private javax.swing.JButton button_main_stockIn;
     private javax.swing.JTable displayTable;
     private javax.swing.JLabel invoice1;

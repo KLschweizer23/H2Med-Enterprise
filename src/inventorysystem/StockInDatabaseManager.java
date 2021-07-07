@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StockInDatabaseManager 
 {
@@ -145,6 +146,37 @@ public class StockInDatabaseManager
             resultString = result.getString("TOTAL");
         }
         return (char)8369 + " " + (resultString == null ? "0.00" : resultString); 
+    }
+    public HashMap<String, ArrayList<String>> getIncomingInvoices() throws Exception
+    {
+        String[] keys = {"Dist_Id", "Total", ITEM_SUPPLIER, TRANSACTION_METHOD, TRANSACTION_STATUS, ITEM_DATE_IN, TRANSACTION_DUE};
+        
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT DISTINCT(STOCK_IN_ID) AS Dist_Id, SUM(ITEM_COST * ITEM_STOCKIN) AS Total, ITEM_SUPPLIER,TRANSACTION_METHOD,TRANSACTION_STATUS, ITEM_DATE_IN,TRANSACTION_DUE FROM stockintable WHERE TRANSACTION_STATUS = 1 GROUP BY STOCK_IN_ID;");
+        ResultSet result = getQuery.executeQuery();
+        
+        HashMap<String, ArrayList<String>> incomingInvoices = new HashMap<>();
+        ArrayList<String> distIdList, totalList, supplierList, methodList, statusList, dateInList, dueList;
+        
+        ArrayList[] list = 
+        {
+            distIdList = new ArrayList<>(),
+            totalList = new ArrayList<>(),
+            supplierList = new ArrayList<>(),
+            methodList = new ArrayList<>(),
+            statusList = new ArrayList<>(),
+            dateInList = new ArrayList<>(),
+            dueList = new ArrayList<>()
+        };
+        
+        while(result.next())
+        {
+            for(int i = 0; i < keys.length; i++)
+                list[i].add(result.getString(keys[i]));
+        }
+        for(int i = 0; i < list.length; i++)
+            incomingInvoices.put(keys[i], list[i]);
+        return incomingInvoices;
     }
     public ArrayList<String> getIdList()
     {

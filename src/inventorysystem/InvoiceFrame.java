@@ -456,8 +456,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
         dueDateList = invoiceDatabaseManager.getItemDueDateList();
         collection = invoiceDatabaseManager.getCollection();
         
-        System.out.println(chequeNumberList + " - ");
-        
         invoiceNumberLocations.clear();
         distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
         
