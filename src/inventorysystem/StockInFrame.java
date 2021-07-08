@@ -4,11 +4,17 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,6 +29,15 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class StockInFrame extends javax.swing.JFrame {
     
@@ -90,6 +105,7 @@ public class StockInFrame extends javax.swing.JFrame {
         dayCombo1 = new javax.swing.JComboBox<>();
         yearCombo1 = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
+        purchaseButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         oldTable = new javax.swing.JTable();
@@ -137,7 +153,7 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel18.setText("/");
 
         confirmButton.setBackground(new java.awt.Color(255, 255, 255));
-        confirmButton.setText("Confirm");
+        confirmButton.setText("Confirm Stock In Items");
         confirmButton.setFocusable(false);
         confirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -229,6 +245,15 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel25.setText("/");
 
+        purchaseButton.setBackground(new java.awt.Color(255, 255, 255));
+        purchaseButton.setText("Create Purchase Order");
+        purchaseButton.setFocusable(false);
+        purchaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -236,36 +261,32 @@ public class StockInFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addGap(27, 27, 27)
-                            .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
-                            .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel17)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(20, 20, 20)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(labelItem)
-                                        .addComponent(labelCost))))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel11))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(27, 27, 27)
+                        .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelItem)
+                                    .addComponent(labelCost))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel11)))
+                    .addComponent(cashRadio, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(chequeRadio))
@@ -281,9 +302,14 @@ public class StockInFrame extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(cashRadio, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(confirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,7 +338,7 @@ public class StockInFrame extends javax.swing.JFrame {
                         .addComponent(dayCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelItem)
                     .addComponent(jLabel11))
@@ -323,7 +349,9 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(103, 103, 103)
                 .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -486,8 +514,8 @@ public class StockInFrame extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -512,6 +540,7 @@ public class StockInFrame extends javax.swing.JFrame {
             {
                 updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(), categoryCombo.getSelectedItem().toString());
             }catch(Exception e){ShowFreakingError(e + " Error 0048");}
+            resizeColumnWidth(oldTable);
         }
     }//GEN-LAST:event_supplierComboActionPerformed
 
@@ -677,6 +706,55 @@ public class StockInFrame extends javax.swing.JFrame {
     private void yearComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboActionPerformed
         yearCombo1.setSelectedItem(yearCombo.getSelectedItem());
     }//GEN-LAST:event_yearComboActionPerformed
+
+    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
+
+        try{
+            SupplierDatabaseManager sDb = new SupplierDatabaseManager();
+            String reportPath = System.getProperty("user.dir") + "\\PurchaseReport.jrxml";
+            String supplier = supplierCombo.getSelectedItem().toString();
+            
+            List<StockItems> collectionList = getItems();
+            
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
+            
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("CollectionBeanParam", itemsJRBean);
+            parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
+            parameters.put("supplierName", supplier);
+            parameters.put("supplierAddress", sDb.getAddressByName(supplier));
+            parameters.put("dateOfRequest", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
+            
+            InputStream input = new FileInputStream(new File(reportPath));
+            JasperDesign jdesign = JRXmlLoader.load(input);
+            
+            
+            JasperReport jreport = JasperCompileManager.compileReport(jdesign);
+            JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
+            
+            JasperViewer.viewReport(jprint, false);
+        }catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_purchaseButtonActionPerformed
+    private ArrayList<StockItems> getItems()
+    {
+        ArrayList<StockItems> itemsList = new ArrayList<>();
+        
+        for(int i = 0; i < dtm2.getRowCount(); i++)
+        {
+            StockItems item = new StockItems();
+            
+            item.setItem(dtm2.getValueAt(i, 1).toString());
+            item.setArticle(dtm2.getValueAt(i, 2).toString());
+            item.setBrand(dtm2.getValueAt(i, 3).toString());
+            item.setQuantity(dtm2.getValueAt(i, 5).toString());
+            
+            itemsList.add(item);
+        }
+        return itemsList;
+    }
     private void radioActivation(boolean bool)
     {
         bool = !bool;
@@ -707,6 +785,7 @@ public class StockInFrame extends javax.swing.JFrame {
 
         newTable.setRowHeight(30);
         processStocksStats(cashRadio.isSelected());
+        resizeColumnWidth(newTable);
     }
 
     private void processStocksStats(boolean isCash) 
@@ -1012,8 +1091,9 @@ public class StockInFrame extends javax.swing.JFrame {
         setupTable(newTable, Color.white, new Dimension(0, 30), Color.black);
         addButton.setIcon(getScaledImageIcon("plus_icon.png", 30, 30));
         minusButton.setIcon(getScaledImageIcon("minus_icon.png",30,30));
+        resizeColumnWidth(oldTable);
+        resizeColumnWidth(newTable);
         ready = true;
-        
     }
   
   public void ShowFreakingError(String message) {
@@ -1052,6 +1132,7 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> monthCombo1;
     private javax.swing.JTable newTable;
     private javax.swing.JTable oldTable;
+    private javax.swing.JButton purchaseButton;
     private javax.swing.JTextField stockIn_searchBar;
     private javax.swing.JTextField stockin_chequeField;
     private javax.swing.JComboBox<String> supplierCombo;

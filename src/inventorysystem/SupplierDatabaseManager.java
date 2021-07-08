@@ -102,6 +102,23 @@ public class SupplierDatabaseManager
         }
         return allData;
     }
+    public String getAddressByName(String name)
+    {
+        String address = "";
+        try
+        {
+        Connection con = getConnection();
+        PreparedStatement allQuery = con.prepareStatement("SELECT " + ADDRESS + " FROM " + suppliertable + " WHERE " + NAME + " = '" + name + "'");
+        ResultSet result = allQuery.executeQuery();
+        while(result.next())
+        {
+            address = result.getString(ADDRESS);
+        }
+        con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return address;
+    }
     public ArrayList<Integer> getIdList()
     {
         return this.idList;

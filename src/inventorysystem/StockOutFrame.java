@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -432,7 +434,6 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         printButton.setBackground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print");
-        printButton.setEnabled(false);
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -445,7 +446,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 11, -1, 54));
 
         hasDue.setSelected(true);
-        hasDue.setText("Make Due Date");
+        hasDue.setText("has Due Date");
         hasDue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hasDueActionPerformed(evt);
@@ -761,7 +762,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
             
             JasperViewer.viewReport(jprint, false);
-        }catch(Exception ex)
+        }catch(FileNotFoundException | JRException ex)
         {
             JOptionPane.showMessageDialog(null, ex);
         }
@@ -987,7 +988,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             categoryCombo.addItem(listOfCat.get(i));
         }
     }    
-    private void updateComboBox2()
+    public void updateComboBox2()
     {
         ArrayList<String> listOfAddress = new ArrayList<>();
         listOfAddress.clear();

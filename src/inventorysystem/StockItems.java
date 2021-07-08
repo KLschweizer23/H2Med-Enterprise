@@ -6,6 +6,8 @@ public class StockItems {
     private String unitPrice;
     private String totalUnitPrice;
     private String totalAmount;
+    private String article;
+    private String brand;
 
     public String getQuantity() {
         return quantity;
@@ -45,5 +47,21 @@ public class StockItems {
 
     public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }
