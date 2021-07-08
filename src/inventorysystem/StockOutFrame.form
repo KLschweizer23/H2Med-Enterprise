@@ -620,6 +620,7 @@
         <Component class="javax.swing.JTextField" name="stockout_chequeField">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stockout_chequeFieldActionPerformed"/>
@@ -657,7 +658,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="922" y="298" width="80" height="20"/>
+              <AbsoluteConstraints x="930" y="320" width="80" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -675,7 +676,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1033" y="299" width="70" height="-1"/>
+              <AbsoluteConstraints x="1040" y="320" width="70" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -688,7 +689,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1113" y="298" width="10" height="20"/>
+              <AbsoluteConstraints x="1120" y="320" width="10" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -703,7 +704,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1123" y="298" width="60" height="-1"/>
+              <AbsoluteConstraints x="1130" y="320" width="60" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -721,7 +722,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1207" y="299" width="80" height="-1"/>
+              <AbsoluteConstraints x="1210" y="320" width="80" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -734,7 +735,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1193" y="298" width="10" height="20"/>
+              <AbsoluteConstraints x="1200" y="320" width="10" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -765,6 +766,20 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="536" y="11" width="-1" height="54"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="hasDue">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Make Due Date"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hasDueActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="900" y="300" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

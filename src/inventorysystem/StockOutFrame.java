@@ -132,6 +132,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        hasDue = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Out");
@@ -151,7 +152,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        categoryCombo.setBackground(new java.awt.Color(255, 255, 255));
         categoryCombo.setForeground(new java.awt.Color(255, 255, 255));
         categoryCombo.setFocusable(false);
         categoryCombo.setRequestFocusEnabled(false);
@@ -162,7 +162,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(categoryCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 83, 160, -1));
 
-        stockOut_searchBar.setBackground(new java.awt.Color(255, 255, 255));
         stockOut_searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 stockOut_searchBarFocusLost(evt);
@@ -187,8 +186,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        newTable.setBackground(new java.awt.Color(255, 255, 255));
-        newTable.setForeground(new java.awt.Color(0, 0, 0));
         newTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -229,8 +226,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        oldTable.setBackground(new java.awt.Color(255, 255, 255));
-        oldTable.setForeground(new java.awt.Color(0, 0, 0));
         oldTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -250,7 +245,6 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 800, 210));
 
-        stockout_comboBox.setBackground(new java.awt.Color(255, 255, 255));
         stockout_comboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stockout_comboBoxActionPerformed(evt);
@@ -333,7 +327,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel18.setText("/");
         jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1117, 199, 10, 20));
 
-        monthCombo.setBackground(java.awt.Color.white);
         monthCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthComboActionPerformed(evt);
@@ -341,7 +334,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(monthCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1043, 200, 70, -1));
 
-        dayCombo.setBackground(java.awt.Color.white);
         jPanel2.add(dayCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1131, 200, 60, -1));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
@@ -352,7 +344,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel20.setText("Purchase Order #");
         jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 143, -1, 20));
 
-        stockout_purchaseField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_purchaseField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         stockout_purchaseField.setText("000");
         jPanel2.add(stockout_purchaseField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1147, 145, 140, -1));
@@ -361,12 +352,10 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel21.setText("Delivery Receipt #");
         jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 115, -1, 20));
 
-        stockout_deliveryField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_deliveryField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         stockout_deliveryField.setText("000");
         jPanel2.add(stockout_deliveryField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1147, 117, 140, -1));
 
-        supplierCombo.setBackground(new java.awt.Color(255, 255, 255));
         supplierCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supplierComboActionPerformed(evt);
@@ -384,7 +373,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(cashRadio, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 248, -1, 20));
 
-        stockout_invoiceField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_invoiceField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         stockout_invoiceField.setText("000");
         jPanel2.add(stockout_invoiceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1147, 173, 140, -1));
@@ -398,8 +386,8 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(chequeRadio, new org.netbeans.lib.awtextra.AbsoluteConstraints(901, 268, -1, 20));
 
-        stockout_chequeField.setBackground(new java.awt.Color(255, 255, 255));
         stockout_chequeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        stockout_chequeField.setEnabled(false);
         stockout_chequeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stockout_chequeFieldActionPerformed(evt);
@@ -407,7 +395,6 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(stockout_chequeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1133, 270, 154, -1));
 
-        yearCombo.setBackground(java.awt.Color.white);
         yearCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yearComboActionPerformed(evt);
@@ -417,34 +404,31 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel23.setText("Due Date");
-        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(922, 298, 80, 20));
+        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 320, 80, 20));
 
-        monthCombo1.setBackground(java.awt.Color.white);
         monthCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthCombo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(monthCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1033, 299, 70, -1));
+        jPanel2.add(monthCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 320, 70, -1));
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel24.setText("/");
-        jPanel2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(1113, 298, 10, 20));
+        jPanel2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 320, 10, 20));
 
-        dayCombo1.setBackground(java.awt.Color.white);
-        jPanel2.add(dayCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1123, 298, 60, -1));
+        jPanel2.add(dayCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 320, 60, -1));
 
-        yearCombo1.setBackground(java.awt.Color.white);
         yearCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yearCombo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(yearCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1207, 299, 80, -1));
+        jPanel2.add(yearCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 320, 80, -1));
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel25.setText("/");
-        jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(1193, 298, 10, 20));
+        jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 320, 10, 20));
 
         printButton.setBackground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print");
@@ -459,6 +443,15 @@ public class StockOutFrame extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel8.setText("Item Stock-Out");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(536, 11, -1, 54));
+
+        hasDue.setSelected(true);
+        hasDue.setText("Make Due Date");
+        hasDue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hasDueActionPerformed(evt);
+            }
+        });
+        jPanel2.add(hasDue, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 300, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -499,8 +492,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                 {
                     invoiceDatabaseManager.processDistinctNumbers(goodString(stockout_comboBox.getSelectedItem().toString()));
                     didInvoiceExist = invoiceDatabaseManager.checkInvoiceIfExist(Integer.parseInt(stockout_invoiceField.getText()));
-                    didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
-                    didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
+//                    didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
+//                    didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
                 }catch(Exception e){ShowFreakingError(e + " - Error 0034");}
 
                 if(!didInvoiceExist)
@@ -562,8 +555,8 @@ public class StockOutFrame extends javax.swing.JFrame {
         int purchaseNumber = Integer.parseInt(stockout_purchaseField.getText());
         String address = goodString(stockout_comboBox.getSelectedItem().toString());
         String invoice_date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex()+ "-" + dayCombo.getSelectedItem();
-        String cheque = cashRadio.isSelected() ? "Cash" : stockout_chequeField.getText();
-        String dueDate = cashRadio.isSelected() ? "- - / - -" : yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem();
+        String cheque = chequeRadio.isSelected() ? stockout_chequeField.getText() :  "Cash";
+        String dueDate = hasDue.isSelected() ? yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem() : "N/A";
         for(int i = 0; i < items.size(); i++)
         {
             try
@@ -720,11 +713,12 @@ public class StockOutFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_yearCombo1ActionPerformed
 
     private void cashRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashRadioActionPerformed
-        radioActivation(true);
+        stockout_chequeField.setEnabled(false);
     }//GEN-LAST:event_cashRadioActionPerformed
 
     private void chequeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chequeRadioActionPerformed
-        radioActivation(false);
+        hasDue.setSelected(true);
+        stockout_chequeField.setEnabled(true);
     }//GEN-LAST:event_chequeRadioActionPerformed
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
@@ -750,7 +744,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             {
                 parameters.put("method", "Cash");
                 parameters.put("chequeNumber", "");
-                parameters.put("dueDate", "");
+                parameters.put("dueDate", hasDue.isSelected() ? monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem() : "N/A");
             }
             else
             {
@@ -793,15 +787,19 @@ public class StockOutFrame extends javax.swing.JFrame {
     private void stockout_chequeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockout_chequeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stockout_chequeFieldActionPerformed
+
+    private void hasDueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasDueActionPerformed
+        radioActivation(hasDue.isSelected());
+    }//GEN-LAST:event_hasDueActionPerformed
     private void radioActivation(boolean bool)
     {
-        stockout_chequeField.setEnabled(!bool);
-        jLabel23.setEnabled(!bool);
-        yearCombo1.setEnabled(!bool);
-        jLabel24.setEnabled(!bool);
-        monthCombo1.setEnabled(!bool);
-        jLabel25.setEnabled(!bool);
-        dayCombo1.setEnabled(!bool);
+        boolean isSelected = bool;
+        jLabel23.setEnabled(isSelected);
+        yearCombo1.setEnabled(isSelected);
+        jLabel24.setEnabled(isSelected);
+        monthCombo1.setEnabled(isSelected);
+        jLabel25.setEnabled(isSelected);
+        dayCombo1.setEnabled(isSelected);
     }
     private void addToOtherTable(int number, double newQuantity)
     {
@@ -1187,6 +1185,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JButton confirmButton;
     private javax.swing.JComboBox<String> dayCombo;
     private javax.swing.JComboBox<String> dayCombo1;
+    private javax.swing.JCheckBox hasDue;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

@@ -47,7 +47,6 @@ public class SystemStatusManager
         for(int i = 0; i < invoiceNum.size(); i++)
         {
             String concatinatedString = "Invoice #" + invoiceNum.get(i) + " from " + address.get(i) + ", started " + getDetailedAging(dayInterval(today, dates.get(i)));
-            System.out.println(concatinatedString);
             allData.add(concatinatedString);
         }
         

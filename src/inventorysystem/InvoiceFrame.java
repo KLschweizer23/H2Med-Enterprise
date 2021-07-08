@@ -311,8 +311,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
             StatementOfAccount soa = new StatementOfAccount();
             List<Invoices> collectionList = soa.GetStatementOfAccount(client);
             
-            System.out.println(collectionList.get(0) + "--assd");
-            
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
             
             Map<String, Object> parameters = new HashMap<>();
@@ -353,18 +351,12 @@ public class InvoiceFrame extends javax.swing.JFrame {
         for(int i = 0; i < clientName.size();i++)
         {
             if(clientName.get(i).equals(address))
-            {
-                System.out.println(clientName.get(i));
                 return clientAddress.get(i);
-            }
         }
         for(int i = 0; i < branchName.size();i++)
         {
             if(branchName.get(i).equals(address))
-            {
-                System.out.println(branchName.get(i));
                 return branchAddress.get(i);
-            }
         }
         return "";
     }

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InvoiceDatabaseManager 
 {
@@ -325,31 +326,36 @@ public class InvoiceDatabaseManager
         
         return hasExist;
     }
-    public boolean checkDeliveryIfExist(int checkId) throws Exception
+    public HashMap<String, ArrayList<String>> getOutgoingInvoices() throws Exception
     {
-        int listSize = distinctDeliveryNumber.size();
-        boolean hasExist = false;
+        String[] keys = {ID, INVOICE_NUMBER, DELIVERY_NUMBER, PURCHASE_NUMBER, ADDRESS, INVOICE_DATE, CHEQUE_NUMBER, DUE_DATE, "Total"};
         
-        for(int i = 0; i < listSize; i++)
+        Connection con = getConnection();
+        PreparedStatement getQuery = con.prepareStatement("SELECT *, SUM(PRICE * QUANTITY) AS Total FROM invoicetable WHERE INVOICE_STATUS = 0 GROUP BY ADDRESS, INVOICE_NUMBER;");
+        ResultSet result = getQuery.executeQuery();
+        
+        HashMap<String, ArrayList<String>> incomingInvoices = new HashMap<>();
+        ArrayList<String> idList, iList, dList, pList, addList, invDateList, chequeList, dueList, totalList;
+        
+        ArrayList[] list = 
         {
-            if(checkId == distinctDeliveryNumber.get(i))
-                hasExist = true;
-        }
+            idList = new ArrayList<>(),
+            iList = new ArrayList<>(),
+            dList = new ArrayList<>(),
+            pList = new ArrayList<>(),
+            addList = new ArrayList<>(),
+            invDateList = new ArrayList<>(),
+            chequeList = new ArrayList<>(),
+            dueList = new ArrayList<>(),
+            totalList = new ArrayList<>()
+        };
         
-        return hasExist;
-    }
-    public boolean checkPurchaseIfExist(int checkId) throws Exception
-    {
-        int listSize = distinctPurchaseNumber.size();
-        boolean hasExist = false;
-        
-        for(int i = 0; i < listSize; i++)
-        {
-            if(checkId == distinctPurchaseNumber.get(i))
-                hasExist = true;
-        }
-        
-        return hasExist;
+        while(result.next())
+            for(int i = 0; i < keys.length; i++)
+                list[i].add(result.getString(keys[i]));
+        for(int i = 0; i < list.length; i++)
+            incomingInvoices.put(keys[i], list[i]);
+        return incomingInvoices;
     }
     public ArrayList<Integer> getIdList()
     {

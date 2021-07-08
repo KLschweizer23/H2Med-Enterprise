@@ -68,10 +68,6 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
         resizeColumnWidth(displayTable);
         main_searchBar.requestFocus();
-                
-        AlarmDialog alarm = new AlarmDialog(this, false, false);
-        boolean hasNotif = alarm.hasNotification();
-        alarmButton.setIcon(getScaledImageIcon("alarm_" + hasNotif + ".png", 25, 25));
     }
     private void updateStatus()
     {
@@ -903,6 +899,9 @@ public class MainFrame extends javax.swing.JFrame {
         {
             updateTableData(MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0005");}
+        AlarmDialog alarm = new AlarmDialog(this, false, false);
+        boolean hasNotif = alarm.hasNotification();
+        alarmButton.setIcon(getScaledImageIcon("alarm_" + hasNotif + ".png", 25, 25));
         updateStatus();
     }//GEN-LAST:event_formWindowActivated
 
