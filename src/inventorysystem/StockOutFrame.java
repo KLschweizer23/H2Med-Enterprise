@@ -434,6 +434,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         printButton.setBackground(new java.awt.Color(255, 255, 255));
         printButton.setText("Print");
+        printButton.setEnabled(false);
         printButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printButtonActionPerformed(evt);
@@ -485,66 +486,69 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             if(monthCombo.getSelectedIndex() != 0)
             {
-                itemDatabaseManager = new ItemDatabaseManager();
-                StockOutDatabaseManager stockOutDatabaseManager = new StockOutDatabaseManager();
-                InvoiceDatabaseManager invoiceDatabaseManager = new InvoiceDatabaseManager();
-                boolean didInvoiceExist = false, didDeliveryExist = false, didPurchaseExist = false;
-                try
+                if((hasDue.isSelected() && monthCombo1.getSelectedIndex() != 0) || !hasDue.isSelected())
                 {
-                    invoiceDatabaseManager.processDistinctNumbers(goodString(stockout_comboBox.getSelectedItem().toString()));
-                    didInvoiceExist = invoiceDatabaseManager.checkInvoiceIfExist(Integer.parseInt(stockout_invoiceField.getText()));
-//                    didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
-//                    didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
-                }catch(Exception e){ShowFreakingError(e + " - Error 0034");}
-
-                if(!didInvoiceExist)
-                {
-                    String newStockOutIdValue = "";
+                    itemDatabaseManager = new ItemDatabaseManager();
+                    StockOutDatabaseManager stockOutDatabaseManager = new StockOutDatabaseManager();
+                    InvoiceDatabaseManager invoiceDatabaseManager = new InvoiceDatabaseManager();
+                    boolean didInvoiceExist = false, didDeliveryExist = false, didPurchaseExist = false;
                     try
                     {
-                        newStockOutIdValue = stockOutDatabaseManager.getDistinctId().size() + 1 + "";
-                    }catch(Exception e){ShowFreakingError(e + " - Error 0013");}
+                        invoiceDatabaseManager.processDistinctNumbers(goodString(stockout_comboBox.getSelectedItem().toString()));
+                        didInvoiceExist = invoiceDatabaseManager.checkInvoiceIfExist(Integer.parseInt(stockout_invoiceField.getText()));
+    //                    didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
+    //                    didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
+                    }catch(Exception e){ShowFreakingError(e + " - Error 0034");}
 
-                    if(newTable.getRowCount() > 0)
+                    if(!didInvoiceExist)
                     {
-                        Object[] options = {"Confirm", "Cancel"};
-                        JPanel panel = new JPanel();
-                        panel.add(new JLabel ("Please confirm to proceed!"));
-                        int result = JOptionPane.showOptionDialog(null, panel, "Confirm Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                            null, options, null);
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-                        LocalDateTime now = LocalDateTime.now();  
-                        String date = setFormat2(dtf.format(now));
-                        if(result == JOptionPane.YES_OPTION)
+                        String newStockOutIdValue = "";
+                        try
                         {
-                            for(int i = 0; i < newTable.getRowCount(); i++)
+                            newStockOutIdValue = stockOutDatabaseManager.getDistinctId().size() + 1 + "";
+                        }catch(Exception e){ShowFreakingError(e + " - Error 0013");}
+
+                        if(newTable.getRowCount() > 0)
+                        {
+                            Object[] options = {"Confirm", "Cancel"};
+                            JPanel panel = new JPanel();
+                            panel.add(new JLabel ("Please confirm to proceed!"));
+                            int result = JOptionPane.showOptionDialog(null, panel, "Confirm Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                                null, options, null);
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+                            LocalDateTime now = LocalDateTime.now();  
+                            String date = setFormat2(dtf.format(now));
+                            if(result == JOptionPane.YES_OPTION)
                             {
-                                int id = Integer.parseInt(newItemIdList.get(i));
-                                double newVal = newItemStockOutList.get(i);
-                                double quantityLeft = newItemQuantityList.get(i);
-                                double cost = newItemCostList.get(i);
-                                double price = newItemPriceList.get(i);
-                                String supplier = newItemSupplierList.get(i);
+                                for(int i = 0; i < newTable.getRowCount(); i++)
+                                {
+                                    int id = Integer.parseInt(newItemIdList.get(i));
+                                    double newVal = newItemStockOutList.get(i);
+                                    double quantityLeft = newItemQuantityList.get(i);
+                                    double cost = newItemCostList.get(i);
+                                    double price = newItemPriceList.get(i);
+                                    String supplier = newItemSupplierList.get(i);
+                                    try
+                                    {
+                                        itemDatabaseManager.updateQuantityById(id, quantityLeft);
+                                        itemDatabaseManager.addStockOutById(id, newVal);
+                                        stockOutDatabaseManager.insertData(newStockOutIdValue, id + "", newVal, date, goodString(stockout_comboBox.getSelectedItem().toString()),cost, price, goodString(supplier));
+                                    }catch(Exception e){ShowFreakingError(e + " - Error 0014");}
+                                }
                                 try
                                 {
-                                    itemDatabaseManager.updateQuantityById(id, quantityLeft);
-                                    itemDatabaseManager.addStockOutById(id, newVal);
-                                    stockOutDatabaseManager.insertData(newStockOutIdValue, id + "", newVal, date, goodString(stockout_comboBox.getSelectedItem().toString()),cost, price, goodString(supplier));
-                                }catch(Exception e){ShowFreakingError(e + " - Error 0014");}
+                                    insertInvoice(newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
+                                    SalesDatabaseManager salesDB = new SalesDatabaseManager();
+                                    salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
+                                }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
+
+                                confirmButton.setEnabled(false);
+                                printButton.setEnabled(true);
+
                             }
-                            try
-                            {
-                                insertInvoice(newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
-                                SalesDatabaseManager salesDB = new SalesDatabaseManager();
-                                salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
-                            }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
-
-                            confirmButton.setEnabled(false);
-                            printButton.setEnabled(true);
-
-                        }
-                    }else JOptionPane.showMessageDialog(null, "No data to Stock Out!");
-                }else JOptionPane.showMessageDialog(null, "Invoice Number already exists!");
+                        }else JOptionPane.showMessageDialog(null, "No data to Stock Out!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }else JOptionPane.showMessageDialog(null, "Invoice Number already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }else JOptionPane.showMessageDialog(null, "Please set the Due Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             }else JOptionPane.showMessageDialog(null, "Please set the date!", "Warning", JOptionPane.WARNING_MESSAGE);
         }else JOptionPane.showMessageDialog(null, "No clients Available!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_confirmButtonActionPerformed
@@ -750,7 +754,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             else
             {
                 parameters.put("method", "Post Dated Check");
-                parameters.put("chequeNumber", stockout_chequeField.getText());
+                parameters.put("chequeNumber", "#" + stockout_chequeField.getText());
                 parameters.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
             }
             
@@ -988,7 +992,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             categoryCombo.addItem(listOfCat.get(i));
         }
     }    
-    public void updateComboBox2()
+    public void updateComboBox2(boolean getDataOnly)
     {
         ArrayList<String> listOfAddress = new ArrayList<>();
         listOfAddress.clear();
@@ -1018,10 +1022,14 @@ public class StockOutFrame extends javax.swing.JFrame {
             customerNameAddress.put(clientNames.get(i), clientAddress.get(i));
         }
         
-        for(int i = 0; i <listOfAddress.size(); i++)
+        for(int i = 0; i <listOfAddress.size() && !getDataOnly; i++)
         {
             stockout_comboBox.addItem(listOfAddress.get(i));
         }
+    }
+    public String getCustomernameAddress(String client)
+    {
+        return this.customerNameAddress.get(client);
     }
     private void updateComboBox3()
     {
@@ -1111,7 +1119,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         myFrame = main;
         initComponents();
         updateComboBox3();
-        updateComboBox2();
+        updateComboBox2(false);
         updateComboBox();
         createColumns();
         createColumns2();

@@ -200,7 +200,7 @@ h2med.lezil@gmail.com]]></text>
 				<reportElement x="290" y="120" width="250" height="40" uuid="e8403a23-7b91-4ae9-aa7d-18b5fbf3f86f"/>
 			</rectangle>
 			<textField>
-				<reportElement x="295" y="125" width="113" height="32" uuid="d0fdcf09-2588-4347-8c52-81ce9ee43bba">
+				<reportElement x="295" y="125" width="113" height="16" uuid="d0fdcf09-2588-4347-8c52-81ce9ee43bba">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
@@ -214,11 +214,11 @@ h2med.lezil@gmail.com]]></text>
 				<textFieldExpression><![CDATA[$P{chequeNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="435" y="141" width="100" height="16" uuid="f48c09e1-6f74-43ba-aba0-758f44ddf911">
+				<reportElement x="295" y="141" width="100" height="16" uuid="f48c09e1-6f74-43ba-aba0-758f44ddf911">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{dueDate}]]></textFieldExpression>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Due on " + $P{dueDate}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="104" width="120" height="16" uuid="1ec6f636-7669-4c03-8c6e-c5e3c2b0ec02">
@@ -236,7 +236,7 @@ h2med.lezil@gmail.com]]></text>
 				<textElement verticalAlignment="Bottom">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Method of Transaction]]></text>
+				<text><![CDATA[Transaction Details]]></text>
 			</staticText>
 		</band>
 	</title>

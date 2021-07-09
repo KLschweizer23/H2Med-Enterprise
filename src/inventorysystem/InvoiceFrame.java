@@ -620,7 +620,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         int collection = Integer.parseInt(invoiceTable.getValueAt(selected, 0).toString());
         
         String method = invoiceTable.getValueAt(selected, 7).toString();
-        String dueDate = invoiceTable.getValueAt(selected, 11).toString();
+        String dueDate = invoiceTable.getValueAt(selected, 10).toString();
         
         boolean isCash = method.toLowerCase().charAt(0) == 'c';
          
