@@ -750,11 +750,19 @@ public class StockInFrame extends javax.swing.JFrame {
             //JOptionPane.showMessageDialog(null, unitPrice + " = " + dtm2.getValueAt(i, 6).toString() + " / " + dtm2.getValueAt(i, 5).toString());
             item.setUnitPrice(unitPrice + "");
             item.setTotalUnitPrice(dtm2.getValueAt(i, 6).toString());
-            item.setTotalAmount(labelCost.getText());
+            item.setTotalAmount(returnGoodNumber(labelCost.getText()));
             
             itemsList.add(item);
         }
         return itemsList;
+    }
+    private String returnGoodNumber(String num)
+    {
+        int returnPoint = num.length();
+        for(int i = 0; i < num.length(); i++)
+            if(num.charAt(i) == '.' && (i + 3) < returnPoint)
+                return num.substring(0, i + 2);
+        return num;
     }
     private void radioActivation(boolean bool)
     {
