@@ -11,6 +11,7 @@ public class Invoices
     private String item;
     private String amount;
     private String totalAmount;
+    private String finalAmount;
 
     public String getInvoice() {
         return invoice;
@@ -82,5 +83,13 @@ public class Invoices
 
     public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getFinalAmount() {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(String finalAmount) {
+        this.finalAmount = finalAmount;
     }
 }

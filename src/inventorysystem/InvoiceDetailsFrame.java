@@ -695,7 +695,8 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             boolean isCash = labelMethod.getText().toLowerCase().equals("cash");
             parameters.put("method", isCash ? "Cash" : "Post Dated Check");
             parameters.put("chequeNumber", isCash ? "" :  "#" + labelMethod.getText());
-            parameters.put("dueDate", invoice_dueDate.getText());
+            char c = invoice_dueDate.getText().charAt(0);
+            parameters.put("dueDate", c == '-' || c == 'N' ? "None" : invoice_dueDate.getText());
             InputStream input = new FileInputStream(new File(reportPath));
             JasperDesign jdesign = JRXmlLoader.load(input);
             

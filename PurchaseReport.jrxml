@@ -73,6 +73,9 @@
 		<field name="item" class="java.lang.String"/>
 		<field name="article" class="java.lang.String"/>
 		<field name="brand" class="java.lang.String"/>
+		<field name="unitPrice" class="java.lang.String"/>
+		<field name="totalUnitPrice" class="java.lang.String"/>
+		<field name="totalAmount" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="CollectionBeanParam" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="logo" class="java.lang.String"/>
@@ -139,7 +142,7 @@ h2med.lezil@gmail.com]]></text>
 				<textElement>
 					<font size="15"/>
 				</textElement>
-				<text><![CDATA[Vendor:]]></text>
+				<text><![CDATA[Supplier:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="20" y="144" width="140" height="16" uuid="f2f2cdd4-1b15-4c1f-8387-7004b4e00adf">
@@ -191,7 +194,7 @@ h2med.lezil@gmail.com]]></text>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="227" splitType="Stretch">
+		<band height="107" splitType="Stretch">
 			<componentElement>
 				<reportElement x="10" y="5" width="530" height="90" uuid="5bdfd20e-648c-4882-b20c-7605d023ff78">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -306,7 +309,13 @@ h2med.lezil@gmail.com]]></text>
 								<text><![CDATA[TOTAL]]></text>
 							</staticText>
 						</jr:tableFooter>
-						<jr:detailCell style="Table_TD" height="30"/>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="afc855ec-412e-4f15-9faa-3e50ecfc695e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="ff92c5c0-1db2-4727-8b22-2b582218c92e">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
@@ -319,71 +328,23 @@ h2med.lezil@gmail.com]]></text>
 								<text><![CDATA[Amount]]></text>
 							</staticText>
 						</jr:tableHeader>
-						<jr:tableFooter style="Table_TH" height="30" rowSpan="1"/>
-						<jr:detailCell style="Table_TD" height="30"/>
+						<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="4069df0b-3053-4bec-b8e2-2cfa4bcdea5b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="ed728de7-b735-4b8d-bb70-79b320ce454e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{totalUnitPrice}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<staticText>
-				<reportElement x="60" y="140" width="100" height="16" uuid="6c793d8f-f3a7-4619-b6ef-09c9957e3b38">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Requester's Name:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="60" y="173" width="120" height="1" uuid="f2e76126-21e0-4464-b47b-4ecec584abfd">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-			</line>
-			<staticText>
-				<reportElement x="60" y="180" width="120" height="16" uuid="cf655bf8-778a-4e6d-9e66-b62c977c0712">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Requester's Signature:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="60" y="213" width="120" height="1" uuid="87bb468b-7321-4dc0-af58-462622925dc9">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-			</line>
-			<staticText>
-				<reportElement x="370" y="140" width="100" height="16" uuid="49da492c-8003-4d3c-bcde-e83583e0d864">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Vendor's Name:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="370" y="173" width="120" height="1" uuid="14c1c430-95ed-4377-a52d-a75108206acd">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-			</line>
-			<staticText>
-				<reportElement x="370" y="180" width="100" height="16" uuid="71124bb1-1e9a-4f45-aa54-3b036d87d475">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[Vendor's Signature:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="370" y="213" width="120" height="1" uuid="1d139aea-f186-4480-9433-9cee59ffdf63">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-			</line>
 		</band>
 	</detail>
 	<columnFooter>
@@ -412,31 +373,91 @@ h2med.lezil@gmail.com]]></text>
 		</band>
 	</pageFooter>
 	<lastPageFooter>
-		<band height="94">
+		<band height="219">
 			<staticText>
-				<reportElement x="0" y="31" width="550" height="18" uuid="434a92c0-b43c-4be7-9c24-d5c477217055"/>
+				<reportElement x="0" y="141" width="550" height="18" uuid="434a92c0-b43c-4be7-9c24-d5c477217055"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Should you have any enquiries concerning this request, please contact the following information below:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="2" y="50" width="550" height="1" uuid="9c519558-d2d9-4163-85d3-558b0c9d0831">
+				<reportElement x="2" y="160" width="550" height="1" uuid="9c519558-d2d9-4163-85d3-558b0c9d0831">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="1" y="51" width="550" height="43" uuid="af8ed8df-ccb3-4f11-8416-e276ee8eeaf4"/>
+				<reportElement x="1" y="161" width="550" height="43" uuid="af8ed8df-ccb3-4f11-8416-e276ee8eeaf4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Prk. 7, Brgy. Ising, Carmen, Davao del Norte, 8100
 09071807417/09352920126
 h2med.lezil@gmail.com]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="10" width="550" height="21" uuid="74109e69-42e0-40c4-9569-39dafefa9e9c"/>
+				<reportElement x="0" y="120" width="550" height="21" uuid="74109e69-42e0-40c4-9569-39dafefa9e9c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[Thank you for your business!]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="60" y="10" width="100" height="16" uuid="7d375bda-445c-414c-b127-7cd80e310966">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Prepared by:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="60" y="43" width="120" height="1" uuid="d8a04707-09fe-45f6-831f-bef31f483cd3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="60" y="50" width="120" height="16" uuid="e68d27d6-68c5-4daa-8cdf-9e2d9f770ea0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Approved by:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="60" y="83" width="120" height="1" uuid="df58decb-81e7-4991-9958-a7a1d0378c7d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="370" y="10" width="100" height="16" uuid="7aa856fa-5c4f-43fc-a3df-019506ac4b0c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Supplier's Name:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="370" y="43" width="120" height="1" uuid="f3741430-eee6-45ea-9b42-2f8921c6c9c5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="370" y="50" width="100" height="16" uuid="88eac4a0-406f-42da-9c98-9c730a8da130">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Supplier's Signature:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="370" y="83" width="120" height="1" uuid="2bdb6b71-0d1d-4086-a17a-8894d3d24f9a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
 		</band>
 	</lastPageFooter>
 	<summary>

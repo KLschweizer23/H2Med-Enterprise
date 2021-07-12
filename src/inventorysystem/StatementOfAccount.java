@@ -30,7 +30,6 @@ public class StatementOfAccount
     {
         //Get All The Invoice Numbers (Distinct)
         invoices = getDistinctInvoices();
-        System.out.println(invoices + "--invoices");
         //Get Data Per Invoice Number
         for(int i = 0; i < invoices.size(); i++)
         {
@@ -42,33 +41,16 @@ public class StatementOfAccount
             invFirst.setDelivery(delivery.get(0) + "");
             invFirst.setDateOfInvoice(goodDate(dateOfInvoice.get(0)));
             invFirst.setDetails(details.get(0));
-            invFirst.setQuantity("");
-            invFirst.setItem("");
-            invFirst.setAmount("");
-            invFirst.setTotalAmount("");
-            allList.add(invFirst);
             
             double OverAllTotalAmount = 0;
             
             for(int j = 0; j < invoice.size(); j++)
             {
-                Invoices inv = new Invoices();
-                inv.setInvoice("");
-                inv.setPurchase("");
-                inv.setDelivery("");
-                inv.setDateOfInvoice("");
-                inv.setDetails("");
-                inv.setQuantity(quantity.get(j) + "");
-                inv.setItem(item.get(j));
-                inv.setAmount((char)8369 + " " + amount.get(j));
-                inv.setTotalAmount((char)8369 + " " + totalAmount.get(j));
                 OverAllTotalAmount += totalAmount.get(j);
                 allTotalAmount += totalAmount.get(j);
-                System.out.println(totalAmount.get(j) + " - " + OverAllTotalAmount + " -- " + allTotalAmount);
-                allList.add(inv);
             }
-            allList.add(customInv("TOTAL", (char)8369 + " " + OverAllTotalAmount, false));
-            allList.add(customInv("- - / - -", "- - / - -", true));
+            invFirst.setTotalAmount((char)8369 + " " + OverAllTotalAmount);
+            allList.add(invFirst);
         }
     }
     private String goodDate(String date)
@@ -86,21 +68,6 @@ public class StatementOfAccount
             case 10: month = "Oct"; break; case 11: month = "Nov"; break; case 12: month = "Dec"; break;
         }
         return month + " " + day + ", " + years;
-    }
-    private Invoices customInv(String totalString, String Total, boolean isBlank)
-    {
-        Invoices blank = new Invoices();
-        String x = isBlank ? "- - / - -" : "";
-        blank.setInvoice(x);
-        blank.setPurchase(x);
-        blank.setDelivery(x);
-        blank.setDateOfInvoice(x);
-        blank.setDetails(x);
-        blank.setQuantity(x);
-        blank.setItem(x);
-        blank.setAmount(totalString);
-        blank.setTotalAmount(Total);
-        return blank;
     }
     private void processData(int invoiceId)
     {
