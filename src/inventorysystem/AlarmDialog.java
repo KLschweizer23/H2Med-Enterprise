@@ -97,7 +97,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         try
         {
             list = invoiceDb.getOutgoingInvoices();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e + " 100 ");}
         String[] keys = {
             "ID",
             "INVOICE_NUMBER", 
@@ -135,7 +135,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         try
         {
             list = inDb.getIncomingInvoices();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e + " 138 ");}
         String[] keys = {
             "Dist_Id", 
             "Total", 
@@ -322,7 +322,7 @@ public class AlarmDialog extends javax.swing.JDialog {
                 LocalDate todayDate = LocalDate.parse(currentDate, dtf);
                 LocalDate dueDate = LocalDate.parse(setProperDate(duedate), dtf);
                 daysBetween = ChronoUnit.DAYS.between(todayDate, dueDate);
-            } catch(Exception e){System.out.println(e);}
+            } catch(Exception e){System.out.println(e + " 325 ");}
         return daysBetween;
     }
     private String setProperDate(String date)

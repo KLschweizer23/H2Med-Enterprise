@@ -65,7 +65,7 @@ public class StockInFrame extends javax.swing.JFrame {
     private final int MODE_PROCESS = 0;
     private final int MODE_FILTER_CATEGORY = 1;
     private final int MODE_FILTER_SEARCH = 2;
-
+    
     private final int MODE_UNSORT = 1;
   
     DefaultTableModel dtm;
@@ -746,6 +746,11 @@ public class StockInFrame extends javax.swing.JFrame {
             item.setArticle(dtm2.getValueAt(i, 2).toString());
             item.setBrand(dtm2.getValueAt(i, 3).toString());
             item.setQuantity(dtm2.getValueAt(i, 5).toString());
+            double unitPrice = Double.parseDouble(dtm2.getValueAt(i, 6).toString()) / Double.parseDouble(dtm2.getValueAt(i, 5).toString());
+            //JOptionPane.showMessageDialog(null, unitPrice + " = " + dtm2.getValueAt(i, 6).toString() + " / " + dtm2.getValueAt(i, 5).toString());
+            item.setUnitPrice(unitPrice + "");
+            item.setTotalUnitPrice(dtm2.getValueAt(i, 6).toString());
+            item.setTotalAmount(labelCost.getText());
             
             itemsList.add(item);
         }
@@ -773,9 +778,9 @@ public class StockInFrame extends javax.swing.JFrame {
         newItemStockInList.add(newQuantity);
         String[] rowData = {newTable.getRowCount() + 1 + "", itemNameList.get(number), itemArticleList.get(number),
             itemBrandList.get(number), itemSupplierList.get(number), "" + newQuantity, 
-            "" + newQuantity * (itemCostList.get(number))
+            (newQuantity * (Double.parseDouble(dtm.getValueAt(oldTable.getSelectedRow(), 6).toString().substring(2)))) + ""
         };
-        dtm2.addRow((Object[])rowData);
+        dtm2.addRow(rowData);
         if (newTable.getRowCount() >= 1)
             newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1); 
 
@@ -791,14 +796,12 @@ public class StockInFrame extends javax.swing.JFrame {
             double totalItem = newItemIdList.size();
             double totalCost = 0.0;
             for (int i = 0; i < newItemTotalCostList.size(); i++)
-                totalCost += (newItemTotalCostList.get(i)); 
+                totalCost += newItemTotalCostList.get(i); 
             labelItem.setText("" + totalItem);
             labelCost.setText("" + totalCost);
-            
+                    
             for(int i = 0; i < newItemStockInList.size(); i++)
-            {
-                newTable.setValueAt(newItemStockInList.get(i), i, 6);
-            }
+                newTable.setValueAt(newItemTotalCostList.get(i), i, 6);
         }
         else
         {

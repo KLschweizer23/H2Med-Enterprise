@@ -48,7 +48,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
     
     DefaultTableModel dtm;
     
-    ArrayList<Integer> invoiceIdList;
+    ArrayList<Integer> invoiceIdList = new ArrayList<>();
     ArrayList<Integer> invoiceNumberList;
     ArrayList<String> itemList;
     ArrayList<Double> costList;
@@ -130,7 +130,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoiceTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(invoiceTable);
 
-        invoice_addressCombo.setBackground(new java.awt.Color(255, 255, 255));
         invoice_addressCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 invoice_addressComboActionPerformed(evt);
@@ -160,11 +159,9 @@ public class InvoiceFrame extends javax.swing.JFrame {
         jLabel15.setText("Paid");
 
         invoice_outstanding.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        invoice_outstanding.setForeground(new java.awt.Color(0, 0, 0));
         invoice_outstanding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         invoice_outstanding.setText("0.00");
 
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("Outstanding");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -228,7 +225,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
                         .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(printButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -252,7 +249,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
                             .addComponent(printButton)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -433,54 +430,56 @@ public class InvoiceFrame extends javax.swing.JFrame {
             invoiceDatabaseManager.filterBySearch(goodString(keyword), goodString(address));
         
         invoiceIdList = invoiceDatabaseManager.getIdList();
-        invoiceNumberList = invoiceDatabaseManager.getInvoiceNumberList();
-        itemList = invoiceDatabaseManager.getItemsList();
-        costList = invoiceDatabaseManager.getCostList();
-        priceList = invoiceDatabaseManager.getPriceList();
-        quantityList = invoiceDatabaseManager.getQuantityList();
-        addressList = invoiceDatabaseManager.getAddressList();
-        paidList = invoiceDatabaseManager.getPaidList();
-        invoiceDateList = invoiceDatabaseManager.getInvoiceDateList();
-        invoiceStatusList = invoiceDatabaseManager.getInvoiceStatusList();
-        deliveryNumberList = invoiceDatabaseManager.getDeliveryNumberList();
-        purchaseNumberList = invoiceDatabaseManager.getPurchaseNumberList();
-        chequeNumberList = invoiceDatabaseManager.getItemChequeList();
-        dueDateList = invoiceDatabaseManager.getItemDueDateList();
-        collection = invoiceDatabaseManager.getCollection();
-        
-        invoiceNumberLocations.clear();
-        distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
-        
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-        LocalDate now = LocalDate.now();  
-        String today = setFormat(dtf.format(now));
         
         dtm.setRowCount(0);
-        
         double currentTotalPrice = 0, currentTotalPaid = 0;
         
-        for(int i = 0; i < distinctInvoiceNumberList.size(); i++)
+        if(invoiceIdList.size() > 0)
         {
-            String date = invoiceDateList.get(invoiceNumberLocations.get(i));
-            long dayInterval = dayInterval(today, date);
-            date = changeDateFormat(date);
-            double currentPrice = getTotalPrice(distinctInvoiceNumberList.get(i));
-            double currentPaid = paidList.get(invoiceNumberLocations.get(i));
-            
-            currentTotalPrice += currentPrice;
-            currentTotalPaid += currentPaid;
-            
-            String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
-                distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
-                date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(invoiceNumberLocations.get(i)),
-                (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(invoiceNumberLocations.get(i)),
-                getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
-            };
-            dtm.addRow(rowData);
+            invoiceNumberList = invoiceDatabaseManager.getInvoiceNumberList();
+            itemList = invoiceDatabaseManager.getItemsList();
+            costList = invoiceDatabaseManager.getCostList();
+            priceList = invoiceDatabaseManager.getPriceList();
+            quantityList = invoiceDatabaseManager.getQuantityList();
+            addressList = invoiceDatabaseManager.getAddressList();
+            paidList = invoiceDatabaseManager.getPaidList();
+            invoiceDateList = invoiceDatabaseManager.getInvoiceDateList();
+            invoiceStatusList = invoiceDatabaseManager.getInvoiceStatusList();
+            deliveryNumberList = invoiceDatabaseManager.getDeliveryNumberList();
+            purchaseNumberList = invoiceDatabaseManager.getPurchaseNumberList();
+            chequeNumberList = invoiceDatabaseManager.getItemChequeList();
+            dueDateList = invoiceDatabaseManager.getItemDueDateList();
+            collection = invoiceDatabaseManager.getCollection();
+
+            invoiceNumberLocations.clear();
+            distinctInvoiceNumberList = makeDistinct(invoiceNumberList);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+            LocalDate now = LocalDate.now();  
+            String today = setFormat(dtf.format(now));
+
+            for(int i = 0; i < distinctInvoiceNumberList.size(); i++)
+            {
+                String date = invoiceDateList.get(invoiceNumberLocations.get(i));
+                long dayInterval = dayInterval(today, date);
+                date = changeDateFormat(date);
+                double currentPrice = getTotalPrice(distinctInvoiceNumberList.get(i));
+                double currentPaid = paidList.get(invoiceNumberLocations.get(i));
+
+                currentTotalPrice += currentPrice;
+                currentTotalPaid += currentPaid;
+
+                String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
+                    distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
+                    date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(invoiceNumberLocations.get(i)),
+                    (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(invoiceNumberLocations.get(i)),
+                    getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
+                };
+                dtm.addRow(rowData);
+            }
         }
         invoice_outstanding.setText((char)8369 + " " + (currentTotalPrice - currentTotalPaid) + "");
         invoice_paid.setText((char)8369 + " " + currentTotalPaid + "");
-        
+
         if(invoiceTable.getRowCount() >= 1)
         {
             invoiceTable.setRowSelectionInterval(0, 0);
@@ -575,7 +574,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
             hasExist = false;
             for(int j = 0; j < returnList.size(); j++)
             {
-                if(returnList.get(j) == list.get(i))
+                if(Integer.parseInt(returnList.get(j).toString()) == Integer.parseInt(list.get(i).toString()))
                 {
                     hasExist = true;
                     break;
@@ -666,11 +665,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
         initComponents();
         createColumns();
         updateComboBox();
-        try
-        {
-            String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
-            updateTableData(MODE_PROCESS, invoice_filter.getText(), address);
-        }catch(Exception e){ShowFreakingError(e + "- Error 0054");}
         invoiceTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me)
@@ -684,6 +678,11 @@ public class InvoiceFrame extends javax.swing.JFrame {
         resizeColumnWidth(invoiceTable);
         ready = true;
         setupTable(invoiceTable, Color.white, new Dimension(0,30), Color.black);
+        try
+        {
+            String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
+            updateTableData(MODE_PROCESS, invoice_filter.getText(), address);
+        }catch(Exception e){ShowFreakingError(e + "- Error 0054");}
     }
     public void ShowFreakingError(String message)
     {

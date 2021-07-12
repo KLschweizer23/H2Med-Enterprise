@@ -222,7 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
                     try
                     {
                         Thread.sleep(20);
-                    }catch(InterruptedException e){System.out.println(e);}
+                    }catch(InterruptedException e){System.out.println(e + "222");}
                     counts--;
                 }
             }
