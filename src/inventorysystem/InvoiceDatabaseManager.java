@@ -101,10 +101,10 @@ public class InvoiceDatabaseManager
         re_initializeVariables(result);
         con.close();
     }
-    public void processPayment(int _invoice_number, double payment, int status, String _address) throws Exception
+    public void processPayment(int _invoice_number, double payment, int status, String _address, String _date) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement processQuery = con.prepareStatement("UPDATE " + invoicetable + " set " + PAID + " = " + payment + ", " + INVOICE_STATUS + " = " + status + " WHERE " + INVOICE_NUMBER + " = " + _invoice_number
+        PreparedStatement processQuery = con.prepareStatement("UPDATE " + invoicetable + " set " + PAID + " = " + payment + ", " + INVOICE_STATUS + " = " + status + ", " + DUE_DATE + " = '" + _date + "' WHERE " + INVOICE_NUMBER + " = " + _invoice_number
                 + " AND "
                 + ADDRESS + " = '" + _address + "' " +
                 ";");
@@ -135,6 +135,40 @@ public class InvoiceDatabaseManager
         ResultSet result = processQuery.executeQuery();
         re_initializeVariables(result);
         con.close();
+    }
+    public double getSalesByMonth(int year, int monthInt)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        double sales = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 2 AND DUE_DATE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0' ;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                sales = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return sales;
+    }
+    public double getOutstandingsByMonth(int year, int monthInt)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        double outstanding = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 0 AND DUE_DATE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0' ;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                outstanding = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return outstanding;
     }
     private void re_initializeVariables(ResultSet result) throws Exception
     {

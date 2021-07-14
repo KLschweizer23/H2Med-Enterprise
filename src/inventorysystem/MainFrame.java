@@ -473,6 +473,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_main_stockIn.setBackground(new java.awt.Color(255, 255, 255));
         button_main_stockIn.setText("Stock In");
+        button_main_stockIn.setFocusable(false);
+        button_main_stockIn.setRequestFocusEnabled(false);
         button_main_stockIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_main_stockInActionPerformed(evt);
@@ -481,6 +483,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         main_button_stockOutTransfer.setBackground(new java.awt.Color(255, 255, 255));
         main_button_stockOutTransfer.setText("Stock Out");
+        main_button_stockOutTransfer.setFocusable(false);
+        main_button_stockOutTransfer.setRequestFocusEnabled(false);
         main_button_stockOutTransfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 main_button_stockOutTransferActionPerformed(evt);
@@ -489,6 +493,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         main_button_records.setBackground(new java.awt.Color(255, 255, 255));
         main_button_records.setText("Records");
+        main_button_records.setFocusable(false);
+        main_button_records.setRequestFocusEnabled(false);
         main_button_records.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 main_button_recordsActionPerformed(evt);
@@ -497,6 +503,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         main_button_database.setBackground(new java.awt.Color(255, 255, 255));
         main_button_database.setText("Database");
+        main_button_database.setFocusable(false);
+        main_button_database.setRequestFocusEnabled(false);
         main_button_database.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 main_button_databaseActionPerformed(evt);
@@ -505,6 +513,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         main_button_invoices.setBackground(new java.awt.Color(255, 255, 255));
         main_button_invoices.setText("Invoices");
+        main_button_invoices.setFocusable(false);
+        main_button_invoices.setRequestFocusEnabled(false);
         main_button_invoices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 main_button_invoicesesActionPerformed(evt);
@@ -513,6 +523,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         main_button_sales.setBackground(new java.awt.Color(255, 255, 255));
         main_button_sales.setText("Sales");
+        main_button_sales.setFocusable(false);
+        main_button_sales.setRequestFocusEnabled(false);
         main_button_sales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 main_button_salesActionPerformed(evt);
@@ -764,6 +776,7 @@ public class MainFrame extends javax.swing.JFrame {
         //ImageIcon imageIcon = new ImageIcon(new ImageIcon("filter.png").getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));
         //jLabel2.setIcon(imageIcon);
 
+        alarmButton.setToolTipText("Open to see notifications!");
         alarmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 alarmButtonActionPerformed(evt);

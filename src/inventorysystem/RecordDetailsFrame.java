@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -293,9 +295,10 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
                     {
                         StockInDatabaseManager stockInDb = new StockInDatabaseManager();
                         SalesDatabaseManager salesDb = new SalesDatabaseManager();
+                        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                         try
                         {
-                            stockInDb.updateTransactionStatus(goodString(supplier), Integer.parseInt(idList.get(num)), 0);
+                            stockInDb.updateTransactionStatus(goodString(supplier), Integer.parseInt(idList.get(num)), 0, date);
                             salesDb.updateCost(itemTransactionIdList.get(num), totalCost, goodString(supplier));
                         }catch(Exception e){ShowFreakingError(e + " - Error 0044");}
                         for(int i = recordTable.getRowCount(); i > 0; i--)

@@ -561,12 +561,13 @@ public class StockOutFrame extends javax.swing.JFrame {
         String address = goodString(stockout_comboBox.getSelectedItem().toString());
         String invoice_date = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex()+ "-" + dayCombo.getSelectedItem();
         String cheque = chequeRadio.isSelected() ? stockout_chequeField.getText() :  "Cash";
-        String dueDate = hasDue.isSelected() ? yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem() : "N/A";
+        String extraDay = ((dayCombo.getSelectedIndex() + 1) < 10 ? "0" + (dayCombo.getSelectedIndex() + 1) : dayCombo.getSelectedIndex() + 1) + "";
+        String extraDueDate = monthCombo.getSelectedIndex() + 1 > 12 ? (Integer.parseInt(yearCombo.getSelectedItem().toString()) + 1) + "-" + "01" + "-" +  extraDay : yearCombo.getSelectedItem() + "-" + (monthCombo.getSelectedIndex() + 1 < 10 ? "0" + (monthCombo.getSelectedIndex() + 1) : monthCombo.getSelectedIndex() + 1) + "-" + extraDay;
+        String dueDate = hasDue.isSelected() ? yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem() : extraDueDate;
         for(int i = 0; i < items.size(); i++)
         {
             try
             {
-                System.out.println(invoiceNumber + "-" + items.get(i) + "-" + cost.get(i) + "-" + price.get(i) + "-" + quantity.get(i) + "-" + address + "-" + 0 + "-" + invoice_date + "-" + UNPAID + "-" + deliveryNumber + "-" + purchaseNumber + "-" + goodString(itemSupplier.get(i)) + "-" + cheque + "-" + dueDate + "-" + 0);
                 invoiceDatabaseManager.insertData(invoiceNumber, goodString(items.get(i)), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate, 0);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
@@ -928,16 +929,18 @@ public class StockOutFrame extends javax.swing.JFrame {
     public void updateTableData(int mode, String keyword, String category) throws Exception
     {
         itemDatabaseManager = new ItemDatabaseManager();
-                
+
+        String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
+        
         switch (mode) {
             case MODE_PROCESS:
                 itemDatabaseManager.processAllData(MODE_UNSORT);
                 break;
             case MODE_FILTER_CATEGORY:
-                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(sup), MODE_UNSORT);
                 break;
             case MODE_FILTER_SEARCH:
-                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup), MODE_UNSORT);
                 break;
             default:
                 break;
@@ -1043,6 +1046,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0050");}
         
         ArrayList<String> suppliers = supplierDb.getNameList();
+        supplierCombo.addItem("All");
         supplierCombo.addItem("None");
         for(int i = 0; i < suppliers.size(); i++)
             supplierCombo.addItem(suppliers.get(i));
@@ -1156,8 +1160,17 @@ public class StockOutFrame extends javax.swing.JFrame {
     {
         double cost = newItemCostList.get(num);
         JPopupMenu sample = new JPopupMenu();
-        JMenuItem adjust = new JMenuItem("New Price");
-        adjust.addActionListener((ActionEvent arg0) -> {
+        JMenuItem editName = new JMenuItem("Edit Name");
+        JMenuItem editPrice = new JMenuItem("Edit Price");
+        editName.addActionListener((arg0) -> {
+            String returnVal = JOptionPane.showInputDialog("Enter new Name:");
+            if(returnVal != null ||returnVal.isBlank())
+            {
+                newItemNameList.set(num, returnVal);
+                newTable.setValueAt(returnVal, num, 1);
+            }
+        });
+        editPrice.addActionListener((ActionEvent arg0) -> {
             String returnVal = JOptionPane.showInputDialog("Enter new Price:");
             if(returnVal != null)
             {
@@ -1179,7 +1192,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Please input a proper value!", "Invalid Cost Value!", JOptionPane.WARNING_MESSAGE);
             }
         });
-        sample.add(adjust);
+        sample.add(editName);
+        sample.add(editPrice);
         sample.show(me.getComponent(), me.getX(), me.getY());
     }
     public void ShowFreakingError(String message)

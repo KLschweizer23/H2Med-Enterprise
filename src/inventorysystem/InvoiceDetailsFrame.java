@@ -799,10 +799,10 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
         LocalDateTime now = LocalDateTime.now();  
         String date = setFormat2(dtf.format(now));
-        
+        String dueDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         try
         {
-            invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, goodString(invoice_client.getText()));
+            invoiceDB.processPayment(currentInvoiceNumber, payment + paid, status, goodString(invoice_client.getText()), dueDate);
             SalesDatabaseManager salesDB = new SalesDatabaseManager();
             salesDB.insertSales(Integer.parseInt(invoice_number.getText()), date, payment, goodString(invoice_client.getText()));
             invoiceDB.updateCollection(Integer.parseInt(collectionField.getText()), currentInvoiceNumber, goodString(invoice_client.getText()));

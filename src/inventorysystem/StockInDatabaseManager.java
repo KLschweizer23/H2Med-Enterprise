@@ -115,10 +115,10 @@ public class StockInDatabaseManager
         re_initializeVariables(result);
         con.close();
     }
-    public void updateTransactionStatus(String _supplier, int _id, int _status) throws Exception
+    public void updateTransactionStatus(String _supplier, int _id, int _status, String _date) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + STOCK_IN_TABLE + " SET " + TRANSACTION_STATUS + " = " + _status + " WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "' AND " + ID + " = " + _id);
+        PreparedStatement updateQuery = con.prepareStatement("UPDATE " + STOCK_IN_TABLE + " SET " + TRANSACTION_STATUS + " = " + _status + ", " + TRANSACTION_DUE + " = '" + _date + "' WHERE " + ITEM_SUPPLIER + " ='" + _supplier + "' AND " + ID + " = " + _id);
         updateQuery.executeUpdate();
         con.close();
     }
@@ -177,6 +177,23 @@ public class StockInDatabaseManager
         for(int i = 0; i < list.length; i++)
             incomingInvoices.put(keys[i], list[i]);
         return incomingInvoices;
+    }
+    public double getCostByMonth(int year, int monthInt)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        double cost = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(ITEM_COST * ITEM_STOCKIN) AS 'total' FROM stockintable WHERE TRANSACTION_STATUS = 0 AND TRANSACTION_DUE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0';");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                cost = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return cost;
     }
     public ArrayList<String> getIdList()
     {

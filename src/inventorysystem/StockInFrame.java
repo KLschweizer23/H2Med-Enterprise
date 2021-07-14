@@ -68,6 +68,9 @@ public class StockInFrame extends javax.swing.JFrame {
     
     private final int MODE_UNSORT = 1;
   
+    //NOT PAID = 1
+    //PAID = 0
+    
     DefaultTableModel dtm;
     DefaultTableModel dtm2;
     
@@ -863,12 +866,22 @@ public class StockInFrame extends javax.swing.JFrame {
     public void updateTableData(int mode, String keyword, String category) throws Exception 
     {
         itemDatabaseManager = new ItemDatabaseManager();
-        if(mode == MODE_PROCESS)
-            itemDatabaseManager.processAllData(MODE_UNSORT);
-        else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(supplierCombo.getSelectedItem().toString()),MODE_UNSORT);
-        else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()),MODE_UNSORT);
+        
+        String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
+        
+        switch (mode) {
+            case MODE_PROCESS:
+                itemDatabaseManager.processAllData(MODE_UNSORT);
+                break;
+            case MODE_FILTER_CATEGORY:
+                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(sup),MODE_UNSORT);
+                break;
+            case MODE_FILTER_SEARCH:
+                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup),MODE_UNSORT);
+                break;
+            default:
+                break;
+        }
 
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
@@ -976,6 +989,7 @@ public class StockInFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0049");}
         
         ArrayList<String> suppliers = supplierDb.getNameList();
+        supplierCombo.addItem("All");
         supplierCombo.addItem("None");
         for(int i = 0; i < suppliers.size(); i++)
             supplierCombo.addItem(suppliers.get(i));
