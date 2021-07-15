@@ -136,7 +136,7 @@ public class InvoiceDatabaseManager
         re_initializeVariables(result);
         con.close();
     }
-    public double getSalesByMonth(int year, int monthInt)
+    public double getSalesByMonth(int year, int monthInt, int day)
     {
         String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
         String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
@@ -144,7 +144,7 @@ public class InvoiceDatabaseManager
         try
         {
             Connection con = getConnection();
-            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 2 AND DUE_DATE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0' ;");
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 2 AND DUE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' ;");
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 sales = Double.parseDouble(result.getString("total"));
@@ -153,7 +153,22 @@ public class InvoiceDatabaseManager
         
         return sales;
     }
-    public double getOutstandingsByMonth(int year, int monthInt)
+    public double getSalesByMonth(String fromYear, String toYear)
+    {
+        double sales = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 2 AND DUE_DATE BETWEEN '" + fromYear + "' AND '" + toYear + "' ;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                sales = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return sales;
+    }
+    public double getOutstandingsByMonth(int year, int monthInt, int day)
     {
         String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
         String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
@@ -161,7 +176,22 @@ public class InvoiceDatabaseManager
         try
         {
             Connection con = getConnection();
-            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 0 AND DUE_DATE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0' ;");
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 0 AND DUE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' ;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                outstanding = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return outstanding;
+    }
+    public double getOutstandingsByMonth(String fromYear, String toYear)
+    {
+        double outstanding = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 0 AND DUE_DATE BETWEEN '" + fromYear + "' AND '" + toYear + "' ;");
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 outstanding = Double.parseDouble(result.getString("total"));

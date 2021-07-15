@@ -214,7 +214,7 @@ public class MonthlyBarGraph extends JComponent
             Font f = new Font("TimesRoman", Font.PLAIN, (int)(getBarWidth() * 0.6));
             FontMetrics metrics = g.getFontMetrics(f);
             String text = months[i];
-            double x = rectsMulti.get(i)[0].x + ((int)(getBarWidth() * 3) - metrics.stringWidth(text)) / 2;
+            double x = rectsMulti.get(i)[0].x + ((int)(getBarWidth() * barPerMonth) - metrics.stringWidth(text)) / 2;
             double y = rectsMulti.get(i)[0].y + (((stringHeight + 10) - metrics.getHeight()) / 2) + metrics.getAscent();
             g2.setFont(f);
             g2.drawString(text, (float)x, (float)y);

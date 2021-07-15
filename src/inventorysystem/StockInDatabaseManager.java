@@ -178,7 +178,7 @@ public class StockInDatabaseManager
             incomingInvoices.put(keys[i], list[i]);
         return incomingInvoices;
     }
-    public double getCostByMonth(int year, int monthInt)
+    public double getCostByMonth(int year, int monthInt, int day)
     {
         String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
         String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
@@ -186,7 +186,22 @@ public class StockInDatabaseManager
         try
         {
             Connection con = getConnection();
-            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(ITEM_COST * ITEM_STOCKIN) AS 'total' FROM stockintable WHERE TRANSACTION_STATUS = 0 AND TRANSACTION_DUE BETWEEN '" + year + "-" + month + "-0' AND '" + year + "-" + month1 + "-0';");
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(ITEM_COST * ITEM_STOCKIN) AS 'total' FROM stockintable WHERE TRANSACTION_STATUS = 0 AND TRANSACTION_DUE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "';");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                cost = Double.parseDouble(result.getString("total"));
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return cost;
+    }
+    public double getCostByMonth(String fromYear, String toYear)
+    {
+        double cost = 0;
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(ITEM_COST * ITEM_STOCKIN) AS 'total' FROM stockintable WHERE TRANSACTION_STATUS = 0 AND TRANSACTION_DUE BETWEEN '" + fromYear + "' AND '" + toYear + "';");
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 cost = Double.parseDouble(result.getString("total"));
