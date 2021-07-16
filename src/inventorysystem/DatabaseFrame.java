@@ -116,9 +116,10 @@ public class DatabaseFrame extends javax.swing.JFrame
         database_itemButton.setFont(new java.awt.Font("Arial Unicode MS", 0, 24)); // NOI18N
         database_itemButton.setForeground(new java.awt.Color(255, 255, 255));
         database_itemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/1_back.png"))); // NOI18N
-        database_itemButton.setText("Items");
         database_itemButton.setContentAreaFilled(false);
+        database_itemButton.setFocusable(false);
         database_itemButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        database_itemButton.setRequestFocusEnabled(false);
         database_itemButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/1_hover.png"))); // NOI18N
         database_itemButton.setSelected(true);
         database_itemButton.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/1_pressed.png"))); // NOI18N

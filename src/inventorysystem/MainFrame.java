@@ -796,7 +796,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(alarmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 235, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
         jPanel3Layout.setVerticalGroup(
