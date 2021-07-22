@@ -2,10 +2,16 @@ package inventorysystem;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -14,6 +20,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JLabel;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SalesFrame extends javax.swing.JFrame {
 
@@ -166,6 +182,7 @@ public class SalesFrame extends javax.swing.JFrame {
         c_fastMoving = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
         c_totalCosts = new javax.swing.JLabel();
+        button_monthlyReport = new javax.swing.JButton();
         panel_expenses = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_expenses = new javax.swing.JTable();
@@ -1192,6 +1209,13 @@ public class SalesFrame extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
+        button_monthlyReport.setText("Create Monthly Report");
+        button_monthlyReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_monthlyReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel_summaryLayout = new javax.swing.GroupLayout(panel_summary);
         panel_summary.setLayout(panel_summaryLayout);
         panel_summaryLayout.setHorizontalGroup(
@@ -1228,7 +1252,9 @@ public class SalesFrame extends javax.swing.JFrame {
                                     .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(processButton)
-                            .addGap(695, 695, 695))
+                            .addGap(505, 505, 505)
+                            .addComponent(button_monthlyReport)
+                            .addGap(40, 40, 40))
                         .addGroup(panel_summaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_summaryLayout.createSequentialGroup()
@@ -1262,7 +1288,8 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addComponent(dayCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel18)
                         .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(processButton))
+                        .addComponent(processButton)
+                        .addComponent(button_monthlyReport))
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1315,12 +1342,10 @@ public class SalesFrame extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(label_totalExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_totalExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(66, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1348,12 +1373,10 @@ public class SalesFrame extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(label_monthExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_monthExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(66, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1384,16 +1407,11 @@ public class SalesFrame extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(label_mostExpensesParticular, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_mostExpensesParticular, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_mostExpensesAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(66, Short.MAX_VALUE))
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(label_mostExpensesAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1564,6 +1582,35 @@ public class SalesFrame extends javax.swing.JFrame {
             processExpensesStatus();
         }
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void button_monthlyReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_monthlyReportActionPerformed
+        try{
+            String reportPath = System.getProperty("user.dir") + "\\SalesReport.jrxml";
+            //String client = invoice_client.getText();
+            
+            StockOutFrame sof = new StockOutFrame();
+            sof.updateComboBox2(true);
+            
+            List<StockItems> collectionList = new ArrayList<>();//getStocks();
+            
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
+            
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("CollectionBeanParam", itemsJRBean);
+            parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
+            InputStream input = new FileInputStream(new File(reportPath));
+            JasperDesign jdesign = JRXmlLoader.load(input);
+            
+            
+            JasperReport jreport = JasperCompileManager.compileReport(jdesign);
+            JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
+            
+            JasperViewer.viewReport(jprint, false);
+        }catch(FileNotFoundException | JRException ex)
+        {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_button_monthlyReportActionPerformed
     private void processExpensesStatus()
     {
         ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
@@ -1897,6 +1944,7 @@ public class SalesFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_deleteExpenses;
     private javax.swing.JButton button_expenses;
+    private javax.swing.JButton button_monthlyReport;
     private javax.swing.JButton button_newExpenses;
     private javax.swing.JButton button_summary;
     private javax.swing.JLabel c_additionalExpenses;
