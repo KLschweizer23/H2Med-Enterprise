@@ -210,6 +210,23 @@ public class StockInDatabaseManager
         
         return cost;
     }
+    public String getIngoingInvoice(int year, int monthInt, int day)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String supplier = "";
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT COUNT(ITEM_SUPPLIER) AS counts, ITEM_SUPPLIER FROM stockintable WHERE ITEM_DATE_IN BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' GROUP BY ITEM_SUPPLIER ORDER BY counts DESC;");
+            ResultSet result = getQuery.executeQuery();//
+            while(result.next())
+                supplier = result.getString(ITEM_SUPPLIER);
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return supplier;
+    }
     public ArrayList<String> getIdList()
     {
         return this.idList;

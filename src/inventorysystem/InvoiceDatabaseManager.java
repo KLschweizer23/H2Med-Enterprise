@@ -168,15 +168,24 @@ public class InvoiceDatabaseManager
         
         return sales;
     }
-    public double getOutstandingsByMonth(int year, int monthInt, int day)
+    public double getOutstandingsByMonth(int year, int monthInt, int day, int status)
     {
         String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
         String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String statusQuery;
+        if(status == 0)
+            statusQuery = " INVOICE_STATUS = " + status + " AND ";
+        else if(status == 2)
+            statusQuery = " INVOICE_STATUS = " + status + " AND ";
+        else
+            statusQuery = "";
+        
         double outstanding = 0;
+        
         try
         {
             Connection con = getConnection();
-            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE INVOICE_STATUS = 0 AND DUE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' ;");
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM(PRICE * QUANTITY) AS 'total' FROM invoicetable WHERE " + statusQuery + " DUE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' ;");
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 outstanding = Double.parseDouble(result.getString("total"));
@@ -199,6 +208,76 @@ public class InvoiceDatabaseManager
         }catch(Exception e){System.out.println(e);}
         
         return outstanding;
+    }
+    public String getTopSelling(int year, int monthInt, int day)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        
+        String item = "";
+        
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT SUM((PRICE - COST) * QUANTITY) AS total, ITEMS FROM invoicetable WHERE INVOICE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' GROUP BY ITEMS ORDER BY total DESC LIMIT 1;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                item = result.getString(ITEMS);
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return item;
+    }
+    public String getFastMoving(int year, int monthInt, int day)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        
+        String item = "";
+        
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT COUNT(ITEMS) AS counts, ITEMS FROM invoicetable WHERE INVOICE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' GROUP BY ITEMS ORDER BY counts DESC LIMIT 1;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                item = result.getString(ITEMS);
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return item;
+    }
+    public String getOutgoingInvoice(int year, int monthInt, int day)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        
+        String address = "";
+        
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT COUNT(ADDRESS) AS counts, ADDRESS FROM invoicetable WHERE INVOICE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' GROUP BY ADDRESS ORDER BY counts DESC;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+            {
+                System.out.println(result.getString(ADDRESS));
+                if(result.getString(ADDRESS).equals("None"))
+                {
+                    result.next();
+                    address = result.getString(ADDRESS);
+                    break;
+                }
+                else
+                {
+                    address = result.getString(ADDRESS);
+                    break;
+                }
+            }
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return address;
     }
     private void re_initializeVariables(ResultSet result) throws Exception
     {
