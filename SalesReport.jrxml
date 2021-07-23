@@ -52,6 +52,19 @@
 	<parameter name="revenue" class="java.lang.String"/>
 	<parameter name="profit" class="java.lang.String"/>
 	<parameter name="cost" class="java.lang.String"/>
+	<parameter name="salesMade" class="java.lang.String"/>
+	<parameter name="totalSales" class="java.lang.String"/>
+	<parameter name="totalExpenses" class="java.lang.String"/>
+	<parameter name="itemTotalCosts" class="java.lang.String"/>
+	<parameter name="additionalExpenses" class="java.lang.String"/>
+	<parameter name="totalProfit" class="java.lang.String"/>
+	<parameter name="totalOutstanding" class="java.lang.String"/>
+	<parameter name="outstandingPaid" class="java.lang.String"/>
+	<parameter name="outstandingLeft" class="java.lang.String"/>
+	<parameter name="topItem" class="java.lang.String"/>
+	<parameter name="fastItem" class="java.lang.String"/>
+	<parameter name="mostOutInvoice" class="java.lang.String"/>
+	<parameter name="mostInInvoice" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -162,7 +175,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="411" splitType="Stretch">
+		<band height="431" splitType="Stretch">
 			<staticText>
 				<reportElement x="20" y="61" width="110" height="21" uuid="f548b830-f702-412d-b446-79f090b11858"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -290,12 +303,103 @@
 				<text><![CDATA[Top Selling Item:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="18" y="380" width="151" height="21" uuid="c82a4c16-cf90-4f0f-90b0-64fb8858f119"/>
+				<reportElement x="18" y="381" width="151" height="21" uuid="c82a4c16-cf90-4f0f-90b0-64fb8858f119"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Most Ingoing Invoice:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="220" y="40" width="160" height="21" uuid="d12d9788-e719-47a8-9778-0bb1f6cc03cc"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{salesMade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="61" width="160" height="21" uuid="f6703692-a9fc-484f-afc7-4219c107cd0e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalSales}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="82" width="160" height="21" uuid="c0fb0778-ac72-4b07-b2a6-aeb7c40edafb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalExpenses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="103" width="160" height="21" uuid="322801f2-1782-446d-b144-92f660f0a330"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{itemTotalCosts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="124" width="160" height="21" uuid="634df4dc-cde7-4fdc-9255-dcf48f5deb03"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{additionalExpenses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="145" width="160" height="21" uuid="46594940-a432-4aa9-ad7b-7ffd5dbcbf1b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalProfit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="203" width="160" height="21" uuid="3aae187e-6a37-4110-a956-96cb8815ef3e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalOutstanding}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="224" width="160" height="21" uuid="ba3b03ca-eca9-4161-9a1f-0d1b5d171bf2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outstandingPaid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="245" width="160" height="21" uuid="05bffbcf-2af5-481e-b5ab-230df7216e31"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outstandingLeft}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="312" width="160" height="21" uuid="db5cfebd-4284-4d10-b03a-84d042d2ff1a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{topItem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="333" width="160" height="21" uuid="72830f89-253f-4ae3-9b76-709deee16468"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fastItem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="360" width="160" height="21" uuid="fb50ddab-062a-49a0-93ab-9a2f7c90d287"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mostOutInvoice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="381" width="160" height="21" uuid="27d2491e-fea0-4552-b3c1-3627c987fb60"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mostInInvoice}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

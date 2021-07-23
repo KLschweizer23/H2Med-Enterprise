@@ -47,12 +47,6 @@ public class SalesFrame extends javax.swing.JFrame {
     
     private double maxValue = 0;
     
-    private int counting = 1;
-    
-    final private int UNPAID = 0;
-    final private int OUTSTANDING = 1;
-    final private int PAID = 2;
-    
     private int properHeight = 0;
     private int properWidth = 0;
     
@@ -183,6 +177,7 @@ public class SalesFrame extends javax.swing.JFrame {
         jLabel51 = new javax.swing.JLabel();
         c_totalCosts = new javax.swing.JLabel();
         button_monthlyReport = new javax.swing.JButton();
+        button_previousMonthlyReport = new javax.swing.JButton();
         panel_expenses = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_expenses = new javax.swing.JTable();
@@ -1216,6 +1211,13 @@ public class SalesFrame extends javax.swing.JFrame {
             }
         });
 
+        button_previousMonthlyReport.setText("Previous Monthly Report");
+        button_previousMonthlyReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_previousMonthlyReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel_summaryLayout = new javax.swing.GroupLayout(panel_summary);
         panel_summary.setLayout(panel_summaryLayout);
         panel_summaryLayout.setHorizontalGroup(
@@ -1252,7 +1254,9 @@ public class SalesFrame extends javax.swing.JFrame {
                                     .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(processButton)
-                            .addGap(505, 505, 505)
+                            .addGap(349, 349, 349)
+                            .addComponent(button_previousMonthlyReport)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(button_monthlyReport)
                             .addGap(40, 40, 40))
                         .addGroup(panel_summaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1289,7 +1293,8 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addComponent(jLabel18)
                         .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(processButton)
-                        .addComponent(button_monthlyReport))
+                        .addComponent(button_monthlyReport)
+                        .addComponent(button_previousMonthlyReport))
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1584,6 +1589,31 @@ public class SalesFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void button_monthlyReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_monthlyReportActionPerformed
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        int year = Integer.parseInt(date.split("-")[0]);
+        int month = Integer.parseInt(date.split("-")[1]);
+        makeMonthlyReport(year, month);
+    }//GEN-LAST:event_button_monthlyReportActionPerformed
+
+    private void button_previousMonthlyReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_previousMonthlyReportActionPerformed
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        int year = Integer.parseInt(date.split("-")[0]);
+        int month = Integer.parseInt(date.split("-")[1]);
+        if(month - 1 < 1)
+        {
+            year--;
+            month = 12;
+        }
+        else
+            month--;
+        makeMonthlyReport(year, month);
+    }//GEN-LAST:event_button_previousMonthlyReportActionPerformed
+    private void makeMonthlyReport(int year, int month)
+    {
+        InvoiceDatabaseManager iDb = new InvoiceDatabaseManager();
+        StockInDatabaseManager sDb = new StockInDatabaseManager();
+        ExpensesDatabaseManager eDb = new ExpensesDatabaseManager();
+        String[] monthLists = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         try{
             String reportPath = System.getProperty("user.dir") + "\\SalesReport.jrxml";
             //String client = invoice_client.getText();
@@ -1598,6 +1628,31 @@ public class SalesFrame extends javax.swing.JFrame {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("CollectionBeanParam", itemsJRBean);
             parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
+            
+            double totalSales = iDb.getSalesByMonth(year, month, 0), cost = sDb.getCostByMonth(year, month, 0) + eDb.getExpenses(year + "", month + "", "");
+            
+            parameters.put("month", monthLists[month - 1]);
+            
+            parameters.put("revenue", (char)8369 + " " + (Math.round(totalSales * 100.0) / 100.0));
+            parameters.put("cost", (char)8369 + " " + (Math.round(cost * 100.0) / 100.0));
+            parameters.put("profit", (char)8369 + " " + (Math.round((totalSales - cost) * 100.0) / 100.0));
+            
+            parameters.put("salesMade", iDb.getSalesMade(year, month, 0) + "");
+            parameters.put("totalSales", (char)8369 + " " + totalSales);
+            parameters.put("totalExpenses", (char)8369 + " " + cost);
+            parameters.put("itemTotalCosts", (char)8369 + " " + sDb.getCostByMonth(year, month, 0));
+            parameters.put("additionalExpenses", (char)8369 + " " + eDb.getExpenses(year + "", month + "", ""));
+            parameters.put("totalProfit", (char)8369 + " " + (totalSales - cost));
+            
+            parameters.put("totalOutstanding", (char)8369 + " " + iDb.getOutstandingsByMonth(year, month, 0, 5));
+            parameters.put("outstandingPaid", (char)8369 + " " + iDb.getOutstandingsByMonth(year, month, 0, 2));
+            parameters.put("outstandingLeft", (char)8369 + " " + iDb.getOutstandingsByMonth(year, month, 0, 0));
+            
+            parameters.put("topItem", iDb.getTopSelling(year, month, 0).isBlank() ? "None" : iDb.getTopSelling(year, month, 0));
+            parameters.put("fastItem", iDb.getFastMoving(year, month, 0).isBlank() ? "None" : iDb.getFastMoving(year, month, 0));
+            parameters.put("mostOutInvoice", iDb.getOutgoingInvoice(year, month, 0).isBlank() ? "None" : iDb.getOutgoingInvoice(year, month, 0));
+            parameters.put("mostInInvoice", sDb.getIngoingInvoice(year, month, 0).isBlank() ? "None" : sDb.getIngoingInvoice(year, month, 0));
+            
             InputStream input = new FileInputStream(new File(reportPath));
             JasperDesign jdesign = JRXmlLoader.load(input);
             
@@ -1610,7 +1665,7 @@ public class SalesFrame extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, ex);
         }
-    }//GEN-LAST:event_button_monthlyReportActionPerformed
+    }
     private void processExpensesStatus()
     {
         ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
@@ -1682,8 +1737,9 @@ public class SalesFrame extends javax.swing.JFrame {
     private void updateDate(JComboBox monthCombo, JComboBox dayCombo, JComboBox yearCombo, int selectedMonth)
     {
         String[] month = {"None", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        for(int i = 0; i < month.length; i++)
-            monthCombo.addItem(month[i]);
+        for (String month1 : month) {
+            monthCombo.addItem(month1);
+        }
         if(selectedMonth == 0)
         {
             dayCombo.addItem("None");
@@ -1914,8 +1970,6 @@ public class SalesFrame extends javax.swing.JFrame {
             
             topSellingItem[i].setText(TopItem.isBlank() ? "None" : TopItem);
             fastMovingItem[i].setText(fastItem.isBlank() ? "None" : fastItem);
-//            mostOutgoingInvoice[i].setText("<html>" + (out.isBlank() ? "None" : out) + "</html>");
-//            mostIngoingInvoice[i].setText("<html>" + (in.isBlank() ? "None" : in) + "</html>");
             mostOutgoingInvoice[i].setText(String.format("<html><div WIDTH=%d>%s</div></html>", 10, (out.isBlank() ? "None" : out)));
             mostIngoingInvoice[i].setText(String.format("<html><div WIDTH=%d>%s</div></html>", 10, (in.isBlank() ? "None" : in)));
         }
@@ -1946,6 +2000,7 @@ public class SalesFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_expenses;
     private javax.swing.JButton button_monthlyReport;
     private javax.swing.JButton button_newExpenses;
+    private javax.swing.JButton button_previousMonthlyReport;
     private javax.swing.JButton button_summary;
     private javax.swing.JLabel c_additionalExpenses;
     private javax.swing.JLabel c_fastMoving;

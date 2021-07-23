@@ -279,6 +279,25 @@ public class InvoiceDatabaseManager
         
         return address;
     }
+    public int getSalesMade(int year, int monthInt, int day)
+    {
+        String month = monthInt < 10 ? "0" + monthInt : monthInt + "";
+        String month1 = ++monthInt < 10 ? "0" + monthInt : monthInt + "";
+        
+        int sales = 0;
+        
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("SELECT COUNT(DISTINCT INVOICE_NUMBER, ADDRESS) AS counts FROM invoicetable WHERE INVOICE_STATUS = 2 AND DUE_DATE BETWEEN '" + year + "-" + month + "-" + day + "' AND '" + year + "-" + month1 + "-" + day + "' ;");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+                sales = result.getInt("counts");
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        
+        return sales;
+    }
     private void re_initializeVariables(ResultSet result) throws Exception
     {
         idList.clear();
