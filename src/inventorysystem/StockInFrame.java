@@ -390,7 +390,8 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
-        categoryCombo.setForeground(new java.awt.Color(255, 255, 255));
+        categoryCombo.setForeground(new java.awt.Color(0, 0, 0));
+        categoryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Medicine", "Medical Supplies", "Office Supplies", "Janitorial Supplies", "General Merchandise", "Foods", "Laboratory Supplies" }));
         categoryCombo.setFocusable(false);
         categoryCombo.setRequestFocusEnabled(false);
         categoryCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -451,10 +452,10 @@ public class StockInFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(stockIn_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minusButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minusButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categoryCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1085,7 +1086,7 @@ public class StockInFrame extends javax.swing.JFrame {
         createColumns();
         createColumns2();
         updateComboBox2();
-        updateComboBox();
+        //updateComboBox();
         dateUpdater(null);
         buttonGroup1.add(cashRadio);
         buttonGroup1.add(chequeRadio);

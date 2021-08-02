@@ -1685,8 +1685,12 @@ public class SalesFrame extends javax.swing.JFrame {
         double totalExpenses = edb.getExpenses();
         double monthlyExpenses = edb.getExpenses(date.split("-")[0], date.split("-")[1], date.split("-")[2]);
         String mostExpense = edb.getMostExpenses();
-        String mostExpenseAmount = mostExpense.split("`")[0];
-        String mostExpenseParticular = mostExpense.split("`")[1];
+        String mostExpenseAmount = "", mostExpenseParticular = "";
+        if(mostExpense.split("`").length > 0)
+        {
+            mostExpenseAmount = mostExpense.split("`")[0];
+            mostExpenseParticular = mostExpense.split("`")[1];
+        }
         
         label_totalExpenses.setText((char)8369 + " " + properAmount(totalExpenses));
         label_monthExpenses.setText((char)8369 + " " + properAmount(monthlyExpenses));

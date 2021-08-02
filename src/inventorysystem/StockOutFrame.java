@@ -154,7 +154,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        categoryCombo.setForeground(new java.awt.Color(255, 255, 255));
+        categoryCombo.setForeground(new java.awt.Color(0, 0, 0));
         categoryCombo.setFocusable(false);
         categoryCombo.setRequestFocusEnabled(false);
         categoryCombo.addActionListener(new java.awt.event.ActionListener() {
