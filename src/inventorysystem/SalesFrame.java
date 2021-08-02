@@ -222,6 +222,7 @@ public class SalesFrame extends javax.swing.JFrame {
         button_summary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/summary_back.png"))); // NOI18N
         button_summary.setToolTipText("");
         button_summary.setActionCommand("Summary");
+        button_summary.setBorder(null);
         button_summary.setFocusable(false);
         button_summary.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_summary.setLabel("Summary");
@@ -238,6 +239,7 @@ public class SalesFrame extends javax.swing.JFrame {
         button_expenses.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         button_expenses.setForeground(new java.awt.Color(255, 255, 255));
         button_expenses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/summary_back.png"))); // NOI18N
+        button_expenses.setBorder(null);
         button_expenses.setFocusable(false);
         button_expenses.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_expenses.setLabel("Expenses");
@@ -1324,6 +1326,7 @@ public class SalesFrame extends javax.swing.JFrame {
             }
         ));
         table_expenses.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        table_expenses.setSelectionForeground(new java.awt.Color(255, 255, 255));
         table_expenses.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table_expenses.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table_expenses.getTableHeader().setReorderingAllowed(false);
@@ -1583,7 +1586,7 @@ public class SalesFrame extends javax.swing.JFrame {
             try
             {
                 edb.deleteExpense(id);
-            }catch(Exception e){System.out.println(e);}
+            }catch(Exception e){System.out.println(e);System.exit(0);}
         }
         processExpensesData();
         processExpensesStatus();
@@ -1625,7 +1628,6 @@ public class SalesFrame extends javax.swing.JFrame {
         String[] monthLists = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         try{
             String reportPath = System.getProperty("user.dir") + "\\SalesReport.jrxml";
-            //String client = invoice_client.getText();
             
             StockOutFrame sof = new StockOutFrame();
             sof.updateComboBox2(true);
@@ -2002,7 +2004,7 @@ public class SalesFrame extends javax.swing.JFrame {
     }
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_deleteExpenses;

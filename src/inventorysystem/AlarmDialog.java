@@ -97,7 +97,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         try
         {
             list = invoiceDb.getOutgoingInvoices();
-        }catch(Exception e){System.out.println(e + " 100 ");}
+        }catch(Exception e){System.out.println(e + " 100 "); System.exit(0);}
         String[] keys = {
             "ID",
             "INVOICE_NUMBER", 
@@ -135,7 +135,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         try
         {
             list = inDb.getIncomingInvoices();
-        }catch(Exception e){System.out.println(e + " 138 ");}
+        }catch(Exception e){System.out.println(e + " 138 "); System.exit(0);}
         String[] keys = {
             "Dist_Id", 
             "Total", 
@@ -433,6 +433,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         incomingTable.setGridColor(new java.awt.Color(51, 204, 0));
         incomingTable.setMaximumSize(new java.awt.Dimension(3, 3));
         incomingTable.setSelectionBackground(new java.awt.Color(204, 0, 0));
+        incomingTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         incomingTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         incomingTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         incomingTable.getTableHeader().setReorderingAllowed(false);
@@ -463,6 +464,7 @@ public class AlarmDialog extends javax.swing.JDialog {
         outgoingTable.setGridColor(new java.awt.Color(51, 204, 0));
         outgoingTable.setMaximumSize(new java.awt.Dimension(3, 3));
         outgoingTable.setSelectionBackground(new java.awt.Color(204, 0, 0));
+        outgoingTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         outgoingTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         outgoingTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         outgoingTable.getTableHeader().setReorderingAllowed(false);

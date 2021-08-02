@@ -140,7 +140,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel11.setText("Total Item/s");
         jLabel11.setToolTipText("");
 
-        yearCombo.setBackground(new java.awt.Color(255, 255, 255));
         yearCombo.setFocusable(false);
         yearCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,7 +164,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel17.setText((char)8369 + "");
         jLabel17.setToolTipText("");
 
-        dayCombo.setBackground(new java.awt.Color(255, 255, 255));
         dayCombo.setFocusable(false);
         dayCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,7 +175,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel13.setText("Total Cost");
 
-        monthCombo.setBackground(new java.awt.Color(255, 255, 255));
         monthCombo.setFocusable(false);
         monthCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,13 +213,11 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
-        stockin_chequeField.setBackground(new java.awt.Color(255, 255, 255));
         stockin_chequeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel23.setText("Due Date");
 
-        monthCombo1.setBackground(new java.awt.Color(255, 255, 255));
         monthCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthCombo1ActionPerformed(evt);
@@ -232,9 +227,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel24.setText("/");
 
-        dayCombo1.setBackground(new java.awt.Color(255, 255, 255));
-
-        yearCombo1.setBackground(new java.awt.Color(255, 255, 255));
         yearCombo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yearCombo1ActionPerformed(evt);
@@ -356,7 +348,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        oldTable.setBackground(new java.awt.Color(255, 255, 255));
         oldTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -370,11 +361,11 @@ public class StockInFrame extends javax.swing.JFrame {
         ));
         oldTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         oldTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        oldTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         oldTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         oldTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(oldTable);
 
-        newTable.setBackground(new java.awt.Color(255, 255, 255));
         newTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -388,18 +379,17 @@ public class StockInFrame extends javax.swing.JFrame {
         ));
         newTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         newTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        newTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         newTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         newTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(newTable);
 
-        stockIn_searchBar.setBackground(new java.awt.Color(255, 255, 255));
         stockIn_searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 stockIn_searchBarKeyReleased(evt);
             }
         });
 
-        categoryCombo.setBackground(new java.awt.Color(255, 255, 255));
         categoryCombo.setForeground(new java.awt.Color(255, 255, 255));
         categoryCombo.setFocusable(false);
         categoryCombo.setRequestFocusEnabled(false);
@@ -409,8 +399,8 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
-        supplierCombo.setBackground(new java.awt.Color(255, 255, 255));
         supplierCombo.setFocusable(false);
+        supplierCombo.setRequestFocusEnabled(false);
         supplierCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supplierComboActionPerformed(evt);
@@ -445,7 +435,7 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(stockIn_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -475,7 +465,6 @@ public class StockInFrame extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Item Stock-In");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1084,7 +1073,6 @@ public class StockInFrame extends javax.swing.JFrame {
         int year = Integer.parseInt(data[0]);
         int month = Integer.parseInt(data[1]);
         int day = Integer.parseInt(data[2]);
-        System.out.println(day);
         updateDate(monthCombo, month);
         updateDate2(dayCombo, yearCombo, month, day, year);
         int month1 = Integer.parseInt(data2[1]);
@@ -1117,9 +1105,9 @@ public class StockInFrame extends javax.swing.JFrame {
         ready = true;
     }
   
-  public void ShowFreakingError(String message) {
-    JOptionPane.showMessageDialog(null, message, "Error", 0);
-  }
+    public void ShowFreakingError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", 0);System.exit(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

@@ -40,8 +40,10 @@ public class StockInDatabaseManager
     
     public Connection getConnection() throws Exception
     {
+        FileConnectionManager fcm = new FileConnectionManager();
+        
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/Inventory_Database";
+        String url = "jdbc:mysql://" + fcm.getConnectionAddress() + ":3306/Inventory_Database";
         String username = "root";
         String password = "umtc";
         Class.forName(driver);

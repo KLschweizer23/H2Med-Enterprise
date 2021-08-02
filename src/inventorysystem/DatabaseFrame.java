@@ -119,6 +119,7 @@ public class DatabaseFrame extends javax.swing.JFrame
         database_itemButton.setContentAreaFilled(false);
         database_itemButton.setFocusable(false);
         database_itemButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        database_itemButton.setLabel("Items");
         database_itemButton.setRequestFocusEnabled(false);
         database_itemButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/1_hover.png"))); // NOI18N
         database_itemButton.setSelected(true);
@@ -215,6 +216,7 @@ public class DatabaseFrame extends javax.swing.JFrame
             }
         ));
         database_mainTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        database_mainTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         database_mainTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         database_mainTable.getTableHeader().setReorderingAllowed(false);
         database_mainTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -923,6 +925,7 @@ public class DatabaseFrame extends javax.swing.JFrame
     public void ShowFreakingError(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> categoryCombo;

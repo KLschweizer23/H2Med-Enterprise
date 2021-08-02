@@ -111,12 +111,12 @@
 					<textElement>
 						<font size="17"/>
 					</textElement>
-					<text><![CDATA[Revenue]]></text>
+					<text><![CDATA[Sales]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="2" y="24" width="157" height="46" uuid="da3bffc9-b85d-4919-aa04-df11b149015f"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="28"/>
+						<font size="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{revenue}]]></textFieldExpression>
 				</textField>
@@ -138,7 +138,7 @@
 				<textField>
 					<reportElement x="0" y="25" width="159" height="46" uuid="eaa62089-f8ed-43e6-8a38-0569409cdeda"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="28"/>
+						<font size="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{cost}]]></textFieldExpression>
 				</textField>
@@ -161,7 +161,7 @@
 				<textField>
 					<reportElement x="0" y="26" width="159" height="46" uuid="36513f28-5851-46bf-b8f7-97e00b9185eb"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="28"/>
+						<font size="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{profit}]]></textFieldExpression>
 				</textField>
@@ -175,7 +175,7 @@
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="431" splitType="Stretch">
+		<band height="565" splitType="Stretch">
 			<staticText>
 				<reportElement x="20" y="61" width="110" height="21" uuid="f548b830-f702-412d-b446-79f090b11858"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">

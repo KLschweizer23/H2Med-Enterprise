@@ -124,6 +124,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         ));
         invoiceTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         invoiceTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        invoiceTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         invoiceTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         invoiceTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(invoiceTable);
@@ -236,19 +237,13 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         labelItem8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem8.setText("Received from");
 
-        receivedField.setBackground(new java.awt.Color(255, 255, 255));
-
         labelItem9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem9.setText("Address");
 
-        addressField.setBackground(new java.awt.Color(255, 255, 255));
-
         labelItem10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem10.setText("Sum");
-
-        sumField.setBackground(new java.awt.Color(255, 255, 255));
 
         labelItem11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -257,27 +252,17 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         labelItem12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem12.setText("Payment for");
 
-        forField.setBackground(new java.awt.Color(255, 255, 255));
-
         labelItem13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem13.setText("Check#");
-
-        checkField.setBackground(new java.awt.Color(255, 255, 255));
 
         labelItem14.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem14.setText("Bank");
 
-        bankField.setBackground(new java.awt.Color(255, 255, 255));
-
-        dateField.setBackground(new java.awt.Color(255, 255, 255));
-
         labelItem15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelItem15.setText("Date");
-
-        collectionField.setBackground(new java.awt.Color(255, 255, 255));
 
         labelItem16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelItem16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -367,7 +352,6 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         );
 
         invoice_Update.setBackground(new java.awt.Color(255, 255, 255));
-        invoice_Update.setForeground(new java.awt.Color(0, 0, 0));
         invoice_Update.setText("Update Invoice");
         invoice_Update.setEnabled(false);
         invoice_Update.addActionListener(new java.awt.event.ActionListener() {
@@ -556,7 +540,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         try
         {
             doesExist = collectionDb.isReceiptExist(Integer.parseInt(collectionField.getText()));
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         if(filledUp)
         {
@@ -751,7 +735,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         try
         {
             collectionDb.insertData(cr, goodString(received), goodString(address), sum, goodString(payment), goodString(check), goodString(bank), goodString(date), currentInvoiceNumber);
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
     }
     
     private void updateCollectionDetails()
@@ -770,7 +754,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
         try
         {
             collectionDb.updateData(cr, goodString(received), goodString(address), sum, goodString(payment), goodString(check), goodString(bank), goodString(date), currentInvoiceNumber);
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
     }
     private void processPaymentDetails(double payment)
     {
@@ -929,7 +913,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
             try
             {
                 colDb.getDataByReceipt(collectionNumber);
-            }catch(Exception e){System.out.println(e);}
+            }catch(Exception e){System.out.println(e);System.exit(0);}
             collectionField.setText(colDb.getCollectionList().get(0) + "");
             dateField.setText(colDb.getDateList().get(0));
             receivedField.setText(colDb.getReceivedList().get(0));
@@ -1013,6 +997,7 @@ public class InvoiceDetailsFrame extends javax.swing.JFrame {
     public void ShowFreakingError(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressField;

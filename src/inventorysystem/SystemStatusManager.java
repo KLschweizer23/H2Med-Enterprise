@@ -13,7 +13,7 @@ public class SystemStatusManager
         try
         {
             invoiceDb.processMostSales();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         ArrayList<String> itemName = invoiceDb.getItemsList();
         ArrayList<Integer> result = invoiceDb.getItemResultList();
@@ -32,7 +32,7 @@ public class SystemStatusManager
         try
         {
             invoiceDb.processLongestInvoice();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         ArrayList<Integer> invoiceNum = invoiceDb.getInvoiceNumberList();
         ArrayList<String> address = invoiceDb.getAddressList();
@@ -58,7 +58,7 @@ public class SystemStatusManager
         try
         {
             invoiceDb.processMostOutstanding();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         ArrayList<String> address = invoiceDb.getAddressList();
         ArrayList<Double> total = invoiceDb.getItemTotalList();
@@ -79,7 +79,7 @@ public class SystemStatusManager
         try
         {
             itemDb.processItemsByQuantity(ascending);
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         ArrayList<String> itemName = itemDb.getItemNameList();
         ArrayList<String> itemArticle = itemDb.getItemArticleList();

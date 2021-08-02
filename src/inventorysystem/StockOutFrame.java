@@ -162,7 +162,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 categoryComboActionPerformed(evt);
             }
         });
-        jPanel2.add(categoryCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 83, 160, -1));
+        jPanel2.add(categoryCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 83, 180, -1));
 
         stockOut_searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -241,6 +241,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         ));
         oldTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         oldTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        oldTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         oldTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         oldTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(oldTable);
@@ -363,7 +364,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 supplierComboActionPerformed(evt);
             }
         });
-        jPanel2.add(supplierCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 83, 170, -1));
+        jPanel2.add(supplierCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 83, 190, -1));
 
         cashRadio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cashRadio.setSelected(true);
@@ -1198,7 +1199,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     }
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

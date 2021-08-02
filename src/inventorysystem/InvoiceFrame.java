@@ -126,6 +126,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         ));
         invoiceTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         invoiceTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        invoiceTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         invoiceTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         invoiceTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(invoiceTable);
@@ -686,7 +687,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
     }
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable invoiceTable;

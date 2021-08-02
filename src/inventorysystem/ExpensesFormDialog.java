@@ -238,7 +238,7 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         try
         {
             edb.insertExpenses(eo);
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         dispose();
         

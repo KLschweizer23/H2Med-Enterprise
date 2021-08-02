@@ -88,6 +88,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         ));
         salesTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         salesTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        salesTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         salesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         salesTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(salesTable);
@@ -105,6 +106,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         ));
         purchaseTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         purchaseTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        purchaseTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         purchaseTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         purchaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(purchaseTable);
@@ -299,8 +301,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         extraIdList = new ArrayList<>(itemIdList);
         extraNameList = new ArrayList<>(itemNameList);
-        System.out.println(itemNameList);
-        System.out.println(extraNameList);
         int temp = 0;
         for(int i = 0; i < itemIdList.size(); i++)
         {
@@ -327,7 +327,6 @@ public class RecordsFrame extends javax.swing.JFrame {
             }
             temp++;
         }
-        System.out.println(extraNameList);
         extraIdList2 = extraIdList;
         if(purchaseTable.getRowCount() >= 1)
         {
@@ -429,7 +428,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         try
         {
             tot = inDb.getTotalAmount(goodString(supplierCombo.getSelectedItem().toString()));
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         records_payValue.setText(tot);
     }
     private void Popup(MouseEvent me, int num)
@@ -490,7 +489,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     }
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

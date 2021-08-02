@@ -1,10 +1,13 @@
 package inventorysystem;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BranchDatabaseManager 
 {
@@ -19,8 +22,10 @@ public class BranchDatabaseManager
     
     public Connection getConnection() throws Exception
     {
+        FileConnectionManager fcm = new FileConnectionManager();
+        
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/Inventory_Database";
+        String url = "jdbc:mysql://" + fcm.getConnectionAddress() + ":3306/Inventory_Database";
         String username = "root";
         String password = "umtc";
         Class.forName(driver);

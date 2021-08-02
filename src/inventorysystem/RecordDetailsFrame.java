@@ -80,6 +80,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
         ));
         recordTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         recordTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        recordTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         recordTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         recordTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(recordTable);
@@ -366,7 +367,7 @@ public class RecordDetailsFrame extends javax.swing.JFrame {
     }
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel12;

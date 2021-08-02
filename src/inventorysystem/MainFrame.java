@@ -1,5 +1,6 @@
 package inventorysystem;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,6 +11,8 @@ import java.awt.Image;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -53,10 +57,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
-        try
-        {
-            itemDatabaseManager.getConnection();
-        }catch(Exception e){ShowFreakingError(e + " - Error 0001");}
         createColumns();
         updateComboBox();
         changeIcons();
@@ -222,7 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
                     try
                     {
                         Thread.sleep(20);
-                    }catch(InterruptedException e){System.out.println(e + "222");}
+                    }catch(InterruptedException e){System.out.println(e + "222");System.exit(0);}
                     counts--;
                 }
             }
@@ -244,6 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             jComboBox1.addItem(listOfCat.get(i));
         }
+        jComboBox1.setSelectedIndex(0);
     }
     private void createColumns()
     {
@@ -754,6 +755,7 @@ public class MainFrame extends javax.swing.JFrame {
         displayTable.setGridColor(new java.awt.Color(51, 204, 0));
         displayTable.setMaximumSize(new java.awt.Dimension(3, 3));
         displayTable.setSelectionBackground(new java.awt.Color(204, 0, 0));
+        displayTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         displayTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         displayTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(displayTable);
@@ -952,23 +954,14 @@ public class MainFrame extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            javax.swing.UIManager.setLookAndFeel(new FlatLightLaf());
+        } 
+        catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -984,7 +977,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void ShowFreakingError(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

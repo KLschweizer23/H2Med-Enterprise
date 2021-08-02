@@ -40,12 +40,14 @@ public class ExpensesDatabaseManager {
             ")");
             createQuery.executeUpdate();
             con.close();
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
     }
     public Connection getConnection() throws Exception
     {
+        FileConnectionManager fcm = new FileConnectionManager();
+        
         String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/Inventory_Database";
+        String url = "jdbc:mysql://" + fcm.getConnectionAddress() + ":3306/Inventory_Database";
         String username = "root";
         String password = "umtc";
         Class.forName(driver);
@@ -104,7 +106,8 @@ public class ExpensesDatabaseManager {
                 eo.setDueDate(result.getString(DUEDATE));
                 eoList.add(eo);
             }
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);
+        System.exit(0);}
         return eoList;
     }
     public double getExpenses()
@@ -117,7 +120,7 @@ public class ExpensesDatabaseManager {
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 expenses = result.getDouble("total");
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         return expenses;
     }
@@ -135,7 +138,7 @@ public class ExpensesDatabaseManager {
             ResultSet result = getQuery.executeQuery();
             while(result.next())
                 expenses = result.getDouble("total");
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         
         return expenses;
     }
@@ -153,7 +156,7 @@ public class ExpensesDatabaseManager {
                 amount = result.getString("total");
                 part = result.getString(PARTICULARS);
             }
-        }catch(Exception e){System.out.println(e);}
+        }catch(Exception e){System.out.println(e);System.exit(0);}
         return amount + "`" + part;
     }
     private String goodString(String data)

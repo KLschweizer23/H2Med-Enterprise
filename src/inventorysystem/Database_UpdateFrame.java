@@ -659,6 +659,7 @@ public class Database_UpdateFrame extends javax.swing.JFrame {
     public void ShowFreakingError(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField database_itemArticle;
