@@ -1985,8 +1985,8 @@ public class SalesFrame extends javax.swing.JFrame {
             
             topSellingItem[i].setText(TopItem.isBlank() ? "None" : TopItem);
             fastMovingItem[i].setText(fastItem.isBlank() ? "None" : fastItem);
-            mostOutgoingInvoice[i].setText(String.format("<html><div WIDTH=%d>%s</div></html>", 10, (out.isBlank() ? "None" : out)));
-            mostIngoingInvoice[i].setText(String.format("<html><div WIDTH=%d>%s</div></html>", 10, (in.isBlank() ? "None" : in)));
+            mostOutgoingInvoice[i].setText(out.isBlank() ? "None" : (out.length() > 9 ? out.substring(0,9) + "..." : out));
+            mostIngoingInvoice[i].setText(in.isBlank() ? "None" : (in.length() > 9 ? in.substring(0,9) + "..." : in));
         }
         
     }
