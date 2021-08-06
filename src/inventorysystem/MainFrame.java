@@ -868,7 +868,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void button_main_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_main_stockInActionPerformed
         StockInFrame stockInFrame = new StockInFrame();
-        stockInFrame.openStockInFrame(this);
+        stockInFrame.openStockInFrame(this, "");
         stockInFrame.setVisible(true);
         int x = (getWidth() - stockInFrame.getWidth()) / 2;
         int y = (getHeight() - stockInFrame.getHeight()) / 2;

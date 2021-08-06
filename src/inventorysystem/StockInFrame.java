@@ -68,6 +68,8 @@ public class StockInFrame extends javax.swing.JFrame {
     
     private final int MODE_UNSORT = 1;
   
+    private String keywordDeterminer = null;
+    
     //NOT PAID = 1
     //PAID = 0
     
@@ -664,12 +666,16 @@ public class StockInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        this.myFrame.setEnabled(true);
+        if(keywordDeterminer.isEmpty())
+            this.myFrame.setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.myFrame.setAlwaysOnTop(true);
-        this.myFrame.setAlwaysOnTop(false);
+        if(keywordDeterminer.isEmpty())
+        {
+            this.myFrame.setAlwaysOnTop(true);
+            this.myFrame.setAlwaysOnTop(false);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void cashRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashRadioActionPerformed
@@ -1080,7 +1086,7 @@ public class StockInFrame extends javax.swing.JFrame {
         updateDate(monthCombo1, month1);
         updateDate2(dayCombo1, yearCombo1, month1, day, year);
     }
-    public void openStockInFrame(MainFrame main) {
+    public void openStockInFrame(MainFrame main, String keyword) {
         initComponents();
         myFrame = main;
         createColumns();
@@ -1091,6 +1097,8 @@ public class StockInFrame extends javax.swing.JFrame {
         buttonGroup1.add(cashRadio);
         buttonGroup1.add(chequeRadio);
         radioActivation(cashRadio.isSelected());
+        keywordDeterminer = keyword;
+        stockIn_searchBar.setText(keyword);
         try 
         {
             updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(),categoryCombo.getSelectedItem().toString());

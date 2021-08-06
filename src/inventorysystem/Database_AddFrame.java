@@ -579,11 +579,14 @@ public class Database_AddFrame extends javax.swing.JFrame {
     private void closeWindow()
     {
         this.dispose();
-        databaseFrame.setEnabled(true);
-        databaseFrame.setAlwaysOnTop(true);
-        databaseFrame.setAlwaysOnTop(false);
+        if(databaseFrame != null)
+        {
+            databaseFrame.setEnabled(true);
+            databaseFrame.setAlwaysOnTop(true);
+            databaseFrame.setAlwaysOnTop(false);
+        }
     }
-    public void openAddFrame(int cat, DatabaseFrame dbFrame)
+    public void openAddFrame(int cat, DatabaseFrame dbFrame, String keyword)
     {
         this.currentCategory = cat;
         this.databaseFrame = dbFrame;
@@ -592,6 +595,8 @@ public class Database_AddFrame extends javax.swing.JFrame {
         updateComboBox2();
         updateDate(monthCombo, dayCombo, yearCombo, 0);
         updateDate(monthCombo1, dayCombo1, yearCombo1, 0);
+        
+        database_itemName.setText(keyword);
     }
     public void ShowFreakingError(String message)
     {

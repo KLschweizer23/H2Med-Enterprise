@@ -425,7 +425,7 @@ public class DatabaseFrame extends javax.swing.JFrame
         {
             case 0:
                 addItemFrame = new Database_AddFrame();
-                addItemFrame.openAddFrame(getSelectedCategory(), this);
+                addItemFrame.openAddFrame(getSelectedCategory(), this, "");
                 addItemFrame.setVisible(true);
                 int x = (myFrame.getWidth() - addItemFrame.getWidth()) / 2;
                 int y = (myFrame.getHeight() - addItemFrame.getHeight()) / 2;

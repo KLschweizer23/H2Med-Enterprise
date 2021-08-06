@@ -135,6 +135,8 @@ public class StockOutFrame extends javax.swing.JFrame {
         printButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         hasDue = new javax.swing.JCheckBox();
+        button_stockIn = new javax.swing.JButton();
+        button_new = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Out");
@@ -455,6 +457,22 @@ public class StockOutFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(hasDue, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 300, -1, -1));
+
+        button_stockIn.setText("Stock In");
+        button_stockIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_stockInActionPerformed(evt);
+            }
+        });
+        jPanel2.add(button_stockIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 80, 20));
+
+        button_new.setText("New");
+        button_new.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_newActionPerformed(evt);
+            }
+        });
+        jPanel2.add(button_new, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 60, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -799,6 +817,28 @@ public class StockOutFrame extends javax.swing.JFrame {
     private void hasDueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasDueActionPerformed
         radioActivation(hasDue.isSelected());
     }//GEN-LAST:event_hasDueActionPerformed
+
+    private void button_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_stockInActionPerformed
+        
+        String keyword = dtm.getRowCount() > 0 ? dtm.getValueAt(oldTable.getSelectedRow(), 1).toString() : stockOut_searchBar.getText();
+        
+        StockInFrame stockInFrame = new StockInFrame();
+        stockInFrame.openStockInFrame(myFrame, keyword);
+        stockInFrame.setVisible(true);
+        int x = (getWidth() - stockInFrame.getWidth()) / 2;
+        int y = (getHeight() - stockInFrame.getHeight()) / 2;
+        stockInFrame.setLocation(x,y);
+    }//GEN-LAST:event_button_stockInActionPerformed
+
+    private void button_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_newActionPerformed
+        Database_AddFrame addItemFrame = new Database_AddFrame();
+        addItemFrame.openAddFrame(categoryCombo.getSelectedIndex(), null, stockOut_searchBar.getText());
+        addItemFrame.setVisible(true);
+        int x = (myFrame.getWidth() - addItemFrame.getWidth()) / 2;
+        int y = (myFrame.getHeight() - addItemFrame.getHeight()) / 2;
+        addItemFrame.setAlwaysOnTop(true);
+        addItemFrame.setLocation(x,y);
+    }//GEN-LAST:event_button_newActionPerformed
     private void radioActivation(boolean bool)
     {
         boolean isSelected = bool;
@@ -1204,6 +1244,8 @@ public class StockOutFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton button_new;
+    private javax.swing.JButton button_stockIn;
     private javax.swing.JRadioButton cashRadio;
     private javax.swing.JComboBox<String> categoryCombo;
     private javax.swing.JRadioButton chequeRadio;
