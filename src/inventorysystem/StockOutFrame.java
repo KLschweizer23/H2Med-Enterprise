@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -17,12 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -202,6 +205,8 @@ public class StockOutFrame extends javax.swing.JFrame {
             }
         ));
         newTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        newTable.setFocusable(false);
+        newTable.setRequestFocusEnabled(false);
         newTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
         newTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         newTable.getTableHeader().setReorderingAllowed(false);
@@ -242,6 +247,8 @@ public class StockOutFrame extends javax.swing.JFrame {
             }
         ));
         oldTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        oldTable.setFocusable(false);
+        oldTable.setRequestFocusEnabled(false);
         oldTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
         oldTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         oldTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -459,6 +466,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         jPanel2.add(hasDue, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 300, -1, -1));
 
         button_stockIn.setText("Stock In");
+        button_stockIn.setFocusPainted(false);
+        button_stockIn.setFocusable(false);
+        button_stockIn.setRequestFocusEnabled(false);
         button_stockIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_stockInActionPerformed(evt);
@@ -467,6 +477,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         jPanel2.add(button_stockIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 80, 20));
 
         button_new.setText("New");
+        button_new.setFocusPainted(false);
+        button_new.setFocusable(false);
+        button_new.setRequestFocusEnabled(false);
         button_new.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_newActionPerformed(evt);
@@ -597,33 +610,40 @@ public class StockOutFrame extends javax.swing.JFrame {
         return temp;
     }
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String quantity;
-        boolean pass;
-        double newVal;
-        do
-        {
-            quantity = JOptionPane.showInputDialog("Enter quantity to Stock out:");
-            if(quantity == null)
-            {
-                pass = true;
-            }
-            else
-            {
-                pass = isANumber(quantity);
-                if(pass)
-                {
-                    newVal = Double.parseDouble(quantity);
-                    if(!goodQuantity(oldTable.getSelectedRow(), newVal))
-                    {
-                        JOptionPane.showMessageDialog(null, "There are no enough stocks left for this item!", "Invalid Quantity", JOptionPane.ERROR_MESSAGE);
-                        pass = false;
-                    }
-                    else
-                        addToOtherTable(oldTable.getSelectedRow(), newVal);
-                }
-            }
-        }while(!pass);
+        buttonAction();
     }//GEN-LAST:event_addButtonActionPerformed
+    private void buttonAction()
+    {
+        if(oldTable.getRowCount() > 0)
+        {
+            String quantity;
+            boolean pass;
+            double newVal;
+            do
+            {
+                quantity = JOptionPane.showInputDialog("Enter quantity to Stock out:");
+                if(quantity == null)
+                {
+                    pass = true;
+                }
+                else
+                {
+                    pass = isANumber(quantity);
+                    if(pass)
+                    {
+                        newVal = Double.parseDouble(quantity);
+                        if(!goodQuantity(oldTable.getSelectedRow(), newVal))
+                        {
+                            JOptionPane.showMessageDialog(null, "There are no enough stocks left for this item!", "Invalid Quantity", JOptionPane.ERROR_MESSAGE);
+                            pass = false;
+                        }
+                        else
+                            addToOtherTable(oldTable.getSelectedRow(), newVal);
+                    }
+                }
+            }while(!pass);
+        }
+    }
     private boolean goodQuantity(int num, double newVal)
     {
         String id = itemIdList.get(num);
@@ -645,6 +665,10 @@ public class StockOutFrame extends javax.swing.JFrame {
             return !(newVal > currentQuantity);
     }
     private void minusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minusButtonActionPerformed
+        minusAction();
+    }//GEN-LAST:event_minusButtonActionPerformed
+    private void minusAction()
+    {
         if(newTable.getRowCount() > 0)
         {
             int selectedNum = newTable.getSelectedRow();
@@ -666,6 +690,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 
                 dtm2.removeRow(selectedNum);
             }
+            processStockStats();
         }
         else
         {
@@ -679,9 +704,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1);
         }
-        processStockStats();
-    }//GEN-LAST:event_minusButtonActionPerformed
-
+    }
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         myFrame.setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
@@ -831,8 +854,10 @@ public class StockOutFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_button_stockInActionPerformed
 
     private void button_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_newActionPerformed
+        String keyword = dtm.getRowCount() > 0 ? dtm.getValueAt(oldTable.getSelectedRow(), 1).toString() : stockOut_searchBar.getText();
+        
         Database_AddFrame addItemFrame = new Database_AddFrame();
-        addItemFrame.openAddFrame(categoryCombo.getSelectedIndex(), null, stockOut_searchBar.getText());
+        addItemFrame.openAddFrame(categoryCombo.getSelectedIndex(), null, keyword);
         addItemFrame.setVisible(true);
         int x = (myFrame.getWidth() - addItemFrame.getWidth()) / 2;
         int y = (myFrame.getHeight() - addItemFrame.getHeight()) / 2;
@@ -1160,6 +1185,19 @@ public class StockOutFrame extends javax.swing.JFrame {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
     }
+    private void setupCommands()
+    {
+        int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        getRootPane().registerKeyboardAction(e -> {
+            buttonAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        oldTable.registerKeyboardAction(e -> {
+            buttonAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        getRootPane().registerKeyboardAction(e -> {
+            minusAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), property);
+    }
     public void openStockOutFrame(MainFrame main)
     {
         myFrame = main;
@@ -1170,6 +1208,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         createColumns();
         createColumns2();
         prepareFieldNumbers();
+        setupCommands();
         updateDate(monthCombo, dayCombo, yearCombo, 0);
         updateDate(monthCombo1, dayCombo1, yearCombo1, 0);
         newTable.setRowHeight(30);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -21,7 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -362,6 +365,8 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         ));
         oldTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        oldTable.setFocusable(false);
+        oldTable.setRequestFocusEnabled(false);
         oldTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
         oldTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         oldTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -380,6 +385,8 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         ));
         newTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        newTable.setFocusable(false);
+        newTable.setRequestFocusEnabled(false);
         newTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
         newTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         newTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -554,27 +561,37 @@ public class StockInFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_stockIn_searchBarKeyReleased
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        String quantity = "";
-        boolean pass;
-        double newVal = 0;
-        do
-        {
-            quantity = JOptionPane.showInputDialog("Enter quantity to Stock in:");
-            if(quantity == null)
-                pass = true;
-            else
-            {
-                pass = isANumber(quantity);
-                if(pass)
-                {
-                    newVal = Double.parseDouble(quantity);                    
-                    addToOtherTable(oldTable.getSelectedRow(), newVal);
-                }
-            }
-        }while(!pass);
+        addAction();
     }//GEN-LAST:event_addButtonActionPerformed
-
+    private void addAction()
+    {
+        if(oldTable.getRowCount() > 0)
+        {
+            String quantity = "";
+            boolean pass;
+            double newVal = 0;
+            do
+            {
+                quantity = JOptionPane.showInputDialog("Enter quantity to Stock in:");
+                if(quantity == null)
+                    pass = true;
+                else
+                {
+                    pass = isANumber(quantity);
+                    if(pass)
+                    {
+                        newVal = Double.parseDouble(quantity);                    
+                        addToOtherTable(oldTable.getSelectedRow(), newVal);
+                    }
+                }
+            }while(!pass);
+        }
+    }
     private void minusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minusButtonActionPerformed
+        minusAction();
+    }//GEN-LAST:event_minusButtonActionPerformed
+    private void minusAction()
+    {
         if (this.newTable.getRowCount() > 0) 
         {
             int selectedNum = newTable.getSelectedRow();
@@ -593,6 +610,7 @@ public class StockInFrame extends javax.swing.JFrame {
                   newItemStockInList.remove(selectedNum);
                   dtm2.removeRow(selectedNum);
             } 
+            processStocksStats(cashRadio.isSelected());
         }
         else
             JOptionPane.showMessageDialog(null, "No data to Delete!");
@@ -602,9 +620,7 @@ public class StockInFrame extends javax.swing.JFrame {
         
         if(newTable.getRowCount() >= 1)
             newTable.setRowSelectionInterval(0, newTable.getRowCount() - 1); 
-        processStocksStats(cashRadio.isSelected());
-    }//GEN-LAST:event_minusButtonActionPerformed
-
+    }
     private void monthComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthComboActionPerformed
         if(ready)
         {
@@ -1086,13 +1102,26 @@ public class StockInFrame extends javax.swing.JFrame {
         updateDate(monthCombo1, month1);
         updateDate2(dayCombo1, yearCombo1, month1, day, year);
     }
+    private void setupCommands()
+    {
+        int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        getRootPane().registerKeyboardAction(e->{
+            addAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        oldTable.registerKeyboardAction(e->{
+            addAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        getRootPane().registerKeyboardAction(e->{
+            minusAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), property);
+    }
     public void openStockInFrame(MainFrame main, String keyword) {
         initComponents();
         myFrame = main;
         createColumns();
         createColumns2();
         updateComboBox2();
-        //updateComboBox();
+        setupCommands();
         dateUpdater(null);
         buttonGroup1.add(cashRadio);
         buttonGroup1.add(chequeRadio);
