@@ -416,6 +416,7 @@ public class MainFrame extends javax.swing.JFrame {
         logo = new javax.swing.JLabel();
         wing = new javax.swing.JLabel();
         wing2 = new javax.swing.JLabel();
+        main_button_inventory = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         sales1 = new javax.swing.JLabel();
@@ -544,6 +545,16 @@ public class MainFrame extends javax.swing.JFrame {
         //ImageIcon imageIcon = new ImageIcon(new ImageIcon("filter.png").getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));
         //jLabel2.setIcon(imageIcon);
 
+        main_button_inventory.setBackground(new java.awt.Color(255, 255, 255));
+        main_button_inventory.setText("Inventory");
+        main_button_inventory.setFocusable(false);
+        main_button_inventory.setRequestFocusEnabled(false);
+        main_button_inventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                main_button_inventoryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -568,6 +579,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(main_button_sales, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(main_button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(main_button_inventory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
         );
@@ -583,7 +596,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(main_button_records)
                     .addComponent(main_button_database)
                     .addComponent(main_button_invoices)
-                    .addComponent(main_button_sales))
+                    .addComponent(main_button_sales)
+                    .addComponent(main_button_inventory))
                 .addGap(5, 5, 5))
             .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -944,6 +958,15 @@ public class MainFrame extends javax.swing.JFrame {
         alarm.setLocation(x,y);
         alarm.setVisible(true);
     }//GEN-LAST:event_alarmButtonActionPerformed
+
+    private void main_button_inventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_inventoryActionPerformed
+        InventoryFrame inventory = new InventoryFrame();
+        inventory.openInventoryFrame(this);
+        inventory.setVisible(true);
+        int x = (getWidth() - inventory.getWidth()) / 2;
+        int y = (getHeight() - inventory.getHeight()) / 2;
+        inventory.setLocation(x,y);
+    }//GEN-LAST:event_main_button_inventoryActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -1003,6 +1026,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel least3;
     private javax.swing.JLabel logo;
     private javax.swing.JButton main_button_database;
+    private javax.swing.JButton main_button_inventory;
     private javax.swing.JButton main_button_invoices;
     private javax.swing.JButton main_button_records;
     private javax.swing.JButton main_button_sales;

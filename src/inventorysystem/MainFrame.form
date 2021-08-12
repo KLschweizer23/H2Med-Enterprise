@@ -128,6 +128,8 @@
                               <Component id="main_button_sales" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="main_button_database" min="-2" pref="150" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="main_button_inventory" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -149,6 +151,7 @@
                           <Component id="main_button_database" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="main_button_invoices" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="main_button_sales" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="main_button_inventory" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   </Group>
@@ -264,6 +267,19 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//ImageIcon imageIcon = new ImageIcon(new ImageIcon(&quot;filter.png&quot;).getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));&#xa;//jLabel2.setIcon(imageIcon);"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="main_button_inventory">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Inventory"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_inventoryActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
