@@ -1,5 +1,6 @@
-package inventorysystem;
+package inventorysystem.InventoryPackage;
 
+import inventorysystem.MainFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -48,6 +49,11 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
         button_configStocks.setText("Configure Stocks");
         button_configStocks.setFocusable(false);
         button_configStocks.setRequestFocusEnabled(false);
+        button_configStocks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_configStocksActionPerformed(evt);
+            }
+        });
 
         button_delete.setText("-");
         button_delete.setFocusable(false);
@@ -96,12 +102,21 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
 
     private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
         AddStore as = new AddStore();
-        as.openFrame(mainFrame);
+        as.openFrame();
         as.setVisible(true);
         int x = (mainFrame.getWidth() - as.getWidth()) / 2;
         int y = (mainFrame.getHeight() - as.getHeight()) / 2;
         as.setLocation(x,y);
     }//GEN-LAST:event_button_addActionPerformed
+
+    private void button_configStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_configStocksActionPerformed
+        StocksConfigurationFrame scf = new StocksConfigurationFrame();
+        scf.openFrame(mainFrame);
+        scf.setVisible(true);
+        int x = (mainFrame.getWidth() - scf.getWidth()) / 2;
+        int y = (mainFrame.getHeight() - scf.getHeight()) / 2;
+        scf.setLocation(x,y);
+    }//GEN-LAST:event_button_configStocksActionPerformed
     
     private void createColumns()
     {

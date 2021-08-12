@@ -1,5 +1,6 @@
 package inventorysystem;
 
+import inventorysystem.InventoryPackage.InventoryFrame;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;

@@ -1,5 +1,7 @@
-package inventorysystem;
+package inventorysystem.InventoryPackage;
 
+import inventorysystem.InventoryPackage.StoreConfigurationFrame;
+import inventorysystem.MainFrame;
 import java.awt.Dimension;
 import java.awt.Image;
 import javax.swing.ImageIcon;

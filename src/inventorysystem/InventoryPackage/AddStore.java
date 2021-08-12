@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inventorysystem;
+package inventorysystem.InventoryPackage;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AddStore extends javax.swing.JFrame {
 
-    MainFrame mainFrame;
     
     DefaultTableModel dtm;
     
@@ -50,8 +49,10 @@ public class AddStore extends javax.swing.JFrame {
         jScrollPane2.setViewportView(table_store);
 
         button_cancelp.setText("Cancel");
+        button_cancelp.setFocusable(false);
 
         button_add.setText("Add");
+        button_add.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,9 +98,8 @@ public class AddStore extends javax.swing.JFrame {
         dtm.addColumn("Contact #");
         table_store.setModel(dtm);
     }
-    public void openFrame(MainFrame mainFrame)
+    public void openFrame()
     {
-        this.mainFrame = mainFrame;
         initComponents();
         createColumns();
     }
