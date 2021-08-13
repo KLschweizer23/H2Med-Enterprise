@@ -20,6 +20,7 @@ import myUtilities.SystemUtilities;
 public class StoreConfigurationFrame extends javax.swing.JFrame {
 
     private MainFrame mainFrame;
+    private InventoryFrame inventoryFrame;
     
     private DefaultTableModel dtm;
     
@@ -228,7 +229,7 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
                     Point p = e.getPoint();
                     int y = p.y / rowHeight;
                     if(y < dtm.getRowCount())
-                    {}    //selects Store
+                        setStore();
                 }
             }
             @Override
@@ -252,7 +253,7 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
         int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
         //ENTER - ADD ITEM
         getRootPane().registerKeyboardAction(e->{
-            //selects item
+            setStore();
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
         
         //ESCAPE - CANCEL
@@ -265,9 +266,17 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
             deleteMethod();
         }, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), property);
     }
-    public void openFrame(MainFrame mainFrame)
+    private void setStore()
+    {
+        String id = dtm.getValueAt(table_store.getSelectedRow(), 0).toString();
+        inventoryFrame.setSelectedStore(storeList.get(id));
+        System.out.println(storeList.get(id).getName());
+        dispose();
+    }
+    public void openFrame(MainFrame mainFrame, InventoryFrame inventoryFrame)
     {
         this.mainFrame = mainFrame;
+        this.inventoryFrame = inventoryFrame;
         initComponents();
         createColumns();
         processStores();

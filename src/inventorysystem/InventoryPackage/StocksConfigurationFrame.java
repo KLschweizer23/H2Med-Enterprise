@@ -195,7 +195,7 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
         InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
         SystemUtilities su = new SystemUtilities();
         
-        HashMap<String, ItemObject> itemHashList = inventoryDb.processData(currentStore.getId(), currentStore.getName());
+        HashMap<String, ItemObject> itemHashList = inventoryDb.processData(currentStore.getId(), currentStore.getName(), "");
         
         for(String key : itemHashList.keySet())
         {

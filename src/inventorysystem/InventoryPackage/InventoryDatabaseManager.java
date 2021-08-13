@@ -20,35 +20,18 @@ public class InventoryDatabaseManager {
     private final String PRICE = "PRICE";
     private final String STOCKS_LEFT = "STOCKS_LEFT";
     private final String STOCKS_SOLD = "STOCKS_SOLD";
+    private final String SOLD_HISTORY = "SOLD_HISTORY";
     
     private HashMap<String, StoreObject> storeList = new HashMap<>();
     private ArrayList<String> idList = new ArrayList<>();
     
-    private Connection getConnection()
-    {
-        try{
-            FileConnectionManager fcm = new FileConnectionManager();
-
-            String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://" + fcm.getConnectionAddress() + ":3306/Inventory_Database";
-            String username = "root";
-            String password = "umtc";
-            Class.forName(driver);
-
-            Connection conn = DriverManager.getConnection(url, username, password);
-            return conn;
-        }catch(ClassNotFoundException | SQLException e){System.out.println(e);}
-        return null;
-    }    
-
-    public HashMap<String, ItemObject> processData(String id, String storeName)
+    public HashMap<String, ItemObject> processData(String id, String storeName, String keyword)
     {
         DatabaseFunctions dbf = new DatabaseFunctions();
         HashMap<String, ItemObject> itemList = new HashMap<>();
         
         String[] keys = columnToKeys(false);
-        String query = dbf.selectAll() + dbf.from("`" + tablePrefix + id + "_" + storeName + "`");
-        
+        String query = dbf.selectAll() + dbf.from("`" + tablePrefix + id + "_" + storeName + "`") + dbf.where() + ITEM + dbf.like(keyword);
         HashMap<String, ArrayList> map = dbf.customReturnQuery(query, keys);
         for(int i = 0; i < (map.get(ID) == null ? 0 : map.get(ID).size());i++)
         {
@@ -60,6 +43,7 @@ public class InventoryDatabaseManager {
             item.setBrand(map.get(BRAND).get(i).toString());
             item.setPrice(map.get(PRICE).get(i).toString());
             item.setStocksLeft(Integer.parseInt(map.get(STOCKS_LEFT).get(i).toString()));
+            item.setSoldHistory(map.get(SOLD_HISTORY).get(i).toString());
             itemList.put(item.getId(), item);
         }
         return itemList;
@@ -102,11 +86,17 @@ public class InventoryDatabaseManager {
         DatabaseFunctions dbf = new DatabaseFunctions();
         dbf.deleteData("`" + tablePrefix + id + "_" + storeName + "`", ID, io.getId());
     }
+    public void updateItem(String id, String storeName, ItemObject io)
+    {
+        DatabaseFunctions dbf = new DatabaseFunctions();
+        String[] myKeys = {ID, I_ID, ITEM, ARTICLE, BRAND, PRICE, STOCKS_LEFT, STOCKS_SOLD, SOLD_HISTORY};
+        dbf.updateData("`" + tablePrefix + id + "_" + storeName + "`", myKeys, dataToKeys(io, false));
+    }
     public String[] columnToKeys(boolean withAttr)
     {
         DatabaseFunctions dbf = new DatabaseFunctions();
         
-        String[] keys = {ID, I_ID, ITEM, ARTICLE, BRAND, PRICE, STOCKS_LEFT, STOCKS_SOLD};
+        String[] keys = {ID, I_ID, ITEM, ARTICLE, BRAND, PRICE, STOCKS_LEFT, STOCKS_SOLD, SOLD_HISTORY};
         String[] keysWithAttr = 
         {
             dbf.makeIntAttr(ID, false, false, true, true),
@@ -117,6 +107,7 @@ public class InventoryDatabaseManager {
             dbf.makeVarcharAttr(PRICE, 150, true),
             dbf.makeVarcharAttr(STOCKS_LEFT, 150, true),
             dbf.makeVarcharAttr(STOCKS_SOLD, 150, true),
+            dbf.makeVarcharAttr(SOLD_HISTORY, 250, true)
         };
         return withAttr ? keysWithAttr : keys;
     }    
@@ -130,7 +121,8 @@ public class InventoryDatabaseManager {
             itemObject.getBrand(),
             itemObject.getPrice(),
             itemObject.getStocksLeft() + "",
-            itemObject.getSoldStocks() + ""
+            itemObject.getSoldStocks() + "",
+            itemObject.getSoldHistory()
         };
         String[] keys ={
             itemObject.getI_id(),
@@ -139,7 +131,8 @@ public class InventoryDatabaseManager {
             itemObject.getBrand(),
             itemObject.getPrice(),
             itemObject.getStocksLeft() + "",
-            itemObject.getSoldStocks() + ""
+            itemObject.getSoldStocks() + "",
+            itemObject.getSoldHistory()
         };
         return removeFirstItem ? keys : keysWithId;
     }

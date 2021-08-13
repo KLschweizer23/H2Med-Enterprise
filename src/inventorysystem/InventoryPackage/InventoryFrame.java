@@ -1,13 +1,16 @@
 package inventorysystem.InventoryPackage;
 
-import inventorysystem.InventoryPackage.StoreConfigurationFrame;
 import inventorysystem.MainFrame;
-import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Arrays;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import myUtilities.SystemUtilities;
 
 
 /**
@@ -16,9 +19,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class InventoryFrame extends javax.swing.JFrame {
 
-    MainFrame myFrame;
+    private MainFrame myFrame;
+    private StoreObject selectedStoreObject = null;
     
-    DefaultTableModel dtm;
+    private DefaultTableModel dtm;
+    
+    private HashMap<String, ItemObject> itemList = new HashMap<>();
+    
+    private final String separator = ",";
+    
+    private boolean getFromDatabase = true;
+    
+    private final int rowHeight = 30;
+    private int lastSelectedRow = 0;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,6 +52,8 @@ public class InventoryFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         textField_search = new javax.swing.JTextField();
+        button_undo = new javax.swing.JButton();
+        button_input = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTable = new javax.swing.JTable();
@@ -83,6 +98,7 @@ public class InventoryFrame extends javax.swing.JFrame {
 
             }
         ));
+        table_stocks.setFocusable(false);
         table_stocks.setSelectionBackground(new java.awt.Color(177, 0, 0));
         table_stocks.setSelectionForeground(new java.awt.Color(255, 255, 255));
         table_stocks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -100,6 +116,28 @@ public class InventoryFrame extends javax.swing.JFrame {
         jButton2.setFocusable(false);
         jButton2.setRequestFocusEnabled(false);
 
+        textField_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textField_searchKeyReleased(evt);
+            }
+        });
+
+        button_undo.setText("Undo");
+        button_undo.setFocusable(false);
+        button_undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_undoActionPerformed(evt);
+            }
+        });
+
+        button_input.setText("Input Sold Stock");
+        button_input.setFocusable(false);
+        button_input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_inputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,14 +150,20 @@ public class InventoryFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(label_store)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(button_configure, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(button_input)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button_undo))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,7 +175,10 @@ public class InventoryFrame extends javax.swing.JFrame {
                     .addComponent(label_store)
                     .addComponent(button_configure, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
-                .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_undo)
+                    .addComponent(button_input))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -188,12 +235,64 @@ public class InventoryFrame extends javax.swing.JFrame {
 
     private void button_configureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_configureActionPerformed
         StoreConfigurationFrame scf = new StoreConfigurationFrame();
-        scf.openFrame(myFrame);
+        scf.openFrame(myFrame, this);
         scf.setVisible(true);
         int x = (myFrame.getWidth() - scf.getWidth()) / 2;
         int y = (myFrame.getHeight() - scf.getHeight()) / 2;
         scf.setLocation(x,y);
     }//GEN-LAST:event_button_configureActionPerformed
+
+    private void button_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_inputActionPerformed
+        lastSelectedRow = table_stocks.getSelectedRow();
+        inputMethod();
+    }//GEN-LAST:event_button_inputActionPerformed
+
+    private void textField_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_searchKeyReleased
+        processStocks();
+    }//GEN-LAST:event_textField_searchKeyReleased
+
+    private void button_undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_undoActionPerformed
+        undoMethod();
+    }//GEN-LAST:event_button_undoActionPerformed
+    private void undoMethod()
+    {
+        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+        ItemObject io = itemList.get(id);
+        String[] soldHistory = getSoldHistory(io);
+        String[] newSetArray = Arrays.copyOf(soldHistory, soldHistory.length - 1);
+        String newSoldHistory = arrayToString(newSetArray, separator);
+        io.setSoldHistory(newSoldHistory);
+        processUndo(io);
+        processStocks();
+    }
+    private String arrayToString(String[] data, String separator)
+    {
+        String newString = "";
+        for(String d : data)
+            newString += separator + d;
+        return newString.substring(1);
+    }
+    private void inputMethod()
+    {
+        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+        
+        ItemObject currentIo = itemList.get(id);
+        SystemUtilities su = new SystemUtilities();
+        String soldStocks = su.inputNumberUser("Input sold stocks:");
+        if(soldStocks != null)
+        {
+            writeSoldHistory(currentIo, soldStocks);
+            processStocks();
+        }
+    }
+    private void writeSoldHistory(ItemObject io, String value)
+    {
+        io.setSoldHistory(io.getSoldHistory() + separator + value);
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        inventoryDb.updateItem(selectedStoreObject.getId(), selectedStoreObject.getName(), io);
+        processStocks();
+    }
     private void createColumns()
     {
         dtm = new DefaultTableModel(0,0)
@@ -204,14 +303,18 @@ public class InventoryFrame extends javax.swing.JFrame {
                 return false;
             }
         };
+        dtm.addColumn("ID");
+        dtm.addColumn("I_ID");
         dtm.addColumn("Item");
         dtm.addColumn("Article");
         dtm.addColumn("Brand");
         dtm.addColumn("Price");
         dtm.addColumn("Stocks Left");
         dtm.addColumn("Sold Stocks");
-        dtm.addColumn("Action");
         table_stocks.setModel(dtm);
+        TableColumnModel tcm = table_stocks.getColumnModel();
+        table_stocks.removeColumn(tcm.getColumn(0));
+        table_stocks.removeColumn(tcm.getColumn(0));
     }
     private ImageIcon getScaledImageIcon(String imageName, int height, int width)
     {
@@ -226,15 +329,140 @@ public class InventoryFrame extends javax.swing.JFrame {
         button_configure.setIcon(getScaledImageIcon("settings_icon.png", 20,20));
         button_configure.setContentAreaFilled(false);
     }
+    public void setSelectedStore(StoreObject so)
+    {
+        this.selectedStoreObject = so;
+        label_store.setText(selectedStoreObject.getName());
+        processStocks();
+    }
+    private void removeData()
+    {
+        for(int i = table_stocks.getRowCount(); i != 0 && table_stocks.getRowCount() > 0; i--)
+            dtm.removeRow(i - 1);
+    }
+    private void processStocks()
+    {
+        removeData();
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        SystemUtilities su = new SystemUtilities();
+        if(selectedStoreObject != null)
+        {
+            itemList.clear();
+            String keyword = textField_search.getText();
+            itemList = inventoryDb.processData(selectedStoreObject.getId(), selectedStoreObject.getName(), keyword);
+            
+            for(String key : itemList.keySet())
+            {
+                ItemObject io = itemList.get(key);
+                Object[] rowData = {
+                    io.getId(),
+                    io.getI_id(),
+                    io.getItem(),
+                    io.getArticle(),
+                    io.getBrand(),
+                    (char)8369 + " " + io.getPrice(),
+                    io.getStocksLeft(),
+                    getSoldStocks(io)
+                };
+                dtm.addRow(rowData);
+            }
+            if(table_stocks.getRowCount() > 0 && lastSelectedRow > table_stocks.getRowCount() - 1)
+                lastSelectedRow = table_stocks.getRowCount() - 1;
+            table_stocks.setRowHeight(rowHeight);
+            if(table_stocks.getRowCount() > 0)
+            {
+                su.setCustomSelection(table_stocks, lastSelectedRow);
+                String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+                processUndo(itemList.get(id));
+            }
+            else button_undo.setText("Undo");
+        }
+    }
+    private void setupTable()
+    {
+        table_stocks.addMouseListener(new MouseListener() {
+            private boolean onTable = false;
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                    {
+                        lastSelectedRow = table_stocks.getRowCount();
+                        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+                        processUndo(itemList.get(id));
+                    }
+                }
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                    {
+                        lastSelectedRow = table_stocks.getRowCount();
+                        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+                        processUndo(itemList.get(id));
+                    }
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                onTable = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                onTable = false;
+            }
+        });
+    }
+    private void processUndo(ItemObject io)
+    {
+        String[] soldValues = getSoldHistory(io);
+        int soldLength = soldValues.length - 1;
+        button_undo.setText("Undo(" + soldLength + ")");
+    }
+    private String getSoldStocks(ItemObject io)
+    {
+        String[] soldValues = getSoldHistory(io);
+        int total = 0;
+        for(String sold : soldValues)
+        {
+            if(sold.equals("null")) sold = "";
+            total += Integer.parseInt(sold.isBlank() ? "0" : sold);
+        }
+        io.setSoldStocks(total);
+        return io.getSoldStocks() + "";
+    }
+    private String[] getSoldHistory(ItemObject io)
+    {
+        String soldHistory = io.getSoldHistory();
+        
+        return soldHistory.split(separator);
+    }
     public void openInventoryFrame(MainFrame mainFrame)
     {
         myFrame = mainFrame;
         initComponents();
         setIcons();
         createColumns();
+        processStocks();
+        setupTable();
    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_configure;
+    private javax.swing.JButton button_input;
+    private javax.swing.JButton button_undo;
     private javax.swing.JTable displayTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

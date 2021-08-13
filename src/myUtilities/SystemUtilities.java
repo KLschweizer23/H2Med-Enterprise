@@ -182,6 +182,10 @@ public class SystemUtilities
     {
         if(toZero && table.getRowCount() > 0) table.setRowSelectionInterval(0, 0);
     }
+    public void setCustomSelection(JTable table, int selection)
+    {
+        if(table.getRowCount() > 0) table.setRowSelectionInterval(0, selection);
+    }
     //---------------------------- FILE FUNCTIONS ------------------------\\
     public String getSingleStringFromFile(File file)
     {
