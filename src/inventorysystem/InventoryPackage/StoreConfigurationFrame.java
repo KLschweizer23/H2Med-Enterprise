@@ -1,7 +1,17 @@
 package inventorysystem.InventoryPackage;
 
 import inventorysystem.MainFrame;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import myUtilities.SystemUtilities;
 
 /**
  *
@@ -9,9 +19,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class StoreConfigurationFrame extends javax.swing.JFrame {
 
-    MainFrame mainFrame;
+    private MainFrame mainFrame;
     
-    DefaultTableModel dtm;
+    private DefaultTableModel dtm;
+    
+    private HashMap<String, StoreObject> storeList = new HashMap<>();
+    
+    private final int rowHeight = 40;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,6 +72,11 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
         button_delete.setText("-");
         button_delete.setFocusable(false);
         button_delete.setRequestFocusEnabled(false);
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteActionPerformed(evt);
+            }
+        });
 
         button_add.setText("+");
         button_add.setFocusable(false);
@@ -102,7 +121,7 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
 
     private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
         AddStore as = new AddStore();
-        as.openFrame();
+        as.openFrame(this, storeList);
         as.setVisible(true);
         int x = (mainFrame.getWidth() - as.getWidth()) / 2;
         int y = (mainFrame.getHeight() - as.getHeight()) / 2;
@@ -110,14 +129,34 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_button_addActionPerformed
 
     private void button_configStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_configStocksActionPerformed
+        configStocks();
+    }//GEN-LAST:event_button_configStocksActionPerformed
+
+    private void configStocks()
+    {
         StocksConfigurationFrame scf = new StocksConfigurationFrame();
-        scf.openFrame(mainFrame);
+        
+        String id = dtm.getValueAt(table_store.getSelectedRow(), 0).toString();
+        
+        scf.openFrame(mainFrame, storeList.get(id));
         scf.setVisible(true);
         int x = (mainFrame.getWidth() - scf.getWidth()) / 2;
         int y = (mainFrame.getHeight() - scf.getHeight()) / 2;
         scf.setLocation(x,y);
-    }//GEN-LAST:event_button_configStocksActionPerformed
+    }
     
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        deleteMethod();
+    }//GEN-LAST:event_button_deleteActionPerformed
+    private void deleteMethod()
+    {
+        if(table_store.getRowCount() > 0)
+        {
+            InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+            inventoryDb.deleteStore(dtm.getValueAt(table_store.getSelectedRow(), 0).toString(),dtm.getValueAt(table_store.getSelectedRow(), 1).toString());
+            processStores();
+        }
+    }
     private void createColumns()
     {
         dtm = new DefaultTableModel(0,0)
@@ -128,17 +167,113 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
                 return false;
             }
         };
+        dtm.addColumn("ID");
         dtm.addColumn("Store");
-        dtm.addColumn("Address");
         table_store.setModel(dtm);
+        TableColumnModel tcm = table_store.getColumnModel();
+        table_store.removeColumn(tcm.getColumn(0));
+    }
+    public void addNewStore(StoreObject so)
+    {
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        inventoryDb.newStore(so.getId() + "_" + so.getName());
+        
+        processStores();
+    }
+    private void removeData()
+    {
+        for(int i = table_store.getRowCount(); i != 0 && table_store.getRowCount() > 0; i--)
+            dtm.removeRow(i - 1);
+    }
+    private void processStores()
+    {
+        removeData();
+        storeList.clear();
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        SystemUtilities su = new SystemUtilities();
+        
+        ArrayList<String> tableList = inventoryDb.getTables();
+        
+        for(int i = 0; i < tableList.size(); i++)
+        {
+            String id = tableList.get(i).split("_")[0];
+            String store = tableList.get(i).split("_")[1];
+            
+            StoreObject so = new StoreObject();
+            so.setId(id);
+            so.setName(store);
+            
+            String[] rowData = {
+                id,
+                store
+            };
+            storeList.put(id, so);
+            dtm.addRow(rowData);
+        }
+        su.setSelectionToZero(table_store, true);
+        table_store.setRowHeight(rowHeight);
+    }    
+    private void setupTable()
+    {
+        SystemUtilities su = new SystemUtilities();
+        su.setHoverableTable(table_store);
+        table_store.addMouseListener(new MouseListener() {
+            private boolean onTable = false;
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                    {}    //selects Store
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                onTable = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                onTable = false;
+            }
+        });
+    }    
+    private void setupCommands()
+    {
+        int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        //ENTER - ADD ITEM
+        getRootPane().registerKeyboardAction(e->{
+            //selects item
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        
+        //ESCAPE - CANCEL
+        getRootPane().registerKeyboardAction(e->{
+            dispose();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), property);
+        
+        //DELETE - DELETE
+        getRootPane().registerKeyboardAction(e->{
+            deleteMethod();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), property);
     }
     public void openFrame(MainFrame mainFrame)
     {
         this.mainFrame = mainFrame;
         initComponents();
         createColumns();
+        processStores();
+        setupTable();
+        setupCommands();
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_add;
     private javax.swing.JButton button_configStocks;

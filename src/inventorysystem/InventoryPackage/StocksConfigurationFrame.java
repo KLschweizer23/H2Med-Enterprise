@@ -1,9 +1,17 @@
 package inventorysystem.InventoryPackage;
 
 import inventorysystem.MainFrame;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import myUtilities.SystemUtilities;
 
 /**
  *
@@ -12,10 +20,13 @@ import javax.swing.table.DefaultTableModel;
 public class StocksConfigurationFrame extends javax.swing.JFrame {
 
     private MainFrame mainFrame;
+    private StoreObject currentStore = new StoreObject();
     
     private DefaultTableModel dtm;
     
     private HashMap<String, ItemObject> itemList = new HashMap<>();
+    
+    private final int rowHeight = 30;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,6 +72,11 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
 
         button_delete.setText("-");
         button_delete.setFocusable(false);
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteActionPerformed(evt);
+            }
+        });
 
         button_add.setText("+");
         button_add.setFocusable(false);
@@ -106,13 +122,33 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
+        addAction();
+    }//GEN-LAST:event_button_addActionPerformed
+
+    private void addAction()
+    {
         AddItem ai = new AddItem();
         ai.openFrame(this, itemList);
         ai.setVisible(true);
         int x = (mainFrame.getWidth() - ai.getWidth()) / 2;
         int y = (mainFrame.getHeight() - ai.getHeight()) / 2;
         ai.setLocation(x,y);
-    }//GEN-LAST:event_button_addActionPerformed
+    }
+    
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
+        deleteAction();
+    }//GEN-LAST:event_button_deleteActionPerformed
+    
+    private void deleteAction()
+    {
+        if(table_items.getRowCount() > 0)
+        {
+            InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+            String id = dtm.getValueAt(table_items.getSelectedRow(), 1).toString();
+            inventoryDb.deleteItem(currentStore.getId(), currentStore.getName(), itemList.get(id));
+            processStocks();
+        }
+    }
     
     private void createColumns()
     {
@@ -124,39 +160,124 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
                 return false;
             }
         };
+        dtm.addColumn("ID");
+        dtm.addColumn("I_ID");
         dtm.addColumn("Item");
         dtm.addColumn("Article");
         dtm.addColumn("Brand");
         dtm.addColumn("Price");
         dtm.addColumn("Stocks Left");
         table_items.setModel(dtm);
+        
+        TableColumnModel tcm = table_items.getColumnModel();
+        table_items.removeColumn(tcm.getColumn(0));
+        table_items.removeColumn(tcm.getColumn(0));
     }
     
     public void addNewItem(ItemObject io)
     {
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        inventoryDb.insertItem(currentStore.getId(), currentStore.getName(), io);
         
         processStocks();
     }
+    private void removeData()
+    {
+        for(int i = table_items.getRowCount(); i != 0 && table_items.getRowCount() > 0; i--)
+            dtm.removeRow(i - 1);
+    }
     private void processStocks()
     {
+        removeData();
+        itemList.clear();
         
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        SystemUtilities su = new SystemUtilities();
+        
+        HashMap<String, ItemObject> itemHashList = inventoryDb.processData(currentStore.getId(), currentStore.getName());
+        
+        for(String key : itemHashList.keySet())
+        {
+            ItemObject io = itemHashList.get(key);
+            String[] rowData = {
+                io.getId(),
+                io.getI_id(),
+                io.getItem(),
+                io.getArticle(),
+                io.getBrand(),
+                (char)8369 + " " + io.getPrice(),
+                io.getStocksLeft() + ""
+            };
+            itemList.put(io.getI_id(), io);
+            dtm.addRow(rowData);
+        }
+        su.setSelectionToZero(table_items, true);
+        table_items.setRowHeight(rowHeight);
     }
     private void setupTable()
     {
-        
+        SystemUtilities su = new SystemUtilities();
+        su.setHoverableTable(table_items);
+        table_items.addMouseListener(new MouseListener() {
+            private boolean onTable = false;
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                    {}//        addItem();
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                onTable = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                onTable = false;
+            }
+        });
     }
     private void setupCommands()
     {
+        int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        //ENTER - ADD ITEM
+        getRootPane().registerKeyboardAction(e->{
+            addAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
         
+        //ESCAPE - CANCEL
+        getRootPane().registerKeyboardAction(e->{
+            dispose();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), property);
+        
+        //DELETE - DELETE
+        getRootPane().registerKeyboardAction(e->{
+            deleteAction();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), property);
     }
-    public void openFrame(MainFrame mainFrame)
+    public void openFrame(MainFrame mainFrame, StoreObject so)
     {
         this.mainFrame = mainFrame;
+        currentStore = so;
+        
         initComponents();
         createColumns();
         processStocks();
         setupTable();
         setupCommands();
+        
+        label_currentStore.setText(currentStore.getName());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

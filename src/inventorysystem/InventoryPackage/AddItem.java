@@ -174,17 +174,21 @@ public class AddItem extends javax.swing.JFrame {
             itemDb.filterBySearch(textField_search.getText(), "All", "", 1);
         }catch(Exception e){System.out.println(e);}
         
-        for(int i = 0; i < itemDb.getItemIdList().size() && !hasAdded(itemDb.getItemIdList().get(i)); i++)
+        for(int i = 0; i < itemDb.getItemIdList().size(); i++)
         {
-            ItemObject io = new ItemObject();
-            io.setId(itemDb.getItemIdList().get(i));
-            io.setItem(itemDb.getItemNameList().get(i));
-            io.setArticle(itemDb.getItemArticleList().get(i));
-            io.setBrand(itemDb.getItemBrandList().get(i));
-            io.setPrice(itemDb.getItemPriceList().get(i).toString());
-            addData(io);
+            if(!hasAdded(itemDb.getItemIdList().get(i)))
+            {
+                ItemObject io = new ItemObject();
+                io.setI_id(itemDb.getItemIdList().get(i));
+                io.setItem(itemDb.getItemNameList().get(i));
+                io.setArticle(itemDb.getItemArticleList().get(i));
+                io.setBrand(itemDb.getItemBrandList().get(i));
+                io.setPrice(itemDb.getItemPriceList().get(i).toString());
+                addData(io);
+            }
         }
         su.setSelectionToZero(table_items, true);
+        table_items.setRowHeight(rowHeight);
     }
     private boolean hasAdded(String id)
     {
@@ -192,9 +196,9 @@ public class AddItem extends javax.swing.JFrame {
     }
     private void addData(ItemObject io)
     {
-        itemList.put(io.getId(), io);
+        itemList.put(io.getI_id(), io);
         String[] rowData = {
-            io.getId(),
+            io.getI_id(),
             io.getItem(),
             io.getArticle(),
             io.getBrand(),

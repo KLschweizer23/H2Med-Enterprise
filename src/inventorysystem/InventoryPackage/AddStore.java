@@ -5,7 +5,19 @@
  */
 package inventorysystem.InventoryPackage;
 
+import inventorysystem.BranchDatabaseManager;
+import inventorysystem.ClientDatabaseManager;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import myUtilities.SystemUtilities;
 
 /**
  *
@@ -13,9 +25,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AddStore extends javax.swing.JFrame {
 
+    private StoreConfigurationFrame scf;
     
-    DefaultTableModel dtm;
+    private DefaultTableModel dtm;
     
+    private HashMap<String, StoreObject> storeList = new HashMap<>();
+    
+    private final int rowHeight = 40;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,9 +66,19 @@ public class AddStore extends javax.swing.JFrame {
 
         button_cancelp.setText("Cancel");
         button_cancelp.setFocusable(false);
+        button_cancelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_cancelpActionPerformed(evt);
+            }
+        });
 
         button_add.setText("Add");
         button_add.setFocusable(false);
+        button_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_addActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,6 +109,14 @@ public class AddStore extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
+        addStore();
+    }//GEN-LAST:event_button_addActionPerformed
+
+    private void button_cancelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_cancelpActionPerformed
+        dispose();
+    }//GEN-LAST:event_button_cancelpActionPerformed
     private void createColumns()
     {
         dtm = new DefaultTableModel(0,0)
@@ -93,15 +127,128 @@ public class AddStore extends javax.swing.JFrame {
                 return false;
             }
         };
+        dtm.addColumn("ID");
         dtm.addColumn("Client");
         dtm.addColumn("Address");
         dtm.addColumn("Contact #");
         table_store.setModel(dtm);
+        
+        TableColumnModel tcm = table_store.getColumnModel();
+        table_store.removeColumn(tcm.getColumn(0));
     }
-    public void openFrame()
+    private void removeData()
     {
+        for(int i = table_store.getRowCount(); i != 0 && table_store.getRowCount() > 0; i--)
+            dtm.removeRow(i - 1);
+    }
+    private void processStores()
+    {
+        removeData();
+        
+        BranchDatabaseManager branchDb = new BranchDatabaseManager();
+        ClientDatabaseManager clientDb = new ClientDatabaseManager();
+        SystemUtilities su = new SystemUtilities();
+        
+        try
+        {
+            branchDb.processAllData();
+            clientDb.processAllData();
+        }catch(Exception e){System.out.println(e);}
+        ArrayList<String> idLists = branchDb.getBranchIdList().addAll(clientDb.getClientIdList()) ? branchDb.getBranchIdList() : new ArrayList<>();
+        ArrayList<String> nameLists = branchDb.getBranchNameList().addAll(clientDb.getClientNameList()) ? branchDb.getBranchNameList() : new ArrayList<>();
+        ArrayList<String> addressList = branchDb.getBranchAddressList().addAll(clientDb.getClientAddressList()) ? branchDb.getBranchAddressList() : new ArrayList<>();
+        for(int i = 0; i < idLists.size(); i++)
+        {
+            if(!hasAdded(idLists.get(i)))
+            {
+                StoreObject so = new StoreObject();
+                so.setId(idLists.get(i));
+                so.setName(nameLists.get(i));
+                so.setAddress(addressList.get(i));
+                addData(so);
+            }
+        }
+        su.setSelectionToZero(table_store, true);
+        table_store.setRowHeight(rowHeight);
+    }
+    private boolean hasAdded(String id)
+    {
+        return storeList.containsKey(id);
+    }
+    private void addData(StoreObject so)
+    {
+        storeList.put(so.getId(), so);
+        String[] rowData = {
+            so.getId(),
+            so.getName(),
+            so.getAddress()
+        };
+        dtm.addRow(rowData);
+    }
+    private void setupTable()
+    {
+        SystemUtilities su = new SystemUtilities();
+        su.setHoverableTable(table_store);
+        table_store.addMouseListener(new MouseListener() {
+            private boolean onTable = false;
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                            addStore();
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                onTable = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                onTable = false;
+            }
+        });
+    }
+    private void addStore()
+    {
+        if(table_store.getRowCount() > 0)
+        {
+            String id = dtm.getValueAt(table_store.getSelectedRow(), 0).toString();
+            scf.addNewStore(storeList.get(id));
+            dispose();
+        }
+    }
+    private void setupCommands()
+    {
+        int property = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        //ENTER - ADD ITEM
+        getRootPane().registerKeyboardAction(e->{
+            addStore();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), property);
+        
+        //ESCAPE - CANCEL
+        getRootPane().registerKeyboardAction(e->{
+            dispose();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), property);
+    }
+    public void openFrame(StoreConfigurationFrame scf, HashMap<String, StoreObject> storeList)
+    {
+        this.storeList = storeList;
+        this.scf = scf;
         initComponents();
         createColumns();
+        processStores();
+        setupTable();
+        setupCommands();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

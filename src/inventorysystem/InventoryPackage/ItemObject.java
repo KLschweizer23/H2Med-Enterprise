@@ -7,6 +7,7 @@ package inventorysystem.InventoryPackage;
 public class ItemObject 
 {
     private String id;
+    private String i_id;
     private String item;
     private String article;
     private String brand;
@@ -77,5 +78,13 @@ public class ItemObject
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getI_id() {
+        return i_id;
+    }
+
+    public void setI_id(String i_id) {
+        this.i_id = i_id;
     }
 }
