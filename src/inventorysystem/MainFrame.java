@@ -1,5 +1,7 @@
 package inventorysystem;
 
+import LoginPackage.LoginDialog;
+import LoginPackage.LoginObject;
 import inventorysystem.InventoryPackage.InventoryFrame;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -46,29 +48,59 @@ public class MainFrame extends javax.swing.JFrame {
     
     private int MODE_SORT = 0;
     
-    ArrayList<String> itemIdList;
+    private ArrayList<String> itemIdList;
     
     //CLASS VARIABLES
     static MainFrame myFrame;
-    ItemDatabaseManager itemDatabaseManager = new ItemDatabaseManager();
+    private ItemDatabaseManager itemDatabaseManager = new ItemDatabaseManager();
     
     //UNCOMMON VARIABLES
-    DefaultTableModel dtm;
+    private DefaultTableModel dtm;
+    
+    public boolean grantedAccess = false;
+    private LoginObject logObj;
     
     public MainFrame() {
-        initComponents();
         
-        createColumns();
-        updateComboBox();
-        changeIcons();
-        setupTable(displayTable, Color.white, new Dimension(0,30), Color.black);
-        updateStatus();
-        try
+        initComponents();
+        do
         {
-            updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
-        resizeColumnWidth(displayTable);
-        main_searchBar.requestFocus();
+            loginForm();
+        }while(!grantedAccess);
+        
+        if(grantedAccess)
+        {
+            createColumns();
+            updateComboBox();
+            changeIcons();
+            setupTable(displayTable, Color.white, new Dimension(0,30), Color.black);
+            updateStatus();
+            try
+            {
+                updateTableData(MODE_PROCESS, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+            }catch(Exception e){ShowFreakingError(e + " - Error 0002");}
+            resizeColumnWidth(displayTable);
+            main_searchBar.requestFocus();
+            accountAccess();
+        }
+    }
+//    private void accountAccess()
+//    {
+//        
+//    }
+    private void accountAccess()
+    {
+        
+    }
+    private void loginForm()
+    {
+        LoginDialog logDialog = new LoginDialog(this, true);
+        System.out.println(getWidth() + " --- " + getHeight());
+        System.out.println(logDialog.getWidth() + " --- " + logDialog.getHeight());
+        int x = (this.getWidth() - logDialog.getWidth()) / 2;
+        int y = (this.getHeight() - logDialog.getHeight()) / 2;
+        logDialog.setLocation(x,y);
+        logDialog.setVisible(true);
     }
     private void updateStatus()
     {
@@ -362,6 +394,10 @@ public class MainFrame extends javax.swing.JFrame {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }
+
+    public void setLogObj(LoginObject logObj) {
+        this.logObj = logObj;
     }
     //CLASSES
     class backPanelGradient extends JPanel
@@ -986,7 +1022,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
