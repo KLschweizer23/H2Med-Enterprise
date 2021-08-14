@@ -270,7 +270,6 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
     {
         String id = dtm.getValueAt(table_store.getSelectedRow(), 0).toString();
         inventoryFrame.setSelectedStore(storeList.get(id));
-        System.out.println(storeList.get(id).getName());
         dispose();
     }
     public void openFrame(MainFrame mainFrame, InventoryFrame inventoryFrame)

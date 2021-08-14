@@ -5,9 +5,11 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import myUtilities.SystemUtilities;
@@ -107,14 +109,22 @@ public class InventoryFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(table_stocks);
 
         jButton1.setText("Cancel");
-        jButton1.setEnabled(false);
         jButton1.setFocusable(false);
         jButton1.setRequestFocusEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Apply");
-        jButton2.setEnabled(false);
         jButton2.setFocusable(false);
         jButton2.setRequestFocusEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         textField_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -254,16 +264,52 @@ public class InventoryFrame extends javax.swing.JFrame {
     private void button_undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_undoActionPerformed
         undoMethod();
     }//GEN-LAST:event_button_undoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cancelMethod();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        applyButton();
+    }//GEN-LAST:event_jButton2ActionPerformed
+    private void applyButton()
+    {
+        for(String key : itemList.keySet())
+        {
+            ItemObject io = itemList.get(key);
+            int soldStocks = Integer.parseInt(getSoldStocks(io));
+            int left = io.getStocksLeft() - soldStocks;
+            io.setStocksLeft(left);
+        }
+        cancelMethod();
+    }
+    private void cancelMethod()
+    {
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        for(String key : itemList.keySet())
+        {
+            ItemObject io = itemList.get(key);
+            io.setSoldHistory("null");
+            inventoryDb.updateItem(selectedStoreObject.getId(), selectedStoreObject.getName(), io);
+        }
+        processStocks();
+    }
     private void undoMethod()
     {
         String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
         ItemObject io = itemList.get(id);
         String[] soldHistory = getSoldHistory(io);
-        String[] newSetArray = Arrays.copyOf(soldHistory, soldHistory.length - 1);
-        String newSoldHistory = arrayToString(newSetArray, separator);
-        io.setSoldHistory(newSoldHistory);
-        processUndo(io);
-        processStocks();
+        if(soldHistory.length > 1)
+        {
+            String[] newSetArray = Arrays.copyOf(soldHistory, soldHistory.length - 1);
+            String newSoldHistory = arrayToString(newSetArray, separator);
+            io.setSoldHistory(newSoldHistory);
+
+            InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+            inventoryDb.updateItem(selectedStoreObject.getId(), selectedStoreObject.getName(), io);
+
+            processStocks();
+        }
     }
     private String arrayToString(String[] data, String separator)
     {
@@ -390,31 +436,11 @@ public class InventoryFrame extends javax.swing.JFrame {
             }
             @Override
             public void mousePressed(MouseEvent e) {
-                if(onTable)
-                {
-                    Point p = e.getPoint();
-                    int y = p.y / rowHeight;
-                    if(y < dtm.getRowCount())
-                    {
-                        lastSelectedRow = table_stocks.getRowCount();
-                        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
-                        processUndo(itemList.get(id));
-                    }
-                }
+                mouseFunction(e);
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                if(onTable)
-                {
-                    Point p = e.getPoint();
-                    int y = p.y / rowHeight;
-                    if(y < dtm.getRowCount())
-                    {
-                        lastSelectedRow = table_stocks.getRowCount();
-                        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
-                        processUndo(itemList.get(id));
-                    }
-                }
+                mouseFunction(e);
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -423,6 +449,20 @@ public class InventoryFrame extends javax.swing.JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 onTable = false;
+            }
+            private void mouseFunction(MouseEvent e)
+            {
+                if(onTable)
+                {
+                    Point p = e.getPoint();
+                    int y = p.y / rowHeight;
+                    if(y < dtm.getRowCount())
+                    {
+                        lastSelectedRow = table_stocks.getRowCount();
+                        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+                        processUndo(itemList.get(id));
+                    }
+                }
             }
         });
     }
@@ -441,14 +481,25 @@ public class InventoryFrame extends javax.swing.JFrame {
             if(sold.equals("null")) sold = "";
             total += Integer.parseInt(sold.isBlank() ? "0" : sold);
         }
-        io.setSoldStocks(total);
-        return io.getSoldStocks() + "";
+        return io.getSoldStocks() + total + "";
     }
     private String[] getSoldHistory(ItemObject io)
     {
         String soldHistory = io.getSoldHistory();
         
         return soldHistory.split(separator);
+    }
+    private void setupExit()
+    {
+        JFrame frame = this;
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                cancelMethod();
+                dispose();
+            }
+            
+        });
     }
     public void openInventoryFrame(MainFrame mainFrame)
     {
@@ -458,6 +509,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         createColumns();
         processStocks();
         setupTable();
+        setupExit();
    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_configure;
