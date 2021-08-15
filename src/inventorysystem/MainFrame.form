@@ -117,19 +117,19 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="button_main_stockIn" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_stockIn" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_stockOutTransfer" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_stockOut" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_records" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_records" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_invoices" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_invoices" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_sales" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_sales" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_database" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_database" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="main_button_inventory" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="button_inventory" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -145,13 +145,13 @@
                           <Component id="wing" max="32767" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="button_main_stockIn" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_stockOutTransfer" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_records" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_database" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_invoices" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_sales" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main_button_inventory" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_stockIn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_stockOut" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_records" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_database" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_invoices" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_sales" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="button_inventory" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   </Group>
@@ -160,7 +160,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="button_main_stockIn">
+            <Component class="javax.swing.JButton" name="button_stockIn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -170,10 +170,10 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_main_stockInActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_stockInActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_stockOutTransfer">
+            <Component class="javax.swing.JButton" name="button_stockOut">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -183,10 +183,10 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_stockOutTransferActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_stockOutActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_records">
+            <Component class="javax.swing.JButton" name="button_records">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -196,10 +196,10 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_recordsActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_recordsActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_database">
+            <Component class="javax.swing.JButton" name="button_database">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -209,10 +209,10 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_databaseActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_databaseActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_invoices">
+            <Component class="javax.swing.JButton" name="button_invoices">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -222,10 +222,10 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_invoicesesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_invoicesesActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_sales">
+            <Component class="javax.swing.JButton" name="button_sales">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -235,7 +235,7 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_salesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_salesActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="logo">
@@ -268,7 +268,7 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//ImageIcon imageIcon = new ImageIcon(new ImageIcon(&quot;filter.png&quot;).getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));&#xa;//jLabel2.setIcon(imageIcon);"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="main_button_inventory">
+            <Component class="javax.swing.JButton" name="button_inventory">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -278,7 +278,7 @@
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="main_button_inventoryActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_inventoryActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -1,5 +1,6 @@
 package inventorysystem.InventoryPackage;
 
+import LoginPackage.LoginDatabaseManager;
 import inventorysystem.MainFrame;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -8,9 +9,14 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import myUtilities.MessageHandler;
 import myUtilities.SystemUtilities;
 
 /**
@@ -141,15 +147,43 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
     
     private void deleteAction()
     {
-        if(table_items.getRowCount() > 0)
+        boolean permissionGranted;
+        String adminPass = getPass();
+        
+        LoginDatabaseManager logDb = new LoginDatabaseManager();
+        MessageHandler mh = new MessageHandler();
+        
+        permissionGranted = adminPass.equals(logDb.getAdminPass());
+        
+        if(table_items.getRowCount() > 0 && permissionGranted)
         {
             InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
             String id = dtm.getValueAt(table_items.getSelectedRow(), 1).toString();
             inventoryDb.deleteItem(currentStore.getId(), currentStore.getName(), itemList.get(id));
             processStocks();
         }
+        else if(adminPass == null){}
+        else if(!permissionGranted) mh.warning("Wrong admin Password");
     }
-    
+    private String getPass()
+    {
+        String pass = "";
+        
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("<html>Input Administrator Password<br></html>");
+        JPasswordField passField = new JPasswordField(15);
+        panel.add(label);
+        panel.add(passField);
+        String[] options = new String[]{"Confirm", "Cancel"};
+        int option = JOptionPane.showOptionDialog(null, panel, "Input Admin Password", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+        if(option == 0)
+        {
+            char[] password = passField.getPassword();
+            for(char c : password)
+                pass += c;
+        }
+        return pass;
+    }
     private void createColumns()
     {
         dtm = new DefaultTableModel(0,0)

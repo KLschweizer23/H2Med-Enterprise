@@ -133,7 +133,7 @@
         <Component class="javax.swing.JLabel" name="label_register">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Register New Account!"/>
+            <Property name="text" type="java.lang.String" value="Register this new user!"/>
           </Properties>
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="label_registerMouseEntered"/>

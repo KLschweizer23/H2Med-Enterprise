@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.KeyStroke;
 import myUtilities.MessageHandler;
 
@@ -58,7 +62,7 @@ public class LoginDialog extends javax.swing.JDialog {
         });
 
         label_register.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        label_register.setText("Register New Account!");
+        label_register.setText("Register this new user!");
         label_register.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 label_registerMouseEntered(evt);
@@ -162,10 +166,70 @@ public class LoginDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_label_registerMousePressed
     private void register()
     {
-        setAlwaysOnTop(false);
         MessageHandler mh = new MessageHandler();
-        mh.warning("Feature not yet available!");
+        
+        String pass = "";
+        String roleAdmin = "ADMIN";
+        
+        char[] pw = passField_password.getPassword();
+        for(char c : pw)
+            pass += c;
+        if(textField_username.getText().isBlank() || pass.isBlank())
+        {
+            setAlwaysOnTop(false);
+            mh.warning("Please fill all forms to register!");
+            setAlwaysOnTop(true);
+        }
+        else
+        {
+            setAlwaysOnTop(false);
+            String role = mh.input("<html>Input Role for this account <br> Following roles: <br> <b>" + roleAdmin + "</b></html>");
+            if(role != null || !role.isBlank())
+                processRegister(textField_username.getText(), pass, role);
+            else if(!role.isBlank() || !role.toLowerCase().equals(roleAdmin)) 
+            {
+                mh.warning("Incorrect Role");
+                setAlwaysOnTop(true);
+            }
+        }
+    }
+    private void processRegister(String user, String pass, String role)
+    {
+        MessageHandler mh = new MessageHandler();
+        LoginDatabaseManager loginDb = new LoginDatabaseManager();
+        
+        String adminPass = getPass();
+        if(adminPass != null && adminPass.equals(loginDb.getAdminPass()))
+        {
+            LoginObject logObj = new LoginObject();
+            logObj.setUsername(user);
+            logObj.setPassword(pass);
+            logObj.setRole(role);
+            loginDb.insertData(logObj);
+            mh.message("Account succesfully registered!");
+        }
+        else if (adminPass.isBlank()) mh.warning("Password incorrect!");
         setAlwaysOnTop(true);
+        
+    }
+    private String getPass()
+    {
+        String pass = "";
+        
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("<html>Input Administrator Password<br></html>");
+        JPasswordField passField = new JPasswordField(15);
+        panel.add(label);
+        panel.add(passField);
+        String[] options = new String[]{"Confirm", "Cancel"};
+        int option = JOptionPane.showOptionDialog(null, panel, "Input Admin Password", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+        if(option == 0)
+        {
+            char[] password = passField.getPassword();
+            for(char c : password)
+                pass += c;
+        }
+        return pass;
     }
     private void login()
     {
@@ -178,12 +242,12 @@ public class LoginDialog extends javax.swing.JDialog {
         
         for(char x : passField_password.getPassword())
             pass+= x;
-        if(textField_username.getText().equals("admin") && pass.equals("kladmin"))
+        if(textField_username.getText().equals(logObj.getAdminUser()) && pass.equals(logObj.getAdminPass()))
         {
             lo = new LoginObject();
             lo.setId("0");
-            lo.setUsername("Admin");
-            lo.setPassword("kladmin");
+            lo.setUsername(logObj.getAdminUser());
+            lo.setPassword(logObj.getAdminPass());
             lo.setRole("ADMIN");
             main.grantedAccess = true;
             main.setLogObj(lo);

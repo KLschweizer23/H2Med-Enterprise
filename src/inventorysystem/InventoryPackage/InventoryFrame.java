@@ -320,15 +320,18 @@ public class InventoryFrame extends javax.swing.JFrame {
     }
     private void inputMethod()
     {
-        String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
-        
-        ItemObject currentIo = itemList.get(id);
-        SystemUtilities su = new SystemUtilities();
-        String soldStocks = su.inputNumberUser("Input sold stocks:");
-        if(soldStocks != null)
+        if(selectedStoreObject != null)
         {
-            writeSoldHistory(currentIo, soldStocks);
-            processStocks();
+            String id = dtm.getValueAt(table_stocks.getSelectedRow(), 0).toString();
+
+            ItemObject currentIo = itemList.get(id);
+            SystemUtilities su = new SystemUtilities();
+            String soldStocks = su.inputNumberUser("Input sold stocks:");
+            if(soldStocks != null)
+            {
+                writeSoldHistory(currentIo, soldStocks);
+                processStocks();
+            }
         }
     }
     private void writeSoldHistory(ItemObject io, String value)

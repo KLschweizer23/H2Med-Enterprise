@@ -60,9 +60,18 @@ public class MainFrame extends javax.swing.JFrame {
     public boolean grantedAccess = false;
     private LoginObject logObj;
     
+    private JButton[] buttons = new JButton[7];
+    
     public MainFrame() {
         
         initComponents();
+        buttons[0] = button_stockIn;
+        buttons[1] = button_stockOut;
+        buttons[2] = button_records;
+        buttons[3] = button_invoices;
+        buttons[4] = button_sales;
+        buttons[5] = button_database;
+        buttons[6] = button_inventory;
         do
         {
             loginForm();
@@ -84,13 +93,14 @@ public class MainFrame extends javax.swing.JFrame {
             accountAccess();
         }
     }
-//    private void accountAccess()
-//    {
-//        
-//    }
     private void accountAccess()
     {
-        
+        String role = logObj.getRole();
+        if(role.equals("ADMIN"))
+        {
+            for(JButton but : buttons)
+                but.setEnabled(true);
+        }
     }
     private void loginForm()
     {
@@ -149,19 +159,19 @@ public class MainFrame extends javax.swing.JFrame {
     }
     private void changeIcons()
     {
-        buttonHover(button_main_stockIn, "Stockin_icon.png");
-        buttonHover(main_button_stockOutTransfer, "Stockout_icon.png");
-        buttonHover(main_button_records, "Record_icon.png");
-        buttonHover(main_button_invoices, "Invoices_icon.png");
-        buttonHover(main_button_sales, "Sales_icon.png");
-        buttonHover(main_button_database, "Database_icon.png");
+        buttonHover(button_stockIn, "Stockin_icon.png");
+        buttonHover(button_stockOut, "Stockout_icon.png");
+        buttonHover(button_records, "Record_icon.png");
+        buttonHover(button_invoices, "Invoices_icon.png");
+        buttonHover(button_sales, "Sales_icon.png");
+        buttonHover(button_database, "Database_icon.png");
         jLabel2.setIcon(getScaledImageIcon("filter.png", 20, 20));
-        button_main_stockIn.setIcon(getScaledImageIcon("Stockin_icon.png", 30, 30));
-        main_button_stockOutTransfer.setIcon(getScaledImageIcon("Stockout_icon.png", 30, 30));
-        main_button_records.setIcon(getScaledImageIcon("Record_icon.png", 30, 30));
-        main_button_invoices.setIcon(getScaledImageIcon("Invoices_icon.png", 30, 30));
-        main_button_sales.setIcon(getScaledImageIcon("Sales_icon.png", 30, 30));
-        main_button_database.setIcon(getScaledImageIcon("Database_icon.png", 30, 30));
+        button_stockIn.setIcon(getScaledImageIcon("Stockin_icon.png", 30, 30));
+        button_stockOut.setIcon(getScaledImageIcon("Stockout_icon.png", 30, 30));
+        button_records.setIcon(getScaledImageIcon("Record_icon.png", 30, 30));
+        button_invoices.setIcon(getScaledImageIcon("Invoices_icon.png", 30, 30));
+        button_sales.setIcon(getScaledImageIcon("Sales_icon.png", 30, 30));
+        button_database.setIcon(getScaledImageIcon("Database_icon.png", 30, 30));
         logo.setIcon(getScaledImageIcon("h2med_logo.png", 530, 150));
         int w = 150;
         wing.setIcon(getScaledImageIcon("h2med_sidewings.png", (w / 2) + w, w));
@@ -444,16 +454,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1 = new backPanelGradient();
         jPanel2 = new javax.swing.JPanel();
-        button_main_stockIn = new javax.swing.JButton();
-        main_button_stockOutTransfer = new javax.swing.JButton();
-        main_button_records = new javax.swing.JButton();
-        main_button_database = new javax.swing.JButton();
-        main_button_invoices = new javax.swing.JButton();
-        main_button_sales = new javax.swing.JButton();
+        button_stockIn = new javax.swing.JButton();
+        button_stockOut = new javax.swing.JButton();
+        button_records = new javax.swing.JButton();
+        button_database = new javax.swing.JButton();
+        button_invoices = new javax.swing.JButton();
+        button_sales = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
         wing = new javax.swing.JLabel();
         wing2 = new javax.swing.JLabel();
-        main_button_inventory = new javax.swing.JButton();
+        button_inventory = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         sales1 = new javax.swing.JLabel();
@@ -510,63 +520,63 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        button_main_stockIn.setBackground(new java.awt.Color(255, 255, 255));
-        button_main_stockIn.setText("Stock In");
-        button_main_stockIn.setFocusable(false);
-        button_main_stockIn.setRequestFocusEnabled(false);
-        button_main_stockIn.addActionListener(new java.awt.event.ActionListener() {
+        button_stockIn.setBackground(new java.awt.Color(255, 255, 255));
+        button_stockIn.setText("Stock In");
+        button_stockIn.setFocusable(false);
+        button_stockIn.setRequestFocusEnabled(false);
+        button_stockIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_main_stockInActionPerformed(evt);
+                button_stockInActionPerformed(evt);
             }
         });
 
-        main_button_stockOutTransfer.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_stockOutTransfer.setText("Stock Out");
-        main_button_stockOutTransfer.setFocusable(false);
-        main_button_stockOutTransfer.setRequestFocusEnabled(false);
-        main_button_stockOutTransfer.addActionListener(new java.awt.event.ActionListener() {
+        button_stockOut.setBackground(new java.awt.Color(255, 255, 255));
+        button_stockOut.setText("Stock Out");
+        button_stockOut.setFocusable(false);
+        button_stockOut.setRequestFocusEnabled(false);
+        button_stockOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_stockOutTransferActionPerformed(evt);
+                button_stockOutActionPerformed(evt);
             }
         });
 
-        main_button_records.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_records.setText("Records");
-        main_button_records.setFocusable(false);
-        main_button_records.setRequestFocusEnabled(false);
-        main_button_records.addActionListener(new java.awt.event.ActionListener() {
+        button_records.setBackground(new java.awt.Color(255, 255, 255));
+        button_records.setText("Records");
+        button_records.setFocusable(false);
+        button_records.setRequestFocusEnabled(false);
+        button_records.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_recordsActionPerformed(evt);
+                button_recordsActionPerformed(evt);
             }
         });
 
-        main_button_database.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_database.setText("Database");
-        main_button_database.setFocusable(false);
-        main_button_database.setRequestFocusEnabled(false);
-        main_button_database.addActionListener(new java.awt.event.ActionListener() {
+        button_database.setBackground(new java.awt.Color(255, 255, 255));
+        button_database.setText("Database");
+        button_database.setFocusable(false);
+        button_database.setRequestFocusEnabled(false);
+        button_database.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_databaseActionPerformed(evt);
+                button_databaseActionPerformed(evt);
             }
         });
 
-        main_button_invoices.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_invoices.setText("Invoices");
-        main_button_invoices.setFocusable(false);
-        main_button_invoices.setRequestFocusEnabled(false);
-        main_button_invoices.addActionListener(new java.awt.event.ActionListener() {
+        button_invoices.setBackground(new java.awt.Color(255, 255, 255));
+        button_invoices.setText("Invoices");
+        button_invoices.setFocusable(false);
+        button_invoices.setRequestFocusEnabled(false);
+        button_invoices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_invoicesesActionPerformed(evt);
+                button_invoicesesActionPerformed(evt);
             }
         });
 
-        main_button_sales.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_sales.setText("Sales");
-        main_button_sales.setFocusable(false);
-        main_button_sales.setRequestFocusEnabled(false);
-        main_button_sales.addActionListener(new java.awt.event.ActionListener() {
+        button_sales.setBackground(new java.awt.Color(255, 255, 255));
+        button_sales.setText("Sales");
+        button_sales.setFocusable(false);
+        button_sales.setRequestFocusEnabled(false);
+        button_sales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_salesActionPerformed(evt);
+                button_salesActionPerformed(evt);
             }
         });
 
@@ -582,13 +592,13 @@ public class MainFrame extends javax.swing.JFrame {
         //ImageIcon imageIcon = new ImageIcon(new ImageIcon("filter.png").getImage().getScaledInstance(0.5, 0.5, Image.SCALE_SMOOTH));
         //jLabel2.setIcon(imageIcon);
 
-        main_button_inventory.setBackground(new java.awt.Color(255, 255, 255));
-        main_button_inventory.setText("Inventory");
-        main_button_inventory.setFocusable(false);
-        main_button_inventory.setRequestFocusEnabled(false);
-        main_button_inventory.addActionListener(new java.awt.event.ActionListener() {
+        button_inventory.setBackground(new java.awt.Color(255, 255, 255));
+        button_inventory.setText("Inventory");
+        button_inventory.setFocusable(false);
+        button_inventory.setRequestFocusEnabled(false);
+        button_inventory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                main_button_inventoryActionPerformed(evt);
+                button_inventoryActionPerformed(evt);
             }
         });
 
@@ -605,19 +615,19 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(132, 132, 132))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(button_main_stockIn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_stockIn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_stockOutTransfer, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_stockOut, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_records, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_records, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_invoices, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_invoices, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_sales, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_sales, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_database, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(main_button_inventory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(button_inventory, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
         );
@@ -628,13 +638,13 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(wing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_main_stockIn)
-                    .addComponent(main_button_stockOutTransfer)
-                    .addComponent(main_button_records)
-                    .addComponent(main_button_database)
-                    .addComponent(main_button_invoices)
-                    .addComponent(main_button_sales)
-                    .addComponent(main_button_inventory))
+                    .addComponent(button_stockIn)
+                    .addComponent(button_stockOut)
+                    .addComponent(button_records)
+                    .addComponent(button_database)
+                    .addComponent(button_invoices)
+                    .addComponent(button_sales)
+                    .addComponent(button_inventory))
                 .addGap(5, 5, 5))
             .addComponent(wing2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -917,39 +927,39 @@ public class MainFrame extends javax.swing.JFrame {
         }catch(Exception e){ShowFreakingError(e + " - Error 0003");}
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void button_main_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_main_stockInActionPerformed
+    private void button_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_stockInActionPerformed
         StockInFrame stockInFrame = new StockInFrame();
         stockInFrame.openStockInFrame(this, "");
         stockInFrame.setVisible(true);
         int x = (getWidth() - stockInFrame.getWidth()) / 2;
         int y = (getHeight() - stockInFrame.getHeight()) / 2;
         stockInFrame.setLocation(x,y);
-    }//GEN-LAST:event_button_main_stockInActionPerformed
+    }//GEN-LAST:event_button_stockInActionPerformed
 
-    private void main_button_stockOutTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_stockOutTransferActionPerformed
+    private void button_stockOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_stockOutActionPerformed
         StockOutFrame stockOutFrame = new StockOutFrame();
         stockOutFrame.openStockOutFrame(this);
         stockOutFrame.setVisible(true);
         int x = (getWidth() - stockOutFrame.getWidth()) / 2;
         int y = (getHeight() - stockOutFrame.getHeight()) / 2;
         stockOutFrame.setLocation(x,y);
-    }//GEN-LAST:event_main_button_stockOutTransferActionPerformed
+    }//GEN-LAST:event_button_stockOutActionPerformed
 
-    private void main_button_recordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_recordsActionPerformed
+    private void button_recordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_recordsActionPerformed
         RecordsFrame recordsFrame = new RecordsFrame();
         recordsFrame.openRecordsFrame(this);
         recordsFrame.setVisible(true);
         recordsFrame.setLocation((int)(getWidth() - recordsFrame.getWidth()) / 2, (int)(getHeight() - recordsFrame.getHeight()) / 2);
-    }//GEN-LAST:event_main_button_recordsActionPerformed
+    }//GEN-LAST:event_button_recordsActionPerformed
 
-    private void main_button_databaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_databaseActionPerformed
+    private void button_databaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_databaseActionPerformed
         DatabaseFrame databaseFrame = new DatabaseFrame();
         databaseFrame.openDatabaseFrame(this);
         databaseFrame.setVisible(true);
         int x = (getWidth() - databaseFrame.getWidth()) / 2;
         int y = (getHeight() - databaseFrame.getHeight()) / 2;
         databaseFrame.setLocation(x,y);
-    }//GEN-LAST:event_main_button_databaseActionPerformed
+    }//GEN-LAST:event_button_databaseActionPerformed
 
     private void main_searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_main_searchBarKeyReleased
         String keyword = main_searchBar.getText();
@@ -970,23 +980,23 @@ public class MainFrame extends javax.swing.JFrame {
         updateStatus();
     }//GEN-LAST:event_formWindowActivated
 
-    private void main_button_invoicesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_invoicesesActionPerformed
+    private void button_invoicesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_invoicesesActionPerformed
         InvoiceFrame invoiceFrame = new InvoiceFrame();
         invoiceFrame.openInvoiceFrame(this);
         invoiceFrame.setVisible(true);
         int x = (getWidth() - invoiceFrame.getWidth()) / 2;
         int y = (getHeight() - invoiceFrame.getHeight()) / 2;
         invoiceFrame.setLocation(x,y);
-    }//GEN-LAST:event_main_button_invoicesesActionPerformed
+    }//GEN-LAST:event_button_invoicesesActionPerformed
 
-    private void main_button_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_salesActionPerformed
+    private void button_salesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_salesActionPerformed
         SalesFrame salesFrame = new SalesFrame();
         salesFrame.openFrame(this);
         salesFrame.setVisible(true);
         int x = (getWidth() - salesFrame.getWidth()) / 2;
         int y = (getHeight() - salesFrame.getHeight()) / 2;
         salesFrame.setLocation(x,y);
-    }//GEN-LAST:event_main_button_salesActionPerformed
+    }//GEN-LAST:event_button_salesActionPerformed
 
     private void alarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alarmButtonActionPerformed
         AlarmDialog alarm = new AlarmDialog(this, true, true);
@@ -996,14 +1006,14 @@ public class MainFrame extends javax.swing.JFrame {
         alarm.setVisible(true);
     }//GEN-LAST:event_alarmButtonActionPerformed
 
-    private void main_button_inventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_button_inventoryActionPerformed
+    private void button_inventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_inventoryActionPerformed
         InventoryFrame inventory = new InventoryFrame();
         inventory.openInventoryFrame(this);
         inventory.setVisible(true);
         int x = (getWidth() - inventory.getWidth()) / 2;
         int y = (getHeight() - inventory.getHeight()) / 2;
         inventory.setLocation(x,y);
-    }//GEN-LAST:event_main_button_inventoryActionPerformed
+    }//GEN-LAST:event_button_inventoryActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -1040,7 +1050,13 @@ public class MainFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alarmButton;
-    private javax.swing.JButton button_main_stockIn;
+    private javax.swing.JButton button_database;
+    private javax.swing.JButton button_inventory;
+    private javax.swing.JButton button_invoices;
+    private javax.swing.JButton button_records;
+    private javax.swing.JButton button_sales;
+    private javax.swing.JButton button_stockIn;
+    private javax.swing.JButton button_stockOut;
     private javax.swing.JTable displayTable;
     private javax.swing.JLabel invoice1;
     private javax.swing.JLabel invoice2;
@@ -1061,12 +1077,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel least2;
     private javax.swing.JLabel least3;
     private javax.swing.JLabel logo;
-    private javax.swing.JButton main_button_database;
-    private javax.swing.JButton main_button_inventory;
-    private javax.swing.JButton main_button_invoices;
-    private javax.swing.JButton main_button_records;
-    private javax.swing.JButton main_button_sales;
-    private javax.swing.JButton main_button_stockOutTransfer;
     private javax.swing.JTextField main_searchBar;
     private javax.swing.JLabel most1;
     private javax.swing.JLabel most2;

@@ -13,6 +13,9 @@ public class LoginDatabaseManager {
     private final String PASSWORD = "PASSWORD";
     private final String ROLE = "ROLE";
     
+    private final String adminUser = "admin";
+    private final String adminPass = "kladmin";
+    
     private HashMap<String, LoginObject> logs = new HashMap<>();
     
     public LoginDatabaseManager()
@@ -40,6 +43,11 @@ public class LoginDatabaseManager {
             logs.put(id, log);
         }
         return logs;
+    }
+    public void insertData(LoginObject log)
+    {
+        DatabaseFunctions df = new DatabaseFunctions();
+        df.insertData(table, columnToKeys(false), dataToKeys(log, true));
     }
     public LoginObject checkAccount(String user, char[] password)
     {
@@ -89,5 +97,13 @@ public class LoginDatabaseManager {
             dbf.makeVarcharAttr(ROLE, 150, false),
         };
         return withAttr ? keysWithAttr : keys;
+    }
+
+    public String getAdminUser() {
+        return adminUser;
+    }
+
+    public String getAdminPass() {
+        return adminPass;
     }
 }
