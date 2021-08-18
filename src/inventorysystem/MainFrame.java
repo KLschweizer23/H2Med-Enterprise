@@ -101,6 +101,12 @@ public class MainFrame extends javax.swing.JFrame {
             for(JButton but : buttons)
                 but.setEnabled(true);
         }
+        else if(role.equals("INVENTORY"))
+        {
+            for(JButton but : buttons)
+                but.setEnabled(false);
+            buttons[6].setEnabled(true);
+        }
     }
     private void loginForm()
     {
@@ -165,6 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
         buttonHover(button_invoices, "Invoices_icon.png");
         buttonHover(button_sales, "Sales_icon.png");
         buttonHover(button_database, "Database_icon.png");
+        buttonHover(button_inventory, "Inventory_icon.png");
         jLabel2.setIcon(getScaledImageIcon("filter.png", 20, 20));
         button_stockIn.setIcon(getScaledImageIcon("Stockin_icon.png", 30, 30));
         button_stockOut.setIcon(getScaledImageIcon("Stockout_icon.png", 30, 30));
@@ -172,6 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_invoices.setIcon(getScaledImageIcon("Invoices_icon.png", 30, 30));
         button_sales.setIcon(getScaledImageIcon("Sales_icon.png", 30, 30));
         button_database.setIcon(getScaledImageIcon("Database_icon.png", 30, 30));
+        button_inventory.setIcon(getScaledImageIcon("Inventory_icon.png", 30, 30));
         logo.setIcon(getScaledImageIcon("h2med_logo.png", 530, 150));
         int w = 150;
         wing.setIcon(getScaledImageIcon("h2med_sidewings.png", (w / 2) + w, w));

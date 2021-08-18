@@ -153,7 +153,7 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
         LoginDatabaseManager logDb = new LoginDatabaseManager();
         MessageHandler mh = new MessageHandler();
         
-        permissionGranted = adminPass.equals(logDb.getAdminPass());
+        permissionGranted = adminPass != null ? adminPass.equals(logDb.getAdminPass()) : false;
         
         if(table_items.getRowCount() > 0 && permissionGranted)
         {
@@ -167,7 +167,7 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
     }
     private String getPass()
     {
-        String pass = "";
+        String pass = null;
         
         JPanel panel = new JPanel();
         JLabel label = new JLabel("<html>Input Administrator Password<br></html>");
@@ -178,6 +178,7 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
         int option = JOptionPane.showOptionDialog(null, panel, "Input Admin Password", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
         if(option == 0)
         {
+            pass = "";
             char[] password = passField.getPassword();
             for(char c : password)
                 pass += c;

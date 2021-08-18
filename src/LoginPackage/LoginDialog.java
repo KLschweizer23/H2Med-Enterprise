@@ -169,7 +169,7 @@ public class LoginDialog extends javax.swing.JDialog {
         MessageHandler mh = new MessageHandler();
         
         String pass = "";
-        String roleAdmin = "ADMIN";
+        String[] roles = {"ADMIN", "INVENTORY"};
         
         char[] pw = passField_password.getPassword();
         for(char c : pw)
@@ -183,10 +183,16 @@ public class LoginDialog extends javax.swing.JDialog {
         else
         {
             setAlwaysOnTop(false);
-            String role = mh.input("<html>Input Role for this account <br> Following roles: <br> <b>" + roleAdmin + "</b></html>");
-            if(role != null || !role.isBlank())
-                processRegister(textField_username.getText(), pass, role);
-            else if(!role.isBlank() || !role.toLowerCase().equals(roleAdmin)) 
+            String role = mh.input("<html>Input Role for this account <br> Following roles: <br> <b>" + roles[0] + "</b> <br> <b>" + roles[1] + "</b></html>");
+            if(role != null && !role.isBlank())
+                if((role.equals(roles[0]) || role.equals(roles[1])))
+                    processRegister(textField_username.getText(), pass, role);
+                else
+                {
+                    mh.warning("Incorrect Role");
+                }
+            else if(role == null){}
+            else if(role.isBlank()) 
             {
                 mh.warning("Incorrect Role");
                 setAlwaysOnTop(true);
@@ -208,13 +214,14 @@ public class LoginDialog extends javax.swing.JDialog {
             loginDb.insertData(logObj);
             mh.message("Account succesfully registered!");
         }
-        else if (adminPass.isBlank()) mh.warning("Password incorrect!");
+        else if (adminPass == null){}
+        else if (adminPass.isBlank() || !adminPass.equals(loginDb.getAdminPass())) mh.warning("Password incorrect!");
         setAlwaysOnTop(true);
         
     }
     private String getPass()
     {
-        String pass = "";
+        String pass = null;
         
         JPanel panel = new JPanel();
         JLabel label = new JLabel("<html>Input Administrator Password<br></html>");
@@ -225,6 +232,7 @@ public class LoginDialog extends javax.swing.JDialog {
         int option = JOptionPane.showOptionDialog(null, panel, "Input Admin Password", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
         if(option == 0)
         {
+            pass = "";
             char[] password = passField.getPassword();
             for(char c : password)
                 pass += c;
