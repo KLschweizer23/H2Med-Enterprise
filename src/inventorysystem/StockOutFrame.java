@@ -569,7 +569,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                                 }
                                 try
                                 {
-                                    insertInvoice(newItemIdList, newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
+                                    insertInvoice(newItemIdList, newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList, newItemArticleList, newItemBrandList);
                                     SalesDatabaseManager salesDB = new SalesDatabaseManager();
                                     salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
                                 }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
@@ -584,7 +584,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             }else JOptionPane.showMessageDialog(null, "Please set the date!", "Warning", JOptionPane.WARNING_MESSAGE);
         }else JOptionPane.showMessageDialog(null, "No clients Available!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_confirmButtonActionPerformed
-    private void insertInvoice(ArrayList<String> ids, ArrayList<String> items, ArrayList<Double> cost, ArrayList<Double> price, ArrayList<Double> quantity, ArrayList<String> itemSupplier)
+    private void insertInvoice(ArrayList<String> ids, ArrayList<String> items, ArrayList<Double> cost, ArrayList<Double> price, ArrayList<Double> quantity, ArrayList<String> itemSupplier, ArrayList<String> article, ArrayList<String> brand)
     {
         InvoiceDatabaseManager invoiceDatabaseManager = new InvoiceDatabaseManager();
         int invoiceNumber = Integer.parseInt(stockout_invoiceField.getText());
@@ -617,9 +617,27 @@ public class StockOutFrame extends javax.swing.JFrame {
                 if(exist)
                 {
                     String store = tables.get(existingId);
-                    int oldStocks = inventoryDb.getStocksLeft(existingId, tables.get(existingId), ids.get(i));
-                    double newStocks = quantity.get(i) + oldStocks;
-                    inventoryDb.addStocks(existingId, store, ids.get(i), newStocks);
+                    HashMap<String, String> map = inventoryDb.getItems(existingId, tables.get(existingId));
+                    if(map.containsKey(ids.get(i)))
+                    {
+                        int oldStocks = Integer.parseInt(map.get(ids.get(i)));
+                        double newStocks = quantity.get(i) + oldStocks;
+                        inventoryDb.addStocks(existingId, store, ids.get(i), newStocks);
+                    }
+                    else
+                    {
+                        System.out.println("HERE1");
+                        ItemObject io = new ItemObject();
+                        System.out.println("HERE2");
+                        io.setI_id(ids.get(i));
+                        io.setItem(items.get(i));
+                        io.setArticle(article.get(i));
+                        io.setBrand(brand.get(i));
+                        io.setPrice(price.get(i).toString());
+                        io.setStocksLeft((int)(quantity.get(i) * 1));
+                        
+                        inventoryDb.insertItem(existingId, store, io);
+                    }
                 }
                 invoiceDatabaseManager.insertData(invoiceNumber, goodString(items.get(i)), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate, 0);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}

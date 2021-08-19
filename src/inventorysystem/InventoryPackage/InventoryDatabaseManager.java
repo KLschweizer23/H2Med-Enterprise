@@ -103,14 +103,16 @@ public class InventoryDatabaseManager {
             dbf.executeQuery(query);
         }catch(Exception e){mh.error(e.getMessage(), true);System.exit(0);}
     }
-    public int getStocksLeft(String id, String storeName, String itemId)
+    public HashMap<String, String> getItems(String id, String storeName)
     {
         DatabaseFunctions dbf = new DatabaseFunctions();
-        String query = "SELECT * FROM `" + tablePrefix + id + "_" + storeName + "` " + dbf.whereEquals(I_ID, itemId);
-        String[] key = {STOCKS_LEFT};
+        String query = "SELECT * FROM `" + tablePrefix + id + "_" + storeName + "` ";
+        String[] key = {I_ID, STOCKS_LEFT};
         HashMap<String, ArrayList<String>> map = dbf.customReturnQuery(query, key);
-        String stocksLeft = map.get(key[0]).get(0);
-        return Integer.parseInt(stocksLeft);
+        HashMap<String, String> items = new HashMap<>();
+        for(int i = 0; i < (map.get(I_ID) == null ? 0 : map.get(I_ID).size());i++)
+            items.put(map.get(I_ID).get(i), map.get(STOCKS_LEFT).get(i));
+        return items;
     }
     public String[] columnToKeys(boolean withAttr)
     {
