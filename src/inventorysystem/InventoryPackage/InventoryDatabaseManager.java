@@ -1,12 +1,9 @@
 package inventorysystem.InventoryPackage;
 
-import inventorysystem.FileConnectionManager;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import myUtilities.DatabaseFunctions;
+import myUtilities.MessageHandler;
 
 public class InventoryDatabaseManager {
     
@@ -22,8 +19,7 @@ public class InventoryDatabaseManager {
     private final String STOCKS_SOLD = "STOCKS_SOLD";
     private final String SOLD_HISTORY = "SOLD_HISTORY";
     
-    private HashMap<String, StoreObject> storeList = new HashMap<>();
-    private ArrayList<String> idList = new ArrayList<>();
+    private HashMap<String, String> storeList = new HashMap<>();
     
     public HashMap<String, ItemObject> processData(String id, String storeName, String keyword)
     {
@@ -49,7 +45,7 @@ public class InventoryDatabaseManager {
         return itemList;
     }
     
-    public ArrayList<String> getTables()
+    public HashMap<String, String> getTables()
     {
         DatabaseFunctions dbf = new DatabaseFunctions();
         
@@ -58,12 +54,16 @@ public class InventoryDatabaseManager {
         String query = dbf.getTables("Inventory_Database", keys[0]) + dbf.and() + "TABLE_NAME " + dbf.like(tablePrefix);
         HashMap<String, ArrayList> map = dbf.customReturnQuery(query, keys);
         
-        ArrayList<String> listOfTables = new ArrayList<>();
+        storeList = new HashMap<>();
         
         for(int i = 0; i < (map.get(keys[0]) == null ? 0 : map.get(keys[0]).size()); i++)
-            listOfTables.add(map.get(keys[0]).get(i).toString().substring(tablePrefix.length()));
-        
-        return listOfTables;
+        {
+            String incStore = map.get(keys[0]).get(i).toString().substring(tablePrefix.length());
+            String id = incStore.split("_")[0];
+            String store = incStore.split("_")[1];
+            storeList.put(id, store);
+        }
+        return storeList;
     }
     
     public void newStore(String storeName)
@@ -91,6 +91,26 @@ public class InventoryDatabaseManager {
         DatabaseFunctions dbf = new DatabaseFunctions();
         String[] myKeys = {ID, I_ID, ITEM, ARTICLE, BRAND, PRICE, STOCKS_LEFT, STOCKS_SOLD, SOLD_HISTORY};
         dbf.updateData("`" + tablePrefix + id + "_" + storeName + "`", myKeys, dataToKeys(io, false));
+    }
+    public void addStocks(String id, String storeName, String itemId, double finalStocks)
+    {
+        DatabaseFunctions dbf = new DatabaseFunctions();
+        MessageHandler mh = new MessageHandler();
+        
+        String query = "UPDATE `" + tablePrefix + id + "_" + storeName + "` SET " + STOCKS_LEFT + " = '" + (int)finalStocks + "' " + dbf.whereEquals(I_ID, itemId); 
+        try
+        {
+            dbf.executeQuery(query);
+        }catch(Exception e){mh.error(e.getMessage(), true);System.exit(0);}
+    }
+    public int getStocksLeft(String id, String storeName, String itemId)
+    {
+        DatabaseFunctions dbf = new DatabaseFunctions();
+        String query = "SELECT * FROM `" + tablePrefix + id + "_" + storeName + "` " + dbf.whereEquals(I_ID, itemId);
+        String[] key = {STOCKS_LEFT};
+        HashMap<String, ArrayList<String>> map = dbf.customReturnQuery(query, key);
+        String stocksLeft = map.get(key[0]).get(0);
+        return Integer.parseInt(stocksLeft);
     }
     public String[] columnToKeys(boolean withAttr)
     {

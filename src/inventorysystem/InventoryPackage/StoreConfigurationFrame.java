@@ -231,22 +231,21 @@ public class StoreConfigurationFrame extends javax.swing.JFrame {
         InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
         SystemUtilities su = new SystemUtilities();
         
-        ArrayList<String> tableList = inventoryDb.getTables();
+        HashMap<String, String> tableList = inventoryDb.getTables();
         
-        for(int i = 0; i < tableList.size(); i++)
+        for(String s : tableList.keySet())
         {
-            String id = tableList.get(i).split("_")[0];
-            String store = tableList.get(i).split("_")[1];
+            String store = tableList.get(s);
             
             StoreObject so = new StoreObject();
-            so.setId(id);
+            so.setId(s);
             so.setName(store);
             
             String[] rowData = {
-                id,
+                s,
                 store
             };
-            storeList.put(id, so);
+            storeList.put(s, so);
             dtm.addRow(rowData);
         }
         su.setSelectionToZero(table_store, true);

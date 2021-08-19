@@ -1,5 +1,7 @@
 package inventorysystem;
 
+import inventorysystem.InventoryPackage.InventoryDatabaseManager;
+import inventorysystem.InventoryPackage.ItemObject;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -46,7 +48,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
     MainFrame myFrame;
     ItemDatabaseManager itemDatabaseManager;
-    
+
     ArrayList<String> itemIdList;
     ArrayList<String> itemNameList;
     ArrayList<String> itemCategoryList;
@@ -56,7 +58,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     ArrayList<String> itemSupplierList;
     ArrayList<String> itemBrandList;
     ArrayList<String> itemArticleList;
-    
+
     ArrayList<String> newItemIdList = new ArrayList<>();
     ArrayList<String> newItemNameList = new ArrayList<>();
     ArrayList<String> newItemCategoryList = new ArrayList<>();
@@ -67,24 +69,24 @@ public class StockOutFrame extends javax.swing.JFrame {
     ArrayList<String> newItemSupplierList = new ArrayList<>();
     ArrayList<String> newItemBrandList = new ArrayList<>();
     ArrayList<String> newItemArticleList = new ArrayList<>();
-    
+
     HashMap<String, String> customerNameAddress = new HashMap<>();
-    
+
     final private int MODE_PROCESS = 0;
     final private int MODE_FILTER_CATEGORY = 1;
     final private int MODE_FILTER_SEARCH = 2;
-    
+
     final private int MODE_SORT = 0;
     final private int MODE_UNSORT = 1;
-    
+
     final private int UNPAID = 0;
     final private int PARTIAL = 1;
     final private int PAID = 2;
-    
+
     private boolean ready = false;
-    
+
     DefaultTableModel dtm, dtm2;
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -523,13 +525,11 @@ public class StockOutFrame extends javax.swing.JFrame {
                     itemDatabaseManager = new ItemDatabaseManager();
                     StockOutDatabaseManager stockOutDatabaseManager = new StockOutDatabaseManager();
                     InvoiceDatabaseManager invoiceDatabaseManager = new InvoiceDatabaseManager();
-                    boolean didInvoiceExist = false, didDeliveryExist = false, didPurchaseExist = false;
+                    boolean didInvoiceExist = false;
                     try
                     {
                         invoiceDatabaseManager.processDistinctNumbers(goodString(stockout_comboBox.getSelectedItem().toString()));
                         didInvoiceExist = invoiceDatabaseManager.checkInvoiceIfExist(Integer.parseInt(stockout_invoiceField.getText()));
-    //                    didDeliveryExist = invoiceDatabaseManager.checkDeliveryIfExist(Integer.parseInt(stockout_deliveryField.getText()));
-    //                    didPurchaseExist = invoiceDatabaseManager.checkPurchaseIfExist(Integer.parseInt(stockout_purchaseField.getText()));
                     }catch(Exception e){ShowFreakingError(e + " - Error 0034");}
 
                     if(!didInvoiceExist)
@@ -547,8 +547,8 @@ public class StockOutFrame extends javax.swing.JFrame {
                             panel.add(new JLabel ("Please confirm to proceed!"));
                             int result = JOptionPane.showOptionDialog(null, panel, "Confirm Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                                 null, options, null);
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-                            LocalDateTime now = LocalDateTime.now();  
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                            LocalDateTime now = LocalDateTime.now();
                             String date = setFormat2(dtf.format(now));
                             if(result == JOptionPane.YES_OPTION)
                             {
@@ -569,7 +569,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                                 }
                                 try
                                 {
-                                    insertInvoice(newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
+                                    insertInvoice(newItemIdList, newItemNameList, newItemCostList, newItemPriceList, newItemStockOutList, newItemSupplierList);
                                     SalesDatabaseManager salesDB = new SalesDatabaseManager();
                                     salesDB.insertOutstanding(date, goodString(stockout_comboBox.getSelectedItem().toString()), Double.parseDouble(labelPrice.getText()), Integer.parseInt(stockout_invoiceField.getText()));
                                 }catch(Exception e){ShowFreakingError(e + " - Error 0035");}
@@ -584,7 +584,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             }else JOptionPane.showMessageDialog(null, "Please set the date!", "Warning", JOptionPane.WARNING_MESSAGE);
         }else JOptionPane.showMessageDialog(null, "No clients Available!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_confirmButtonActionPerformed
-    private void insertInvoice(ArrayList<String> items, ArrayList<Double> cost, ArrayList<Double> price, ArrayList<Double> quantity, ArrayList<String> itemSupplier)
+    private void insertInvoice(ArrayList<String> ids, ArrayList<String> items, ArrayList<Double> cost, ArrayList<Double> price, ArrayList<Double> quantity, ArrayList<String> itemSupplier)
     {
         InvoiceDatabaseManager invoiceDatabaseManager = new InvoiceDatabaseManager();
         int invoiceNumber = Integer.parseInt(stockout_invoiceField.getText());
@@ -595,11 +595,32 @@ public class StockOutFrame extends javax.swing.JFrame {
         String cheque = chequeRadio.isSelected() ? stockout_chequeField.getText() :  "Cash";
         String extraDay = ((dayCombo.getSelectedIndex() + 1) < 10 ? "0" + (dayCombo.getSelectedIndex() + 1) : dayCombo.getSelectedIndex() + 1) + "";
         String extraDueDate = monthCombo.getSelectedIndex() + 1 > 12 ? (Integer.parseInt(yearCombo.getSelectedItem().toString()) + 1) + "-" + "01" + "-" +  extraDay : yearCombo.getSelectedItem() + "-" + (monthCombo.getSelectedIndex() + 1 < 10 ? "0" + (monthCombo.getSelectedIndex() + 1) : monthCombo.getSelectedIndex() + 1) + "-" + extraDay;
+        
         String dueDate = hasDue.isSelected() ? yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex()+ "-" + dayCombo1.getSelectedItem() : extraDueDate;
+        boolean exist = false;
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        
+        HashMap<String, String> tables = inventoryDb.getTables();
+        String existingId = "";
+        for(String id : tables.keySet())
+            if(tables.get(id).equals(stockout_comboBox.getSelectedItem().toString().toLowerCase()))
+            {
+                existingId = id;
+                exist = true;
+                break;
+            }
+
         for(int i = 0; i < items.size(); i++)
         {
             try
             {
+                if(exist)
+                {
+                    String store = tables.get(existingId);
+                    int oldStocks = inventoryDb.getStocksLeft(existingId, tables.get(existingId), ids.get(i));
+                    double newStocks = quantity.get(i) + oldStocks;
+                    inventoryDb.addStocks(existingId, store, ids.get(i), newStocks);
+                }
                 invoiceDatabaseManager.insertData(invoiceNumber, goodString(items.get(i)), cost.get(i), price.get(i), quantity.get(i), address, 0, invoice_date, UNPAID, deliveryNumber, purchaseNumber, goodString(itemSupplier.get(i)), cheque, dueDate, 0);
             }catch(Exception e){ShowFreakingError(e + " - Error 0036");}
         }
@@ -655,7 +676,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             {
                 if(newItemIdList.get(i).equals(id))
                 {
-                    
+
                     totalQuantity += newItemStockOutList.get(i);
                 }
             }
@@ -687,7 +708,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 newItemCostList.remove(selectedNum);
                 newItemPriceList.remove(selectedNum);
                 newItemSupplierList.remove(selectedNum);
-                
+
                 dtm2.removeRow(selectedNum);
             }
             processStockStats();
@@ -775,11 +796,11 @@ public class StockOutFrame extends javax.swing.JFrame {
         try{
             String reportPath = System.getProperty("user.dir") + "\\StockoutReport.jrxml";
             String client = stockout_comboBox.getSelectedItem().toString();
-            
+
             List<StockItems> collectionList = getStocks();
-            
+
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(collectionList);
-            
+
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("CollectionBeanParam", itemsJRBean);
             parameters.put("logo", getClass().getResource("/Images/h2med_logo.png").toString());
@@ -801,25 +822,25 @@ public class StockOutFrame extends javax.swing.JFrame {
                 parameters.put("chequeNumber", "#" + stockout_chequeField.getText());
                 parameters.put("dueDate", monthCombo1.getSelectedItem() + " " + dayCombo1.getSelectedItem() + ", " + yearCombo1.getSelectedItem());
             }
-            
+
             InputStream input = new FileInputStream(new File(reportPath));
             JasperDesign jdesign = JRXmlLoader.load(input);
-            
-            
+
+
             JasperReport jreport = JasperCompileManager.compileReport(jdesign);
             JasperPrint jprint = JasperFillManager.fillReport(jreport, parameters, new JREmptyDataSource());
-            
+
             JasperViewer.viewReport(jprint, false);
         }catch(FileNotFoundException | JRException ex)
         {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_printButtonActionPerformed
-   
+
     private ArrayList<StockItems> getStocks()
     {
         ArrayList<StockItems> itemsList = new ArrayList<>();
-        
+
         for(int i = 0; i < dtm2.getRowCount(); i++)
         {
             StockItems items = new StockItems();
@@ -832,7 +853,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         }
         return itemsList;
     }
-    
+
     private void stockout_chequeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockout_chequeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stockout_chequeFieldActionPerformed
@@ -842,9 +863,9 @@ public class StockOutFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_hasDueActionPerformed
 
     private void button_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_stockInActionPerformed
-        
+
         String keyword = dtm.getRowCount() > 0 ? dtm.getValueAt(oldTable.getSelectedRow(), 1).toString() : stockOut_searchBar.getText();
-        
+
         StockInFrame stockInFrame = new StockInFrame();
         stockInFrame.openStockInFrame(myFrame, keyword);
         stockInFrame.setVisible(true);
@@ -855,7 +876,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
     private void button_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_newActionPerformed
         String keyword = dtm.getRowCount() > 0 ? dtm.getValueAt(oldTable.getSelectedRow(), 1).toString() : stockOut_searchBar.getText();
-        
+
         Database_AddFrame addItemFrame = new Database_AddFrame();
         addItemFrame.openAddFrame(categoryCombo.getSelectedIndex(), null, keyword);
         addItemFrame.setVisible(true);
@@ -888,8 +909,8 @@ public class StockOutFrame extends javax.swing.JFrame {
         newItemArticleList.add(itemArticleList.get(number));
         String [] rowData = {
                 newTable.getRowCount() + 1 + "", itemNameList.get(number), itemArticleList.get(number), itemBrandList.get(number),
-            itemSupplierList.get(number),((char)8369) + (itemPriceList.get(number) + ""), (newQuantity + ""), 
-            ((char)8369) + (newQuantity * itemPriceList.get(number) + "") 
+            itemSupplierList.get(number),((char)8369) + (itemPriceList.get(number) + ""), (newQuantity + ""),
+            ((char)8369) + (newQuantity * itemPriceList.get(number) + "")
             };
         dtm2.addRow(rowData);
         if(newTable.getRowCount() >= 1)
@@ -910,7 +931,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             totalPrice += newItemPriceList.get(i) * newItemStockOutList.get(i);
             totalGain = totalPrice - totalCost;
         }
-        
+
         labelItem.setText(totalQuan + "");
         labelGain.setText(totalGain + "");
         labelCost.setText(totalCost + "");
@@ -937,10 +958,10 @@ public class StockOutFrame extends javax.swing.JFrame {
     {
         yearCombo.removeAllItems();
         dayCombo.removeAllItems();
-        
+
         int days[] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int year[] = {2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040};
-        
+
         for(int i = 0; i < days[selectedMonth]; i++)
         {
             dayCombo.addItem(i + 1);
@@ -997,7 +1018,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         itemDatabaseManager = new ItemDatabaseManager();
 
         String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
-        
+
         switch (mode) {
             case MODE_PROCESS:
                 itemDatabaseManager.processAllData(MODE_UNSORT);
@@ -1011,7 +1032,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             default:
                 break;
         }
-        
+
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
         itemCategoryList = itemDatabaseManager.getItemCategoryList();
@@ -1021,9 +1042,9 @@ public class StockOutFrame extends javax.swing.JFrame {
         itemSupplierList = itemDatabaseManager.getItemSupplierList();
         itemBrandList = itemDatabaseManager.getItemBrandList();
         itemArticleList = itemDatabaseManager.getItemArticleList();
-        
+
         dtm.setRowCount(0);
-        
+
         for(int i = 0; i < itemIdList.size(); i++)
         {
             String [] rowData = {
@@ -1061,26 +1082,26 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             categoryCombo.addItem(listOfCat.get(i));
         }
-    }    
+    }
     public void updateComboBox2(boolean getDataOnly)
     {
         ArrayList<String> listOfAddress = new ArrayList<>();
         listOfAddress.clear();
-        
+
         BranchDatabaseManager branchDatabaseManager = new BranchDatabaseManager();
         ClientDatabaseManager clientDatabaseManager = new ClientDatabaseManager();
-        
+
         try
         {
             branchDatabaseManager.processAllData();
             clientDatabaseManager.processAllData();
         }catch(Exception e){ShowFreakingError(e + " - Error 0015");}
-        
+
         ArrayList<String> branchNames = branchDatabaseManager.getBranchNameList();
         ArrayList<String> clientNames = clientDatabaseManager.getClientNameList();
         ArrayList<String> branchAddress = branchDatabaseManager.getBranchAddressList();
         ArrayList<String> clientAddress = clientDatabaseManager.getClientAddressList();
-        
+
         for(int i = 0; i < branchNames.size(); i++)
         {
             listOfAddress.add(branchNames.get(i));
@@ -1091,7 +1112,7 @@ public class StockOutFrame extends javax.swing.JFrame {
             listOfAddress.add(clientNames.get(i));
             customerNameAddress.put(clientNames.get(i), clientAddress.get(i));
         }
-        
+
         for(int i = 0; i <listOfAddress.size() && !getDataOnly; i++)
         {
             stockout_comboBox.addItem(listOfAddress.get(i));
@@ -1110,7 +1131,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             supplierDb.processAllData();
         }catch(Exception e){ShowFreakingError(e + " - Error 0050");}
-        
+
         ArrayList<String> suppliers = supplierDb.getNameList();
         supplierCombo.addItem("All");
         supplierCombo.addItem("None");
@@ -1136,7 +1157,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         }
         if(dot > 1)
             valid = false;
-            
+
         return valid;
     }
     private void prepareFieldNumbers()
@@ -1157,13 +1178,13 @@ public class StockOutFrame extends javax.swing.JFrame {
         stockout_deliveryField.setText(availableDeliveryNumber + "");
         stockout_purchaseField.setText(availablePurchaseNumber + "");
     }
-    public void resizeColumnWidth(JTable table) 
+    public void resizeColumnWidth(JTable table)
     {
         final TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) 
+        for (int column = 0; column < table.getColumnCount(); column++)
         {
             int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) 
+            for (int row = 0; row < table.getRowCount(); row++)
             {
                 TableCellRenderer renderer = table.getCellRenderer(row, column);
                 Component comp = table.prepareRenderer(renderer, row, column);
@@ -1180,7 +1201,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         headerRenderer.setBackground(background);
         headerRenderer.setPreferredSize(dim);
         headerRenderer.setForeground(foreground);
-        
+
         for (int i = 0; i < table.getModel().getColumnCount(); i++) {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
@@ -1219,7 +1240,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0011");}
-        
+
         newTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me)
@@ -1257,7 +1278,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 if(isANumber(returnVal))
                 {
                     double returnValDouble = Double.parseDouble(returnVal);
-                    
+
                     if(cost < returnValDouble)
                     {
                         newItemPriceList.set(num, returnValDouble);
