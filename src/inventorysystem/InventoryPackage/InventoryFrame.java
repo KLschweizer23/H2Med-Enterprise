@@ -1,5 +1,6 @@
 package inventorysystem.InventoryPackage;
 
+import inventorysystem.ItemDatabaseManager;
 import inventorysystem.MainFrame;
 import java.awt.Image;
 import java.awt.Point;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import myUtilities.SystemUtilities;
@@ -25,6 +27,7 @@ public class InventoryFrame extends javax.swing.JFrame {
     private StoreObject selectedStoreObject = null;
     
     private DefaultTableModel dtm;
+    private DefaultTableModel dtm2;
     
     private HashMap<String, ItemObject> itemList = new HashMap<>();
     
@@ -58,7 +61,8 @@ public class InventoryFrame extends javax.swing.JFrame {
         button_input = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        displayTable = new javax.swing.JTable();
+        table_summary = new javax.swing.JTable();
+        textField_searchSummary = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -66,6 +70,11 @@ public class InventoryFrame extends javax.swing.JFrame {
         tabParent.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         tabParent.setFocusable(false);
         tabParent.setRequestFocusEnabled(false);
+        tabParent.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabParentStateChanged(evt);
+            }
+        });
 
         jPanel1.setFocusable(false);
 
@@ -200,15 +209,21 @@ public class InventoryFrame extends javax.swing.JFrame {
 
         tabParent.addTab("Manage", jPanel1);
 
-        displayTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        displayTable.setFillsViewportHeight(true);
-        displayTable.setGridColor(new java.awt.Color(51, 204, 0));
-        displayTable.setMaximumSize(new java.awt.Dimension(3, 3));
-        displayTable.setSelectionBackground(new java.awt.Color(204, 0, 0));
-        displayTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        displayTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        displayTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(displayTable);
+        table_summary.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        table_summary.setFillsViewportHeight(true);
+        table_summary.setGridColor(new java.awt.Color(51, 204, 0));
+        table_summary.setMaximumSize(new java.awt.Dimension(3, 3));
+        table_summary.setSelectionBackground(new java.awt.Color(204, 0, 0));
+        table_summary.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        table_summary.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        table_summary.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table_summary);
+
+        textField_searchSummary.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textField_searchSummaryKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,15 +231,21 @@ public class InventoryFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(textField_searchSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addComponent(textField_searchSummary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tabParent.addTab("Summary", jPanel2);
@@ -272,6 +293,16 @@ public class InventoryFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         applyButton();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void textField_searchSummaryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_searchSummaryKeyReleased
+        processStocksSummary();
+    }//GEN-LAST:event_textField_searchSummaryKeyReleased
+
+    private void tabParentStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabParentStateChanged
+        System.out.println(tabParent.getSelectedIndex());
+        if(tabParent.getSelectedIndex() == 1)
+            processStocksSummary();
+    }//GEN-LAST:event_tabParentStateChanged
     private void applyButton()
     {
         for(String key : itemList.keySet())
@@ -384,14 +415,14 @@ public class InventoryFrame extends javax.swing.JFrame {
         label_store.setText(selectedStoreObject.getName());
         processStocks();
     }
-    private void removeData()
+    private void removeData(JTable table, DefaultTableModel dtmr)
     {
-        for(int i = table_stocks.getRowCount(); i != 0 && table_stocks.getRowCount() > 0; i--)
-            dtm.removeRow(i - 1);
+        for(int i = table.getRowCount(); i != 0 && table.getRowCount() > 0; i--)
+            dtmr.removeRow(i - 1);
     }
     private void processStocks()
     {
-        removeData();
+        removeData(table_stocks, dtm);
         
         InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
         SystemUtilities su = new SystemUtilities();
@@ -504,21 +535,135 @@ public class InventoryFrame extends javax.swing.JFrame {
             
         });
     }
-    public void openInventoryFrame(MainFrame mainFrame)
+    private void processForInventory()
     {
-        myFrame = mainFrame;
-        initComponents();
         setIcons();
         createColumns();
         processStocks();
         setupTable();
         setupExit();
+    }
+    private void createColumnsSummary()
+    {
+        dtm2 = new DefaultTableModel(0,0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
+        dtm2.addColumn("ID");
+        dtm2.addColumn("Item");
+        dtm2.addColumn("Article");
+        dtm2.addColumn("Brand");
+        dtm2.addColumn("Price");
+        dtm2.addColumn("Main");
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        HashMap<String, String> tableMap = inventoryDb.getTables();
+        
+        for(String key : tableMap.keySet())
+            dtm2.addColumn(tableMap.get(key));
+        
+        table_summary.setModel(dtm2);
+        TableColumnModel tcm = table_summary.getColumnModel();
+        table_summary.removeColumn(tcm.getColumn(0));
+    }
+    private void processStocksSummary()
+    {
+        removeData(table_summary, dtm2);
+        dtm2.setColumnCount(0);
+        createColumnsSummary();
+        
+        InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
+        SystemUtilities su = new SystemUtilities();
+        
+        HashMap<String, String> mapStore = inventoryDb.getTables();
+        HashMap<String, ItemObject>[] storeStocks = new HashMap[mapStore.size() + 1];
+        
+        storeStocks[0] = getMainItem();
+        
+        int x = 1;
+        for(String key : mapStore.keySet())
+            storeStocks[x++] = inventoryDb.processData(key, mapStore.get(key), textField_searchSummary.getText());
+        
+        for(String key : storeStocks[0].keySet())
+        {
+            int iterator = 0;
+            String[] rowData = new String[5 + storeStocks.length];
+            
+            ItemObject mainIo = storeStocks[0].get(key);
+            
+            rowData[iterator++] = mainIo.getI_id();
+            rowData[iterator++] = mainIo.getItem();
+            rowData[iterator++] = mainIo.getArticle();
+            rowData[iterator++] = mainIo.getBrand();
+            rowData[iterator++] = mainIo.getPrice();
+            rowData[iterator++] = mainIo.getStocksLeft() + "";
+            
+            for(int j = 1; j < storeStocks.length; j++)
+            {
+                boolean exist = false;
+                String keyId = "";
+                for(String key2 : storeStocks[j].keySet())
+                {
+                    if(storeStocks[j].get(key2).getI_id().equals(mainIo.getI_id()))
+                    {
+                        keyId = key2;
+                        exist = true;
+                        break;
+                    }
+                }
+                if(exist) 
+                    rowData[iterator++] = storeStocks[j].get(keyId).getStocksLeft() + "";
+                else 
+                    rowData[iterator++] = "";
+            }
+            dtm2.addRow(rowData);
+        }
+        su.resizeColumnWidth(table_summary);
+        su.setSelectionToZero(table_summary, true);
+        table_summary.setRowHeight(rowHeight);
+    }
+    private HashMap<String, ItemObject> getMainItem()
+    {
+        ItemDatabaseManager itemDb = new ItemDatabaseManager();
+        HashMap<String, ItemObject> mainItem = new HashMap<>();
+        
+        try
+        {
+            itemDb.filterBySearch(textField_searchSummary.getText(), "All", "", 1);
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+        for(int i = 0; i < itemDb.getItemIdList().size(); i++)
+        {
+            ItemObject io = new ItemObject();
+            io.setI_id(itemDb.getItemIdList().get(i));
+            io.setItem(itemDb.getItemNameList().get(i));
+            io.setArticle(itemDb.getItemArticleList().get(i));
+            io.setBrand(itemDb.getItemBrandList().get(i));
+            io.setPrice(itemDb.getItemPriceList().get(i).toString());
+            io.setStocksLeft((int)(itemDb.getItemQuantityList().get(i) * 1));
+            mainItem.put(io.getI_id(), io);
+        }
+        return mainItem;
+    }
+    private void processForSummary()
+    {
+        createColumnsSummary();
+        processStocksSummary();
+    }
+    public void openInventoryFrame(MainFrame mainFrame)
+    {
+        myFrame = mainFrame;
+        initComponents();
+        processForInventory();
+        processForSummary();
    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_configure;
     private javax.swing.JButton button_input;
     private javax.swing.JButton button_undo;
-    private javax.swing.JTable displayTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -529,6 +674,8 @@ public class InventoryFrame extends javax.swing.JFrame {
     private javax.swing.JLabel label_store;
     private javax.swing.JTabbedPane tabParent;
     private javax.swing.JTable table_stocks;
+    private javax.swing.JTable table_summary;
     private javax.swing.JTextField textField_search;
+    private javax.swing.JTextField textField_searchSummary;
     // End of variables declaration//GEN-END:variables
 }
