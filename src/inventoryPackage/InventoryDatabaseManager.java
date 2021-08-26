@@ -1,4 +1,4 @@
-package inventorysystem.InventoryPackage;
+package inventoryPackage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class InventoryDatabaseManager {
     
     private HashMap<String, String> storeList = new HashMap<>();
     
-    public HashMap<String, ItemObject> processData(String id, String storeName, String keyword)
+    public HashMap<String, ItemObject> processData(String id, String storeName, String keyword, String preferredKey)
     {
         DatabaseFunctions dbf = new DatabaseFunctions();
         HashMap<String, ItemObject> itemList = new HashMap<>();
@@ -40,7 +40,7 @@ public class InventoryDatabaseManager {
             item.setPrice(map.get(PRICE).get(i).toString());
             item.setStocksLeft(Integer.parseInt(map.get(STOCKS_LEFT).get(i).toString()));
             item.setSoldHistory(map.get(SOLD_HISTORY).get(i).toString());
-            itemList.put(item.getId(), item);
+            itemList.put(map.get(preferredKey).get(i).toString(), item);
         }
         return itemList;
     }

@@ -1,7 +1,7 @@
 package inventorysystem;
 
-import inventorysystem.InventoryPackage.InventoryDatabaseManager;
-import inventorysystem.InventoryPackage.ItemObject;
+import inventoryPackage.InventoryDatabaseManager;
+import inventoryPackage.ItemObject;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;

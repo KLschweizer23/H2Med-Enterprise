@@ -2,7 +2,7 @@ package inventorysystem;
 
 import LoginPackage.LoginDialog;
 import LoginPackage.LoginObject;
-import inventorysystem.InventoryPackage.InventoryFrame;
+import inventoryPackage.InventoryFrame;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;

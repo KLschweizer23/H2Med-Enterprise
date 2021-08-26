@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inventorysystem.InventoryPackage;
+package inventoryPackage;
 
 import inventorysystem.BranchDatabaseManager;
 import inventorysystem.ClientDatabaseManager;

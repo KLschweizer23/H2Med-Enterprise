@@ -1,4 +1,4 @@
-package inventorysystem.InventoryPackage;
+package inventoryPackage;
 
 import inventorysystem.ItemDatabaseManager;
 import inventorysystem.MainFrame;
@@ -59,6 +59,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         textField_search = new javax.swing.JTextField();
         button_undo = new javax.swing.JButton();
         button_input = new javax.swing.JButton();
+        button_transfer = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_summary = new javax.swing.JTable();
@@ -157,6 +158,14 @@ public class InventoryFrame extends javax.swing.JFrame {
             }
         });
 
+        button_transfer.setText("Transfer Stocks");
+        button_transfer.setFocusable(false);
+        button_transfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_transferActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,6 +187,8 @@ public class InventoryFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button_transfer)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(button_input)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,7 +208,8 @@ public class InventoryFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button_undo)
-                    .addComponent(button_input))
+                    .addComponent(button_input)
+                    .addComponent(button_transfer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -303,6 +315,15 @@ public class InventoryFrame extends javax.swing.JFrame {
         if(tabParent.getSelectedIndex() == 1)
             processStocksSummary();
     }//GEN-LAST:event_tabParentStateChanged
+
+    private void button_transferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_transferActionPerformed
+        StockTransfer st = new StockTransfer();
+        st.openFrame();
+        st.setVisible(true);
+        int x = (myFrame.getWidth() - st.getWidth()) / 2;
+        int y = (myFrame.getHeight() - st.getHeight()) / 2;
+        st.setLocation(x,y);
+    }//GEN-LAST:event_button_transferActionPerformed
     private void applyButton()
     {
         for(String key : itemList.keySet())
@@ -430,7 +451,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         {
             itemList.clear();
             String keyword = textField_search.getText();
-            itemList = inventoryDb.processData(selectedStoreObject.getId(), selectedStoreObject.getName(), keyword);
+            itemList = inventoryDb.processData(selectedStoreObject.getId(), selectedStoreObject.getName(), keyword, "ID");
             
             for(String key : itemList.keySet())
             {
@@ -586,7 +607,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         
         int x = 1;
         for(String key : mapStore.keySet())
-            storeStocks[x++] = inventoryDb.processData(key, mapStore.get(key), textField_searchSummary.getText());
+            storeStocks[x++] = inventoryDb.processData(key, mapStore.get(key), textField_searchSummary.getText(), "ID");
         
         for(String key : storeStocks[0].keySet())
         {
@@ -663,6 +684,7 @@ public class InventoryFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_configure;
     private javax.swing.JButton button_input;
+    private javax.swing.JButton button_transfer;
     private javax.swing.JButton button_undo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

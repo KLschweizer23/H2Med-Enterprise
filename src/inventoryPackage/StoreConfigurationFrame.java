@@ -1,4 +1,4 @@
-package inventorysystem.InventoryPackage;
+package inventoryPackage;
 
 import LoginPackage.LoginDatabaseManager;
 import inventorysystem.MainFrame;

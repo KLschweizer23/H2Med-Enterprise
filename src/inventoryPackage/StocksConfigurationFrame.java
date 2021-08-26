@@ -1,4 +1,4 @@
-package inventorysystem.InventoryPackage;
+package inventoryPackage;
 
 import LoginPackage.LoginDatabaseManager;
 import inventorysystem.MainFrame;
@@ -230,7 +230,7 @@ public class StocksConfigurationFrame extends javax.swing.JFrame {
         InventoryDatabaseManager inventoryDb = new InventoryDatabaseManager();
         SystemUtilities su = new SystemUtilities();
         
-        HashMap<String, ItemObject> itemHashList = inventoryDb.processData(currentStore.getId(), currentStore.getName(), "");
+        HashMap<String, ItemObject> itemHashList = inventoryDb.processData(currentStore.getId(), currentStore.getName(), "", "ID");
         
         for(String key : itemHashList.keySet())
         {
