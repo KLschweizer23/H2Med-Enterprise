@@ -12,6 +12,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import myUtilities.SystemUtilities;
@@ -611,39 +612,49 @@ public class InventoryFrame extends javax.swing.JFrame {
         
         for(String key : storeStocks[0].keySet())
         {
-            int iterator = 0;
-            String[] rowData = new String[5 + storeStocks.length];
             
-            ItemObject mainIo = storeStocks[0].get(key);
-            
-            rowData[iterator++] = mainIo.getI_id();
-            rowData[iterator++] = mainIo.getItem();
-            rowData[iterator++] = mainIo.getArticle();
-            rowData[iterator++] = mainIo.getBrand();
-            rowData[iterator++] = mainIo.getPrice();
-            rowData[iterator++] = mainIo.getStocksLeft() + "";
-            
-            for(int j = 1; j < storeStocks.length; j++)
-            {
-                boolean exist = false;
-                String keyId = "";
-                for(String key2 : storeStocks[j].keySet())
+            SwingWorker<Void, String[]> worker = new SwingWorker(){
+                @Override
+                protected Void doInBackground()
                 {
-                    if(storeStocks[j].get(key2).getI_id().equals(mainIo.getI_id()))
+                    int iterator = 0;
+                    String[] rowData = new String[5 + storeStocks.length];
+
+                    ItemObject mainIo = storeStocks[0].get(key);
+
+                    rowData[iterator++] = mainIo.getI_id();
+                    rowData[iterator++] = mainIo.getItem();
+                    rowData[iterator++] = mainIo.getArticle();
+                    rowData[iterator++] = mainIo.getBrand();
+                    rowData[iterator++] = mainIo.getPrice();
+                    rowData[iterator++] = mainIo.getStocksLeft() + "";
+                    for(int j = 1; j < storeStocks.length; j++)
                     {
-                        keyId = key2;
-                        exist = true;
-                        break;
+                        boolean exist = false;
+                        String keyId = "";
+                        for(String key2 : storeStocks[j].keySet())
+                        {
+                            if(storeStocks[j].get(key2).getI_id().equals(mainIo.getI_id()))
+                            {
+                                keyId = key2;
+                                exist = true;
+                                break;
+                            }
+                        }
+                        if(exist) 
+                            rowData[iterator++] = storeStocks[j].get(keyId).getStocksLeft() + "";
+                        else 
+                            rowData[iterator++] = "";
                     }
+                    dtm2.addRow(rowData);
+                    return null;
                 }
-                if(exist) 
-                    rowData[iterator++] = storeStocks[j].get(keyId).getStocksLeft() + "";
-                else 
-                    rowData[iterator++] = "";
-            }
-            dtm2.addRow(rowData);
+            };
+            worker.execute();
+
         }
-        su.resizeColumnWidth(table_summary);
+        if(dtm2.getRowCount() > 0)
+            su.resizeColumnWidth(table_summary);
         su.setSelectionToZero(table_summary, true);
         table_summary.setRowHeight(rowHeight);
     }
@@ -656,6 +667,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         {
             itemDb.filterBySearch(textField_searchSummary.getText(), "All", "", 1, itemDb.getTotalData(textField_searchSummary.getText(), "", ""), 0);
         }catch(Exception e){System.out.println(e);System.exit(0);}
+        
         for(int i = 0; i < itemDb.getItemIdList().size(); i++)
         {
             ItemObject io = new ItemObject();

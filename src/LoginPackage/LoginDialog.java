@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.KeyStroke;
 import myUtilities.MessageHandler;
+import myUtilities.SystemUtilities;
 
 /**
  *
@@ -33,6 +34,8 @@ public class LoginDialog extends javax.swing.JDialog {
         button_exit = new javax.swing.JButton();
         label_register = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        label_logo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -116,15 +119,31 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Welcome!");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
+            .addComponent(label_logo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(label_logo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -241,21 +260,21 @@ public class LoginDialog extends javax.swing.JDialog {
     }
     private void login()
     {
-        LoginDatabaseManager logObj = new LoginDatabaseManager();
+        LoginDatabaseManager logDb = new LoginDatabaseManager();
         MessageHandler mh = new MessageHandler();
         
-        LoginObject lo = logObj.checkAccount(textField_username.getText(), passField_password.getPassword());
+        LoginObject lo = logDb.checkAccount(textField_username.getText(), passField_password.getPassword());
         
         String pass = "";
         
         for(char x : passField_password.getPassword())
             pass+= x;
-        if(textField_username.getText().equals(logObj.getAdminUser()) && pass.equals(logObj.getAdminPass()))
+        if(textField_username.getText().equals(logDb.getAdminUser()) && pass.equals(logDb.getAdminPass()))
         {
             lo = new LoginObject();
             lo.setId("0");
-            lo.setUsername(logObj.getAdminUser());
-            lo.setPassword(logObj.getAdminPass());
+            lo.setUsername(logDb.getAdminUser());
+            lo.setPassword(logDb.getAdminPass());
             lo.setRole("ADMIN");
             main.grantedAccess = true;
             main.setLogObj(lo);
@@ -304,6 +323,9 @@ public class LoginDialog extends javax.swing.JDialog {
         initComponents();
         setAlwaysOnTop(true);
         setupCommands();
+        SystemUtilities su = new SystemUtilities();
+        
+        label_logo.setIcon(su.getScaledImageIcon("h2med_logo.png", 470, 150));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -311,8 +333,10 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JButton button_login;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel label_logo;
     private javax.swing.JLabel label_register;
     private javax.swing.JPasswordField passField_password;
     private javax.swing.JTextField textField_username;

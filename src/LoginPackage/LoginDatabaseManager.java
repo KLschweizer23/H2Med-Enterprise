@@ -4,6 +4,7 @@ package LoginPackage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import myUtilities.DatabaseFunctions;
+import myUtilities.MessageHandler;
 
 public class LoginDatabaseManager {
     private final String table = "loginTable";
@@ -14,7 +15,7 @@ public class LoginDatabaseManager {
     private final String ROLE = "ROLE";
     
     private final String adminUser = "admin";
-    private final String adminPass = "kladmin";
+    private final String adminPass = "adminh2med";
     
     private HashMap<String, LoginObject> logs = new HashMap<>();
     
@@ -59,12 +60,19 @@ public class LoginDatabaseManager {
             accountExist = true;
             id = idArr;
             if(logs.get(idArr).getPassword().length() == password.length && logs.get(idArr).getUsername().equals(user))
+            {
                 for(int j = 0; j < password.length; j++)
                 {
+                    accountExist = true;
                     if(password[j] != logs.get(idArr).getPassword().charAt(j))
+                    {
                         accountExist = false;
+                        break;
+                    }
                 }
+            }
             else accountExist = false;
+            if(accountExist) break;
         }
         if(accountExist) return logs.get(id);
         else return null;
