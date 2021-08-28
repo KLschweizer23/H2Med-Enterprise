@@ -512,7 +512,7 @@ public class StockOutFrame extends javax.swing.JFrame {
 
         label_totalPages.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         label_totalPages.setText("1");
-        jPanel2.add(label_totalPages, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 60, 10, -1));
+        jPanel2.add(label_totalPages, new org.netbeans.lib.awtextra.AbsoluteConstraints(276, 60, 40, -1));
 
         button_next.setText("Next");
         button_next.addActionListener(new java.awt.event.ActionListener() {
@@ -520,7 +520,7 @@ public class StockOutFrame extends javax.swing.JFrame {
                 button_nextActionPerformed(evt);
             }
         });
-        jPanel2.add(button_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 60, 20));
+        jPanel2.add(button_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 60, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

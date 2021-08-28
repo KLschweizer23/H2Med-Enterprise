@@ -761,9 +761,7 @@ public class DatabaseFrame extends javax.swing.JFrame
                 PaginationConfiguration pc = new PaginationConfiguration();
                 
                 int offset = (int) ((Double.parseDouble(textField_currentPage.getText()) - 1) * pc.getLimit());
-                System.out.println("HERE");
                 itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT, (int)pc.getLimit(), offset);
-                System.out.println("HERE2");
                 int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()));
 
                 label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");

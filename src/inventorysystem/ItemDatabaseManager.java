@@ -90,14 +90,14 @@ public class ItemDatabaseManager
         String query = "";
         if(sort == 0)
             if(category.toLowerCase().equals("all"))
-                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%'" +" ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
             else
-                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '% " + supplier +"%' ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '%" + keyword +"%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%'" +" ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
         else
             if(category.toLowerCase().equals("all"))
                 query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%' ORDER BY " + ITEM_NAME + " LIMIT " + limit + " OFFSET " + offset;
             else
-                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '% " + supplier +"%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%' ORDER BY " + ITEM_NAME + " LIMIT " + limit + " OFFSET " + offset;
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '%" + keyword +"%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%' ORDER BY " + ITEM_NAME + " LIMIT " + limit + " OFFSET " + offset;
         System.out.println(query);
         PreparedStatement filterQuery = con.prepareStatement(query);
         ResultSet result = filterQuery.executeQuery();

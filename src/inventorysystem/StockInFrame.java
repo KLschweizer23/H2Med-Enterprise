@@ -943,6 +943,7 @@ public class StockInFrame extends javax.swing.JFrame {
 
     public void updateTableData(int mode, String keyword, String category) throws Exception 
     {
+        dtm.setRowCount(0);
         itemDatabaseManager = new ItemDatabaseManager();
         
         String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
@@ -951,9 +952,9 @@ public class StockInFrame extends javax.swing.JFrame {
         
         int offset = (int) ((Double.parseDouble(label_currentPage.getText()) - 1) * pc.getLimit());
         
-        itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup),MODE_UNSORT, (int)pc.getLimit(), offset);
+        itemDatabaseManager.filterBySearch(goodString(stockIn_searchBar.getText()), goodString(categoryCombo.getSelectedItem().toString()), goodString(sup),MODE_UNSORT, (int)pc.getLimit(), offset);
         
-        int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), "");
+        int totalSize = itemDatabaseManager.getTotalData(goodString(stockIn_searchBar.getText()), goodString(categoryCombo.getSelectedItem().toString()), goodString(sup));
         label_totalpages.setText(((int)Math.ceil(totalSize / pc.getLimit())) + "");
         
         itemIdList = itemDatabaseManager.getItemIdList();
