@@ -56,13 +56,25 @@ public class ItemDatabaseManager
         PreparedStatement allQuery;
         
         if(sort == 1)
-            allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_NAME + " ASC;");
+            allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_NAME + " ASC ;");
         else
             allQuery = con.prepareStatement("SELECT * FROM " + ITEM_TABLE + " ORDER BY " + ITEM_STOCK_OUT + " DESC;");
         
         ResultSet result = allQuery.executeQuery();
         re_initializeVariables(result);
         con.close();
+    }
+    public int getTotalData(String keyword, String category, String supplier) throws Exception
+    {
+        Connection con = getConnection();
+        category = category.toLowerCase().equals("all") ? "" : category;
+        supplier = supplier.toLowerCase().equals("all") ? "" : supplier;
+        PreparedStatement totalCountQuery = con.prepareStatement("SELECT COUNT(" + ITEM_ID + ") as total FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' AND " + ITEM_CATEGORY + " LIKE '%" + category + "%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%'");
+        ResultSet result = totalCountQuery.executeQuery();
+        int total = 0;
+        while(result.next())
+            total = result.getInt("total");
+        return total;
     }
     public void filterByCategory(String _category, String _supplier, int sort) throws Exception
     {
@@ -72,10 +84,22 @@ public class ItemDatabaseManager
         re_initializeVariables(result);
         con.close();
     }
-    public void filterBySearch(String keyword, String category, String supplier, int sort) throws Exception
+    public void filterBySearch(String keyword, String category, String supplier, int sort, int limit, int offset) throws Exception
     {
         Connection con = getConnection();
-        PreparedStatement filterQuery = con.prepareStatement("call sp_filterBySearch('" + keyword + "', '" + category + "','" + supplier + "', " + sort + ");");
+        String query = "";
+        if(sort == 0)
+            if(category.toLowerCase().equals("all"))
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
+            else
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '% " + supplier +"%' ORDER BY " + ITEM_STOCK_OUT + " DESC LIMIT " + limit + " OFFSET " + offset;
+        else
+            if(category.toLowerCase().equals("all"))
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_NAME + " LIKE '%" + keyword + "%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%' ORDER BY " + ITEM_NAME + " LIMIT " + limit + " OFFSET " + offset;
+            else
+                query = "SELECT * FROM " + ITEM_TABLE + " WHERE " + ITEM_CATEGORY + " = '" + category + "' AND " + ITEM_NAME + " LIKE '% " + supplier +"%' AND " + ITEM_SUPPLIER + " LIKE '%" + supplier + "%' ORDER BY " + ITEM_NAME + " LIMIT " + limit + " OFFSET " + offset;
+        System.out.println(query);
+        PreparedStatement filterQuery = con.prepareStatement(query);
         ResultSet result = filterQuery.executeQuery();
         re_initializeVariables(result);
         con.close();

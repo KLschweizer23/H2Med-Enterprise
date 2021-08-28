@@ -52,12 +52,15 @@ public class MainFrame extends javax.swing.JFrame {
     
     //CLASS VARIABLES
     static MainFrame myFrame;
-    private ItemDatabaseManager itemDatabaseManager = new ItemDatabaseManager();
+    private ItemDatabaseManager itemDatabaseManager;
     
     //UNCOMMON VARIABLES
     private DefaultTableModel dtm;
     
     public boolean grantedAccess = false;
+    private boolean finishedProcess = false;
+    private boolean firstOpen = false;
+    
     private LoginObject logObj;
     
     private JButton[] buttons = new JButton[7];
@@ -91,16 +94,15 @@ public class MainFrame extends javax.swing.JFrame {
             resizeColumnWidth(displayTable);
             main_searchBar.requestFocus();
             accountAccess();
+            firstOpen = true;
         }
     }
     private void accountAccess()
     {
         String role = logObj.getRole();
         if(role.equals("ADMIN"))
-        {
             for(JButton but : buttons)
                 but.setEnabled(true);
-        }
         else if(role.equals("INVENTORY"))
         {
             for(JButton but : buttons)
@@ -186,7 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
         w = 198;
         wing2.setIcon(getScaledImageIcon("h2med_sidewings2.png", (w / 2) + w, w));
         
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/logo.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/Images/logo.png")).getImage());
         alarmButton.setIcon(getScaledImageIcon("alarm_false.png", 25, 25));
         
         alarmButton.setOpaque(false);
@@ -320,50 +322,56 @@ public class MainFrame extends javax.swing.JFrame {
     }
     public void updateTableData(int mode, String keyword, String category) throws Exception
     {
-        itemDatabaseManager = new ItemDatabaseManager();
-
-        if(mode == MODE_PROCESS)
-            itemDatabaseManager.processAllData(MODE_SORT);
-        else if(mode == MODE_FILTER_CATEGORY)
-            itemDatabaseManager.filterByCategory(goodString(jComboBox1.getSelectedItem().toString()), null, MODE_SORT);
-        else if(mode == MODE_FILTER_SEARCH)
-            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), null, MODE_SORT);
-
-        itemIdList = itemDatabaseManager.getItemIdList();
-        ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
-        ArrayList<String> itemCategoryList = itemDatabaseManager.getItemCategoryList();
-        ArrayList<Double> itemQuantityList = itemDatabaseManager.getItemQuantityList();
-        ArrayList<Double> itemPriceList = itemDatabaseManager.getItemPriceList();
-        ArrayList<Double> itemStockOutList = itemDatabaseManager.getItemStockOutList();
-        ArrayList<String> itemArticleList = itemDatabaseManager.getItemArticleList();
-        ArrayList<String> itemBrandList = itemDatabaseManager.getItemBrandList();
-        ArrayList<String> itemSupplierList = itemDatabaseManager.getItemSupplierList();
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-        LocalDateTime now = LocalDateTime.now();  
-        String date = setFormat(dtf.format(now));
-        
-        dtm.setRowCount(0);
-        
-        TimeDatabaseManager timeDatabaseManager = new TimeDatabaseManager();
-        
-        for(int i = 0; i < itemIdList.size(); i++)
+        if(!finishedProcess)
         {
-            double stockRate = itemStockOutList.get(i)/timeDatabaseManager.getDayInterval(date);
+            itemDatabaseManager = new ItemDatabaseManager();
+            PaginationConfiguration pc = new PaginationConfiguration();
+
+            int offset = (int) ((Double.parseDouble(textField_currentPage.getText()) - 1) * pc.getLimit());
+
+            itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), "", MODE_SORT, (int)pc.getLimit(), offset);
+
+            itemIdList = itemDatabaseManager.getItemIdList();
+            int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), "");
+
+            label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");
+
+            ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
+            ArrayList<String> itemCategoryList = itemDatabaseManager.getItemCategoryList();
+            ArrayList<Double> itemQuantityList = itemDatabaseManager.getItemQuantityList();
+            ArrayList<Double> itemPriceList = itemDatabaseManager.getItemPriceList();
+            ArrayList<Double> itemStockOutList = itemDatabaseManager.getItemStockOutList();
+            ArrayList<String> itemArticleList = itemDatabaseManager.getItemArticleList();
+            ArrayList<String> itemBrandList = itemDatabaseManager.getItemBrandList();
+            ArrayList<String> itemSupplierList = itemDatabaseManager.getItemSupplierList();
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+            LocalDateTime now = LocalDateTime.now();  
+            String date = setFormat(dtf.format(now));
+
+            dtm.setRowCount(0);
+
+            TimeDatabaseManager timeDatabaseManager = new TimeDatabaseManager();
+
+            int interval = timeDatabaseManager.getDayInterval(date);
             
-            stockRate *= 7;
-            
-            String [] rowData = {
-                i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i),(char)8369 + " " + itemPriceList.get(i).toString(),
-                itemQuantityList.get(i)+"", itemCategoryList.get(i),(int)stockRate + " per week"
-            };
-            dtm.addRow(rowData);
+            for(int i = 0; i < itemIdList.size(); i++)
+            {
+                double stockRate = itemStockOutList.get(i)/ interval;
+
+                stockRate *= 7;
+
+                String [] rowData = {
+                    (offset + i + 1) + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i),(char)8369 + " " + itemPriceList.get(i).toString(),
+                    itemQuantityList.get(i)+"", itemCategoryList.get(i),(int)stockRate + " per week"
+                };
+                dtm.addRow(rowData);
+            }
+            if(displayTable.getRowCount() >= 1)
+                displayTable.setRowSelectionInterval(0, 0);
+            displayTable.setRowHeight(30);
+            finishedProcess = true;
         }
-        if(displayTable.getRowCount() >= 1)
-        {
-            displayTable.setRowSelectionInterval(0, 0);
-        }
-        displayTable.setRowHeight(30);
     }
     private String goodString(String data)
     {
@@ -393,7 +401,7 @@ public class MainFrame extends javax.swing.JFrame {
         headerRenderer.setForeground(foreground);
         
         for (int i = 0; i < table.getModel().getColumnCount(); i++) {
-                table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
+            table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
     }
     public void resizeColumnWidth(JTable table) 
@@ -500,13 +508,19 @@ public class MainFrame extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         alarmButton = new javax.swing.JButton();
+        button_next = new javax.swing.JButton();
+        button_down = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        textField_currentPage = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        label_totalPages = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("H2Med Enterprise Software");
         setBackground(new java.awt.Color(153, 153, 153));
         setBounds(new java.awt.Rectangle(0, 0, 1366, 768));
         setResizable(false);
-        setSize(getWidth(), getHeight());
+        setSize(new java.awt.Dimension(1406, 757));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -812,7 +826,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(most2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(most3)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -853,10 +867,54 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        button_next.setText("Next");
+        button_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_nextActionPerformed(evt);
+            }
+        });
+
+        button_down.setText("Previous");
+        button_down.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_downActionPerformed(evt);
+            }
+        });
+
+        textField_currentPage.setText("1");
+        textField_currentPage.setEnabled(false);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("of");
+
+        label_totalPages.setText("3");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(textField_currentPage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(label_totalPages)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(textField_currentPage)
+                .addComponent(jLabel1)
+                .addComponent(label_totalPages))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -867,7 +925,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(alarmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(235, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(button_down)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button_next))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -882,8 +945,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(alarmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)))
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE))
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_next)
+                        .addComponent(button_down))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -899,11 +968,12 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -915,7 +985,7 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -927,13 +997,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void jPanel1AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel1AncestorMoved
 
     }//GEN-LAST:event_jPanel1AncestorMoved
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        try
-        {
-            updateTableData( MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0003");}
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void button_stockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_stockInActionPerformed
         StockInFrame stockInFrame = new StockInFrame();
@@ -969,19 +1032,13 @@ public class MainFrame extends javax.swing.JFrame {
         databaseFrame.setLocation(x,y);
     }//GEN-LAST:event_button_databaseActionPerformed
 
-    private void main_searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_main_searchBarKeyReleased
-        String keyword = main_searchBar.getText();
-        try
-        {
-            updateTableData(MODE_FILTER_SEARCH, keyword, jComboBox1.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0004");}
-    }//GEN-LAST:event_main_searchBarKeyReleased
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        try
-        {
-            updateTableData(MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0005");}
+        if(firstOpen)
+            try
+            {
+                finishedProcess = false;
+                updateTableData(MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+            }catch(Exception e){ShowFreakingError(e + " - Error 0005");}
         AlarmDialog alarm = new AlarmDialog(this, false, false);
         boolean hasNotif = alarm.hasNotification();
         alarmButton.setIcon(getScaledImageIcon("alarm_" + hasNotif + ".png", 25, 25));
@@ -1006,14 +1063,6 @@ public class MainFrame extends javax.swing.JFrame {
         salesFrame.setLocation(x,y);
     }//GEN-LAST:event_button_salesActionPerformed
 
-    private void alarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alarmButtonActionPerformed
-        AlarmDialog alarm = new AlarmDialog(this, true, true);
-        int x = (getWidth() - alarm.getWidth()) / 2;
-        int y = (getHeight() - alarm.getHeight()) / 2;
-        alarm.setLocation(x,y);
-        alarm.setVisible(true);
-    }//GEN-LAST:event_alarmButtonActionPerformed
-
     private void button_inventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_inventoryActionPerformed
         InventoryFrame inventory = new InventoryFrame();
         inventory.openInventoryFrame(this);
@@ -1022,6 +1071,58 @@ public class MainFrame extends javax.swing.JFrame {
         int y = (getHeight() - inventory.getHeight()) / 2;
         inventory.setLocation(x,y);
     }//GEN-LAST:event_button_inventoryActionPerformed
+
+    private void alarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alarmButtonActionPerformed
+        AlarmDialog alarm = new AlarmDialog(this, true, true);
+        int x = (getWidth() - alarm.getWidth()) / 2;
+        int y = (getHeight() - alarm.getHeight()) / 2;
+        alarm.setLocation(x,y);
+        alarm.setVisible(true);
+    }//GEN-LAST:event_alarmButtonActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        finishedProcess = false;
+        textField_currentPage.setText("1");
+        try
+        {
+                updateTableData( MODE_FILTER_SEARCH, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+        }catch(Exception e){ShowFreakingError(e + " - Error 0003");}
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void main_searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_main_searchBarKeyReleased
+        String keyword = main_searchBar.getText();
+        finishedProcess = false;
+        textField_currentPage.setText("1");
+        try
+        {
+                updateTableData(MODE_FILTER_SEARCH, keyword, jComboBox1.getSelectedItem().toString());
+        }catch(Exception e){ShowFreakingError(e + " - Error 0004");}
+    }//GEN-LAST:event_main_searchBarKeyReleased
+
+    private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        int maxPage = Integer.parseInt(label_totalPages.getText());
+        currentPage = currentPage == maxPage ? currentPage - 1 : currentPage;
+        textField_currentPage.setText((++currentPage) + "");
+        finishedProcess = false;
+        try
+        {
+            updateTableData(0, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+        }
+        catch(Exception e){System.out.print("next error = " + e);}
+    }//GEN-LAST:event_button_nextActionPerformed
+
+    private void button_downActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_downActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        currentPage = currentPage == 1 ? 2 : currentPage ;
+        textField_currentPage.setText((--currentPage) + "");
+        finishedProcess = false;
+        try
+        {
+            updateTableData(0, main_searchBar.getText(), jComboBox1.getSelectedItem().toString());
+        }
+        catch(Exception e){System.out.print("next error = " + e);}
+    }//GEN-LAST:event_button_downActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -1059,8 +1160,10 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alarmButton;
     private javax.swing.JButton button_database;
+    private javax.swing.JButton button_down;
     private javax.swing.JButton button_inventory;
     private javax.swing.JButton button_invoices;
+    private javax.swing.JButton button_next;
     private javax.swing.JButton button_records;
     private javax.swing.JButton button_sales;
     private javax.swing.JButton button_stockIn;
@@ -1070,6 +1173,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel invoice2;
     private javax.swing.JLabel invoice3;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel19;
@@ -1080,7 +1184,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_totalPages;
     private javax.swing.JLabel least1;
     private javax.swing.JLabel least2;
     private javax.swing.JLabel least3;
@@ -1095,6 +1201,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel sales1;
     private javax.swing.JLabel sales2;
     private javax.swing.JLabel sales3;
+    private javax.swing.JTextField textField_currentPage;
     private javax.swing.JLabel wing;
     private javax.swing.JLabel wing2;
     // End of variables declaration//GEN-END:variables

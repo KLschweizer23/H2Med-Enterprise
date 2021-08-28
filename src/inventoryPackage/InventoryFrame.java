@@ -654,7 +654,7 @@ public class InventoryFrame extends javax.swing.JFrame {
         
         try
         {
-            itemDb.filterBySearch(textField_searchSummary.getText(), "All", "", 1);
+            itemDb.filterBySearch(textField_searchSummary.getText(), "All", "", 1, itemDb.getTotalData(textField_searchSummary.getText(), "", ""), 0);
         }catch(Exception e){System.out.println(e);System.exit(0);}
         for(int i = 0; i < itemDb.getItemIdList().size(); i++)
         {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import myUtilities.SystemUtilities;
 
 public class Database_AddFrame extends javax.swing.JFrame {
     
@@ -428,21 +429,12 @@ public class Database_AddFrame extends javax.swing.JFrame {
         String purchaseDate, expirationDate;
         
         if(monthCombo.getSelectedIndex() != 0)
-        {
             purchaseDate = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedIndex() + "-" + dayCombo.getSelectedItem();
-        }
-        else
-        {
-            purchaseDate = "2000-01-01";
-        }        
+        else purchaseDate = "2000-01-01";
         if(monthCombo1.getSelectedIndex() != 0)
-        {
             expirationDate = yearCombo1.getSelectedItem() + "-" + monthCombo1.getSelectedIndex() + "-" + dayCombo1.getSelectedItem();
-        }
-        else
-        {
-            expirationDate = "2000-01-01";
-        }
+        else expirationDate = "2000-01-01";
+        
         try
         {
             itemDatabaseManager.insertData(name, category, quantity, cost, price, stockOut, purchaseDate, expirationDate, supplier, brand, article);

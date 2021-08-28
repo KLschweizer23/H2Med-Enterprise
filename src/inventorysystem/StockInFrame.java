@@ -120,6 +120,11 @@ public class StockInFrame extends javax.swing.JFrame {
         supplierCombo = new javax.swing.JComboBox<>();
         addButton = new javax.swing.JButton();
         minusButton = new javax.swing.JButton();
+        button_prev = new javax.swing.JButton();
+        button_next = new javax.swing.JButton();
+        label_currentPage = new javax.swing.JLabel();
+        label_totalpages = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
@@ -433,6 +438,27 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
+        button_prev.setText("Prev");
+        button_prev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_prevActionPerformed(evt);
+            }
+        });
+
+        button_next.setText("Next");
+        button_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_nextActionPerformed(evt);
+            }
+        });
+
+        label_currentPage.setText("1");
+
+        label_totalpages.setText("1");
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("of");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -443,12 +469,22 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(stockIn_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(stockIn_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_prev, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(label_currentPage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(label_totalpages)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_next, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(minusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -459,12 +495,18 @@ public class StockInFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(stockIn_searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button_prev, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(label_currentPage, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(label_totalpages, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(button_next, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minusButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minusButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -536,6 +578,7 @@ public class StockInFrame extends javax.swing.JFrame {
         {
             try
             {
+                label_currentPage.setText("1");
                 updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(), categoryCombo.getSelectedItem().toString());
             }catch(Exception e){ShowFreakingError(e + " Error 0048");}
             resizeColumnWidth(oldTable);
@@ -547,6 +590,7 @@ public class StockInFrame extends javax.swing.JFrame {
         {
             try 
             {
+                label_currentPage.setText("1");
                 updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(), categoryCombo.getSelectedItem().toString());
             } catch (Exception e) {ShowFreakingError("" + e + " - Error 0007");} 
         }
@@ -556,6 +600,7 @@ public class StockInFrame extends javax.swing.JFrame {
         String keyword = stockIn_searchBar.getText();
         try 
         {
+            label_currentPage.setText("1");
             updateTableData(this.MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
         } catch (Exception e) {ShowFreakingError("" + e + " - Error 0008");} 
     }//GEN-LAST:event_stockIn_searchBarKeyReleased
@@ -749,6 +794,27 @@ public class StockInFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_purchaseButtonActionPerformed
+
+    private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
+        int currentPage = Integer.parseInt(label_currentPage.getText());
+        int maxPage = Integer.parseInt(label_totalpages.getText());
+        currentPage = currentPage == maxPage ? currentPage - 1 : currentPage;
+        label_currentPage.setText((++currentPage) + "");
+        try
+        {
+            updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(), categoryCombo.getSelectedItem().toString());
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+    }//GEN-LAST:event_button_nextActionPerformed
+
+    private void button_prevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_prevActionPerformed
+        int currentPage = Integer.parseInt(label_currentPage.getText());
+        currentPage = currentPage == 1 ? 2 : currentPage ;
+        label_currentPage.setText((--currentPage) + "");
+        try
+        {
+            updateTableData(MODE_FILTER_SEARCH, stockIn_searchBar.getText(), categoryCombo.getSelectedItem().toString());
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+    }//GEN-LAST:event_button_prevActionPerformed
     private ArrayList<StockItems> getItems()
     {
         ArrayList<StockItems> itemsList = new ArrayList<>();
@@ -880,21 +946,16 @@ public class StockInFrame extends javax.swing.JFrame {
         itemDatabaseManager = new ItemDatabaseManager();
         
         String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
-        
-        switch (mode) {
-            case MODE_PROCESS:
-                itemDatabaseManager.processAllData(MODE_UNSORT);
-                break;
-            case MODE_FILTER_CATEGORY:
-                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(sup),MODE_UNSORT);
-                break;
-            case MODE_FILTER_SEARCH:
-                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup),MODE_UNSORT);
-                break;
-            default:
-                break;
-        }
 
+        PaginationConfiguration pc = new PaginationConfiguration();
+        
+        int offset = (int) ((Double.parseDouble(label_currentPage.getText()) - 1) * pc.getLimit());
+        
+        itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup),MODE_UNSORT, (int)pc.getLimit(), offset);
+        
+        int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), "");
+        label_totalpages.setText(((int)Math.ceil(totalSize / pc.getLimit())) + "");
+        
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
         itemCategoryList = itemDatabaseManager.getItemCategoryList();
@@ -908,7 +969,7 @@ public class StockInFrame extends javax.swing.JFrame {
         
         for (int i = 0; i < itemIdList.size(); i++) 
         {
-            String[] rowData = {i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i), 
+            String[] rowData = {offset + i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i), 
                 itemQuantityList.get(i).toString(), "" + (char)8369 + " " + itemCostList.get(i),itemCategoryList.get(i) 
             };
           dtm.addRow(rowData);
@@ -1150,6 +1211,8 @@ public class StockInFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton button_next;
+    private javax.swing.JButton button_prev;
     private javax.swing.JRadioButton cashRadio;
     private javax.swing.JComboBox<String> categoryCombo;
     private javax.swing.JRadioButton chequeRadio;
@@ -1162,6 +1225,7 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -1174,6 +1238,8 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCost;
     private javax.swing.JLabel labelItem;
+    private javax.swing.JLabel label_currentPage;
+    private javax.swing.JLabel label_totalpages;
     private javax.swing.JButton minusButton;
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JComboBox<String> monthCombo1;

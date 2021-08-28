@@ -77,6 +77,12 @@ public class DatabaseFrame extends javax.swing.JFrame
         database_deleteButton = new javax.swing.JButton();
         categoryCombo = new javax.swing.JComboBox<>();
         supplierCombo = new javax.swing.JComboBox<>();
+        button_next = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        textField_currentPage = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        label_totalPages = new javax.swing.JLabel();
+        button_down = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Database");
@@ -270,6 +276,49 @@ public class DatabaseFrame extends javax.swing.JFrame
             }
         });
 
+        button_next.setText("Next");
+        button_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_nextActionPerformed(evt);
+            }
+        });
+
+        textField_currentPage.setText("1");
+        textField_currentPage.setEnabled(false);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("of");
+
+        label_totalPages.setText("3");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(textField_currentPage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(label_totalPages)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(textField_currentPage)
+                .addComponent(jLabel2)
+                .addComponent(label_totalPages))
+        );
+
+        button_down.setText("Previous");
+        button_down.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_downActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -287,6 +336,14 @@ public class DatabaseFrame extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(database_deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(button_down)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button_next)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,8 +355,15 @@ public class DatabaseFrame extends javax.swing.JFrame
                     .addComponent(database_deleteButton)
                     .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_next)
+                        .addComponent(button_down))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -551,6 +615,7 @@ public class DatabaseFrame extends javax.swing.JFrame
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
         try
         {
+            textField_currentPage.setText("1");
             updateTableData(selectedButtonID, MODE_FILTER_SEARCH, database_searchBar.getText(), categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0020");}
     }//GEN-LAST:event_formWindowGainedFocus
@@ -562,6 +627,7 @@ public class DatabaseFrame extends javax.swing.JFrame
     private void categoryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboActionPerformed
         if(ready)
         {
+            textField_currentPage.setText("1");
             selectedTrueCategory = categoryCombo.getSelectedIndex();
             if(categoryCombo.getSelectedIndex() != 0)
                 selectedCategory = categoryCombo.getSelectedIndex() - 1;
@@ -578,6 +644,7 @@ public class DatabaseFrame extends javax.swing.JFrame
         String keyword = database_searchBar.getText();
         try
         {
+            textField_currentPage.setText("1");
             updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0022");}
     }//GEN-LAST:event_database_searchBarKeyReleased
@@ -599,9 +666,35 @@ public class DatabaseFrame extends javax.swing.JFrame
         String keyword = database_searchBar.getText();
         try
         {
+            textField_currentPage.setText("1");
             updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0041");}
     }//GEN-LAST:event_supplierComboActionPerformed
+
+    private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        int maxPage = Integer.parseInt(label_totalPages.getText());
+        currentPage = currentPage == maxPage ? currentPage - 1 : currentPage;
+        textField_currentPage.setText((++currentPage) + "");
+        String keyword = database_searchBar.getText();
+        try
+        {
+            updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
+        }
+        catch(Exception e){System.out.print("next error = " + e);}
+    }//GEN-LAST:event_button_nextActionPerformed
+
+    private void button_downActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_downActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        currentPage = currentPage == 1 ? 2 : currentPage ;
+        textField_currentPage.setText((--currentPage) + "");
+        String keyword = database_searchBar.getText();
+        try
+        {
+            updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
+        }
+        catch(Exception e){System.out.print("next error = " + e);}
+    }//GEN-LAST:event_button_downActionPerformed
 
     public void createColumns(int id)
     {
@@ -665,12 +758,15 @@ public class DatabaseFrame extends javax.swing.JFrame
                 database_searchBar.setEnabled(true);
                 supplierCombo.setEnabled(true);
                 
-                if(mode == MODE_PROCESS)
-                    itemDatabaseManager.processAllData(MODE_UNSORT);
-                else if(mode == MODE_FILTER_CATEGORY)
-                    itemDatabaseManager.filterByCategory(goodString(categoryCombo.getItemAt(selectedTrueCategory)), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
-                else if(mode == MODE_FILTER_SEARCH)
-                    itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT);
+                PaginationConfiguration pc = new PaginationConfiguration();
+                
+                int offset = (int) ((Double.parseDouble(textField_currentPage.getText()) - 1) * pc.getLimit());
+                System.out.println("HERE");
+                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT, (int)pc.getLimit(), offset);
+                System.out.println("HERE2");
+                int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()));
+
+                label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");
                 
                 itemIdList = itemDatabaseManager.getItemIdList();
                 ArrayList<String> itemNameList = itemDatabaseManager.getItemNameList();
@@ -690,7 +786,7 @@ public class DatabaseFrame extends javax.swing.JFrame
                 for(int i = 0; i < itemIdList.size(); i++)
                 {
                     String [] rowData = {
-                        i + 1 + "", itemNameList.get(i), itemBrandList.get(i), itemArticleList.get(i), itemSupplierList.get(i),
+                        offset + i + 1 + "", itemNameList.get(i), itemBrandList.get(i), itemArticleList.get(i), itemSupplierList.get(i),
                         itemQuantityList.get(i).toString(), (char)8369 + " " + itemCostList.get(i).toString(),(char)8369 + " " + itemPriceList.get(i).toString(), itemCategoryList.get(i),
                         checkDate(itemPurchaseDateList.get(i).toString()), checkDate(itemExpirationDateList.get(i).toString())
                     };
@@ -917,7 +1013,7 @@ public class DatabaseFrame extends javax.swing.JFrame
         categoryCombo.setEnabled(true);
         try
         {
-            updateTableData(selectedButtonID, MODE_PROCESS, null, null);
+            updateTableData(selectedButtonID, MODE_PROCESS, database_searchBar.getText(), categoryCombo.getSelectedObjects().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0016");}
         database_searchBar.requestFocus();
         ready = true;
@@ -928,6 +1024,8 @@ public class DatabaseFrame extends javax.swing.JFrame
         System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_down;
+    private javax.swing.JButton button_next;
     private javax.swing.JComboBox<String> categoryCombo;
     private javax.swing.JButton database_addButton;
     private javax.swing.JButton database_branchesButton;
@@ -939,11 +1037,15 @@ public class DatabaseFrame extends javax.swing.JFrame
     private javax.swing.JTextField database_searchBar;
     private javax.swing.JButton database_supplierButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_totalPages;
     private javax.swing.JComboBox<String> supplierCombo;
+    private javax.swing.JTextField textField_currentPage;
     // End of variables declaration//GEN-END:variables
 }
 

@@ -6,6 +6,7 @@
 package inventoryPackage;
 
 import inventorysystem.ItemDatabaseManager;
+import inventorysystem.PaginationConfiguration;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -47,6 +48,12 @@ public class AddItem extends javax.swing.JFrame {
         textField_search = new javax.swing.JTextField();
         button_cancel = new javax.swing.JButton();
         buton_add = new javax.swing.JButton();
+        button_next = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        textField_currentPage = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        label_totalPages = new javax.swing.JLabel();
+        button_down = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -90,6 +97,49 @@ public class AddItem extends javax.swing.JFrame {
             }
         });
 
+        button_next.setText("Next");
+        button_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_nextActionPerformed(evt);
+            }
+        });
+
+        textField_currentPage.setText("1");
+        textField_currentPage.setEnabled(false);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("of");
+
+        label_totalPages.setText("3");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(textField_currentPage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(label_totalPages)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(textField_currentPage)
+                .addComponent(jLabel1)
+                .addComponent(label_totalPages))
+        );
+
+        button_down.setText("Previous");
+        button_down.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_downActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,13 +155,25 @@ public class AddItem extends javax.swing.JFrame {
                         .addComponent(button_cancel))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(button_down)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_next)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_next)
+                        .addComponent(button_down))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(textField_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,6 +188,7 @@ public class AddItem extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void textField_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_searchKeyReleased
+        textField_currentPage.setText("1");
         processItems();
     }//GEN-LAST:event_textField_searchKeyReleased
 
@@ -136,6 +199,21 @@ public class AddItem extends javax.swing.JFrame {
     private void button_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_cancelActionPerformed
         dispose();
     }//GEN-LAST:event_button_cancelActionPerformed
+
+    private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        int maxPage = Integer.parseInt(label_totalPages.getText());
+        currentPage = currentPage == maxPage ? currentPage - 1 : currentPage;
+        textField_currentPage.setText((++currentPage) + "");
+        processItems();
+    }//GEN-LAST:event_button_nextActionPerformed
+
+    private void button_downActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_downActionPerformed
+        int currentPage = Integer.parseInt(textField_currentPage.getText());
+        currentPage = currentPage == 1 ? 2 : currentPage ;
+        textField_currentPage.setText((--currentPage) + "");
+        processItems();
+    }//GEN-LAST:event_button_downActionPerformed
 
     private void createColumns()
     {
@@ -169,10 +247,16 @@ public class AddItem extends javax.swing.JFrame {
         ItemDatabaseManager itemDb = new ItemDatabaseManager();
         SystemUtilities su = new SystemUtilities();
         
+        PaginationConfiguration pc = new PaginationConfiguration();
+        int offset = (int) ((Double.parseDouble(textField_currentPage.getText()) - 1) * pc.getLimit());
+        int totalSize = 0;
         try
         {
-            itemDb.filterBySearch(textField_search.getText(), "All", "", 1);
+            totalSize = itemDb.getTotalData(goodString(textField_search.getText()), "", "");
+            itemDb.filterBySearch(goodString(textField_search.getText()), "All", "", 1, (int)pc.getLimit(), offset);
         }catch(Exception e){System.out.println(e);}
+        
+        label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");
         
         for(int i = 0; i < itemDb.getItemIdList().size(); i++)
         {
@@ -277,12 +361,22 @@ public class AddItem extends javax.swing.JFrame {
         setupTable();
         setupCommands();
     }
-
+    private String goodString(String data)
+    {
+        String temp = data.replaceAll("'", "\\\\'");
+        return temp;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buton_add;
     private javax.swing.JButton button_cancel;
+    private javax.swing.JButton button_down;
+    private javax.swing.JButton button_next;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel label_totalPages;
     private javax.swing.JTable table_items;
+    private javax.swing.JTextField textField_currentPage;
     private javax.swing.JTextField textField_search;
     // End of variables declaration//GEN-END:variables
 }

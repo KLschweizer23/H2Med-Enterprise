@@ -142,6 +142,11 @@ public class StockOutFrame extends javax.swing.JFrame {
         hasDue = new javax.swing.JCheckBox();
         button_stockIn = new javax.swing.JButton();
         button_new = new javax.swing.JButton();
+        button_prev = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        label_currentPage = new javax.swing.JLabel();
+        label_totalPages = new javax.swing.JLabel();
+        button_next = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Out");
@@ -489,6 +494,34 @@ public class StockOutFrame extends javax.swing.JFrame {
         });
         jPanel2.add(button_new, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 60, 20));
 
+        button_prev.setText("Prev");
+        button_prev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_prevActionPerformed(evt);
+            }
+        });
+        jPanel2.add(button_prev, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 60, 20));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("of");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
+
+        label_currentPage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_currentPage.setText("1");
+        jPanel2.add(label_currentPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
+
+        label_totalPages.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_totalPages.setText("1");
+        jPanel2.add(label_totalPages, new org.netbeans.lib.awtextra.AbsoluteConstraints(286, 60, 10, -1));
+
+        button_next.setText("Next");
+        button_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_nextActionPerformed(evt);
+            }
+        });
+        jPanel2.add(button_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 60, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -511,6 +544,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         String keyword = stockOut_searchBar.getText();
         try
         {
+            label_currentPage.setText("1");
             updateTableData(MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0012");}
     }//GEN-LAST:event_stockOut_searchBarKeyReleased
@@ -765,6 +799,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             try
             {
+                label_currentPage.setText("1");
                 updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
             }catch(Exception e){ShowFreakingError(e + " - Error 0051");}
         }
@@ -782,6 +817,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         {
             try
             {
+                label_currentPage.setText("1");
                 updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
             }catch(Exception e){ShowFreakingError(e + " - Error 0052");}
         }
@@ -903,6 +939,27 @@ public class StockOutFrame extends javax.swing.JFrame {
         addItemFrame.setAlwaysOnTop(true);
         addItemFrame.setLocation(x,y);
     }//GEN-LAST:event_button_newActionPerformed
+
+    private void button_prevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_prevActionPerformed
+        int currentPage = Integer.parseInt(label_currentPage.getText());
+        currentPage = currentPage == 1 ? 2 : currentPage ;
+        label_currentPage.setText((--currentPage) + "");
+        try
+        {
+            updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+    }//GEN-LAST:event_button_prevActionPerformed
+
+    private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
+        int currentPage = Integer.parseInt(label_currentPage.getText());
+        int maxPage = Integer.parseInt(label_totalPages.getText());
+        currentPage = currentPage == maxPage ? currentPage - 1 : currentPage;
+        label_currentPage.setText((++currentPage) + "");
+        try
+        {
+            updateTableData(MODE_FILTER_SEARCH, stockOut_searchBar.getText(), categoryCombo.getSelectedItem().toString());
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+    }//GEN-LAST:event_button_nextActionPerformed
     private void radioActivation(boolean bool)
     {
         boolean isSelected = bool;
@@ -1034,23 +1091,18 @@ public class StockOutFrame extends javax.swing.JFrame {
     public void updateTableData(int mode, String keyword, String category) throws Exception
     {
         itemDatabaseManager = new ItemDatabaseManager();
+        PaginationConfiguration pc = new PaginationConfiguration();
 
+            int offset = (int) ((Double.parseDouble(label_currentPage.getText()) - 1) * pc.getLimit());
+        
         String sup = supplierCombo.getSelectedIndex() == 0 ? "" : supplierCombo.getSelectedItem().toString();
+                
+        itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup), MODE_UNSORT, (int)pc.getLimit(), offset);
 
-        switch (mode) {
-            case MODE_PROCESS:
-                itemDatabaseManager.processAllData(MODE_UNSORT);
-                break;
-            case MODE_FILTER_CATEGORY:
-                itemDatabaseManager.filterByCategory(goodString(categoryCombo.getSelectedItem().toString()), goodString(sup), MODE_UNSORT);
-                break;
-            case MODE_FILTER_SEARCH:
-                itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(sup), MODE_UNSORT);
-                break;
-            default:
-                break;
-        }
+        int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), "");
 
+        label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");
+        
         itemIdList = itemDatabaseManager.getItemIdList();
         itemNameList = itemDatabaseManager.getItemNameList();
         itemCategoryList = itemDatabaseManager.getItemCategoryList();
@@ -1066,7 +1118,7 @@ public class StockOutFrame extends javax.swing.JFrame {
         for(int i = 0; i < itemIdList.size(); i++)
         {
             String [] rowData = {
-                i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i)
+                offset + i + 1 + "", itemNameList.get(i), itemArticleList.get(i), itemBrandList.get(i), itemSupplierList.get(i)
                     ,itemQuantityList.get(i).toString(),((char)8369) +(itemPriceList.get(i) + "")
             };
             dtm.addRow(rowData);
@@ -1323,6 +1375,8 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton button_new;
+    private javax.swing.JButton button_next;
+    private javax.swing.JButton button_prev;
     private javax.swing.JButton button_stockIn;
     private javax.swing.JRadioButton cashRadio;
     private javax.swing.JComboBox<String> categoryCombo;
@@ -1341,6 +1395,7 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1356,6 +1411,8 @@ public class StockOutFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelGain;
     private javax.swing.JLabel labelItem;
     private javax.swing.JLabel labelPrice;
+    private javax.swing.JLabel label_currentPage;
+    private javax.swing.JLabel label_totalPages;
     private javax.swing.JButton minusButton;
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JComboBox<String> monthCombo1;
