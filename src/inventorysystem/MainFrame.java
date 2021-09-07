@@ -66,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
     private JButton[] buttons = new JButton[7];
     
     public MainFrame() {
-        
+        System.out.println("HELLO WORLD!");
         initComponents();
         buttons[0] = button_stockIn;
         buttons[1] = button_stockOut;
