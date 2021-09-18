@@ -14,6 +14,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -304,27 +305,40 @@ public class RecordsFrame extends javax.swing.JFrame {
         int temp = 0;
         for(int i = 0; i < itemIdList.size(); i++)
         {
-            String[] rowData = {
-                itemSupplierList.get(i),
-                itemNameList.get(i),
-                itemArticleList.get(i),
-                itemBrandList.get(i),
-                (char)8369 + " " + itemCostList.get(i)
+            final String supplier = itemSupplierList.get(i);
+            final String item = itemNameList.get(i);
+            final String article = itemArticleList.get(i);
+            final String brand = itemBrandList.get(i);
+            final String cost = itemCostList.get(i) +"";
+            final String id = itemIdList.get(i);
+            final int extraRows = findSales(supplier, item);
+            final int finalTemp = temp;
+            Thread t = new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    String[] rowData = {
+                        supplier,
+                        item,
+                        article,
+                        brand,
+                        (char)8369 + " " + cost
+                    };
+                    dtm.addRow(rowData);
+
+                    String[] emptyData = {};
+                    for(int j = 1; j < extraRows; j++)
+                    {
+                        extraIdList.add(finalTemp, id);
+                        extraNameList.add(finalTemp, item);
+                    }
+                    for(int j = 1; j < extraRows; j++)
+                        dtm.addRow(emptyData);
+                }
             };
-            dtm.addRow(rowData);
-            int extraRows = findSales(itemSupplierList.get(i), itemNameList.get(i));
-            
-            String[] emptyData = {};
-            for(int j = 1; j < extraRows; j++)
-            {
-                extraIdList.add(temp, itemIdList.get(i));
-                extraNameList.add(temp, itemNameList.get(i));
-            }
-            for(int j = 1; j < extraRows; j++)
-            {
-                dtm.addRow(emptyData);
-                temp++;
-            }
+            t.start();
+            temp += extraRows;
             temp++;
         }
         extraIdList2 = extraIdList;

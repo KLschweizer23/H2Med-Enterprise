@@ -521,6 +521,21 @@ public class InvoiceDatabaseManager
             incomingInvoices.put(keys[i], list[i]);
         return incomingInvoices;
     }
+    public boolean hasItem(int id, String item, String address)
+    {
+        try
+        {
+            Connection con = getConnection();
+            PreparedStatement checkQuery = con.prepareStatement("SELECT * FROM invoicetable WHERE ITEMS LIKE '%" + item + "%' AND ADDRESS = '" + address + "' AND INVOICE_NUMBER = " + id);
+            ResultSet result = checkQuery.executeQuery();
+            
+            ArrayList<String> newIdlist = new ArrayList<>();
+            if(result.next())
+                newIdlist.add(result.getString("ID"));
+            return newIdlist.size() > 0;
+        }catch(Exception e){System.out.println(e);}
+        return false;
+    }
     public ArrayList<Integer> getIdList()
     {
         return idList;

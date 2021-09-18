@@ -30,6 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -90,6 +94,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoice_outstanding = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
+        labelItem2 = new javax.swing.JLabel();
+        textField_findItem = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -206,6 +212,16 @@ public class InvoiceFrame extends javax.swing.JFrame {
             }
         });
 
+        labelItem2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        labelItem2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelItem2.setText("Find Item:");
+
+        textField_findItem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textField_findItemKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -214,19 +230,23 @@ public class InvoiceFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(labelItem, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(invoice_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelItem2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textField_findItem, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(printButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -241,14 +261,16 @@ public class InvoiceFrame extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(invoice_filter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelItem)
-                            .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelItem1)
-                            .addComponent(printButton)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(invoice_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(invoice_addressCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelItem1)
+                        .addComponent(printButton)
+                        .addComponent(labelItem))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(textField_findItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelItem2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -332,6 +354,15 @@ public class InvoiceFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_printButtonActionPerformed
+
+    private void textField_findItemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_findItemKeyReleased
+        String keyword = invoice_filter.getText();
+        try
+        {
+            String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
+            updateTableData(MODE_FILTER_SEARCH, keyword, address);
+        }catch(Exception e){ShowFreakingError(e + " - Error finding item");}
+    }//GEN-LAST:event_textField_findItemKeyReleased
     private String getAddress(String address)
     {
         ClientDatabaseManager clientDb = new ClientDatabaseManager();
@@ -458,24 +489,34 @@ public class InvoiceFrame extends javax.swing.JFrame {
             LocalDate now = LocalDate.now();  
             String today = setFormat(dtf.format(now));
 
+            System.out.println(distinctInvoiceNumberList);
+            
             for(int i = 0; i < distinctInvoiceNumberList.size(); i++)
             {
-                String date = invoiceDateList.get(invoiceNumberLocations.get(i));
-                long dayInterval = dayInterval(today, date);
-                date = changeDateFormat(date);
-                double currentPrice = getTotalPrice(distinctInvoiceNumberList.get(i));
-                double currentPaid = paidList.get(invoiceNumberLocations.get(i));
+                boolean hasItem = textField_findItem.getText().isBlank();
+                if(!hasItem) hasItem = invoiceDatabaseManager.hasItem(distinctInvoiceNumberList.get(i), goodString(textField_findItem.getText()), goodString(invoice_addressCombo.getSelectedItem().toString()));
+                if(hasItem)
+                {
+                    System.out.println(distinctInvoiceNumberList.get(i));
+                    String date = invoiceDateList.get(invoiceNumberLocations.get(i));
+                    long dayInterval = dayInterval(today, date);
+                    date = changeDateFormat(date);
+                    double currentPrice = getTotalPrice(distinctInvoiceNumberList.get(i));
+                    double currentPaid = paidList.get(invoiceNumberLocations.get(i));
 
-                currentTotalPrice += currentPrice;
-                currentTotalPaid += currentPaid;
+                    currentTotalPrice += currentPrice;
+                    currentTotalPaid += currentPaid;
 
-                String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
-                    distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
-                    date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(invoiceNumberLocations.get(i)),
-                    (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(invoiceNumberLocations.get(i)),
-                    getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
-                };
-                dtm.addRow(rowData);
+                    String[] rowData = {collection.get(invoiceNumberLocations.get(i)) + "",
+                        distinctInvoiceNumberList.get(i) + "", deliveryNumberList.get(invoiceNumberLocations.get(i)) + "", purchaseNumberList.get(invoiceNumberLocations.get(i)) + "",
+                        date, getDetailedAging(dayInterval) + "", addressList.get(invoiceNumberLocations.get(i)), chequeNumberList.get(invoiceNumberLocations.get(i)),
+                        (char)8369 + " " + currentPrice, (char)8369 + " " + currentPaid, dueDateList.get(invoiceNumberLocations.get(i)),
+                        getStatus(invoiceStatusList.get(invoiceNumberLocations.get(i)))
+                    };
+                    dtm.addRow(rowData);
+                }
+                else
+                    i++;
             }
         }
         invoice_outstanding.setText((char)8369 + " " + (currentTotalPrice - currentTotalPaid) + "");
@@ -486,6 +527,15 @@ public class InvoiceFrame extends javax.swing.JFrame {
             invoiceTable.setRowSelectionInterval(0, 0);
         }
         invoiceTable.setRowHeight(30);
+    }
+    private void sortTable(JTable table, int row)
+    {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(sorter);
+        
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
+        sortKeys.add(new RowSorter.SortKey(row, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
     }
     private String getDetailedAging(long dayInterval)
     {
@@ -607,7 +657,6 @@ public class InvoiceFrame extends javax.swing.JFrame {
     private void viewInvoice(int num)
     {
         InvoiceDetailsFrame invoiceDetailsFrame = new InvoiceDetailsFrame();
-        MainFrame myFrame = new MainFrame();
         
         int selected = invoiceTable.getSelectedRow();
         String totalPrice = invoiceTable.getValueAt(selected, 8).toString().substring(2);
@@ -684,6 +733,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
             String address = invoice_addressCombo.getItemCount() < 1 ? "" : invoice_addressCombo.getSelectedItem().toString();
             updateTableData(MODE_PROCESS, invoice_filter.getText(), address);
         }catch(Exception e){ShowFreakingError(e + "- Error 0054");}
+        sortTable(invoiceTable, 1);
     }
     public void ShowFreakingError(String message)
     {
@@ -702,6 +752,8 @@ public class InvoiceFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelItem;
     private javax.swing.JLabel labelItem1;
+    private javax.swing.JLabel labelItem2;
     private javax.swing.JButton printButton;
+    private javax.swing.JTextField textField_findItem;
     // End of variables declaration//GEN-END:variables
 }
