@@ -523,9 +523,7 @@ public class InvoiceFrame extends javax.swing.JFrame {
         invoice_paid.setText((char)8369 + " " + currentTotalPaid + "");
 
         if(invoiceTable.getRowCount() >= 1)
-        {
             invoiceTable.setRowSelectionInterval(0, 0);
-        }
         invoiceTable.setRowHeight(30);
     }
     private void sortTable(JTable table, int row)
