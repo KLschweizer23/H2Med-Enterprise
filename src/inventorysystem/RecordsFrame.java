@@ -254,11 +254,10 @@ public class RecordsFrame extends javax.swing.JFrame {
             }
         };
         dtm2.addColumn("Date");
-        dtm2.addColumn("Customer");
         dtm2.addColumn("Invoice #");
+        dtm2.addColumn("Customer");
         dtm2.addColumn("Total Purchase");
         dtm2.addColumn("Collection Receipt");
-        dtm2.addColumn(" ");
         salesTable.setModel(dtm2);
     }
     private void updateMonthsYears(){
@@ -269,6 +268,39 @@ public class RecordsFrame extends javax.swing.JFrame {
             comboBox_month.addItem(month);
         for(String year : years)
             comboBox_year.addItem(year);
+    }
+    private void processSales(){
+        dtm2.setRowCount(0);
+        
+        DatabaseFunctions df = new DatabaseFunctions();
+        
+        String[] numericMonths = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        String dateQuery = comboBox_year.getSelectedItem().toString() + "-" + numericMonths[comboBox_month.getSelectedIndex()];
+        String query = "SELECT DISTINCT(INVOICE_NUMBER) as invoiceNumber from invoicetable WHERE INVOICE_DATE LIKE '" + dateQuery + "%' ORDER BY ID DESC;";
+        
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"invoiceNumber"});
+        ArrayList<String> invoiceIdList = map.get("invoiceNumber");
+        
+        Thread t = new Thread(() -> {
+            for(int i = 0; i < invoiceIdList.size(); i++){
+                int invoiceID = Integer.parseInt(invoiceIdList.get(i));
+                SalesObject[] sos = getSalesObject(invoiceID, dateQuery);
+                for(int j = 0; j < sos.length; j++)
+                {
+                    SalesObject so = sos[j];
+                    String[] rowData = {
+                        so.getDate(),
+                        so.getInvoiceNumber(),
+                        so.getCustomer(),
+                        (char)8369 + " " + so.getTotalPurchase(),
+                        so.getCollectionReceipt()
+                    };
+                    dtm2.addRow(rowData);
+                }
+            }
+        });
+        t.start();
+        salesTable.setRowHeight(30);
     }
     private void processPurchases(){
         dtm.setRowCount(0);
@@ -282,29 +314,58 @@ public class RecordsFrame extends javax.swing.JFrame {
         HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"stockID"});
         ArrayList<String> stockIdList = map.get("stockID");
         
-        for(int i = 0; i < stockIdList.size(); i++){
-            int stockInID = Integer.parseInt(stockIdList.get(i));
-            PurchasesObject po = getPurchaseObject(stockInID);
-            
-            String[] rowData = {
-                po.getDate(),
-                po.getSupplier(),
-                po.getReferenceNumber(),
-                po.getCollectionReceipt(),
-                po.getAmount()
-            };
-            dtm.addRow(rowData);
-        }
-        SystemUtilities su = new SystemUtilities();
+        Thread t = new Thread(() -> {
+            for(int i = 0; i < stockIdList.size(); i++){
+                int stockInID = Integer.parseInt(stockIdList.get(i));
+                PurchasesObject po = getPurchaseObject(stockInID, dateQuery);
+
+                String[] rowData = {
+                    po.getDate(),
+                    po.getSupplier(),
+                    po.getReferenceNumber(),
+                    po.getCollectionReceipt(),
+                    (char)8369 + " " + po.getAmount()
+                };
+                dtm.addRow(rowData);
+            }
+        });
+        t.start();
         purchaseTable.setRowHeight(30);
     }
-    private PurchasesObject getPurchaseObject(int stockID){
+    private SalesObject[] getSalesObject(int invoiceID, String date){
+        SalesObject[] sos = new SalesObject[0];
+        
+        DatabaseFunctions df = new DatabaseFunctions();
+        
+        String[] keyName = {"date", "customer", "invoiceNumber", "total", "collection"};
+        String query = "SELECT INVOICE_DATE as date,  ADDRESS as customer, INVOICE_NUMBER as invoiceNumber, SUM(COST * PRICE) as total, COLLECTION as collection FROM invoicetable WHERE INVOICE_NUMBER = " + invoiceID + " AND INVOICE_DATE LIKE '" + date + "%' GROUP BY ADDRESS;";
+        
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, keyName);
+        if(map.get("invoiceNumber") != null)
+        {
+            sos = new SalesObject[map.get("invoiceNumber").size()];
+            for(int i = 0; i < map.get("invoiceNumber").size(); i ++)
+            {
+                SalesObject so = new SalesObject();
+                so.setInvoiceNumber(map.get("invoiceNumber").get(i).toString());
+                so.setDate(map.get("date").get(i).toString());
+                so.setCustomer(map.get("customer").get(i).toString());
+                so.setTotalPurchase(map.get("total").get(i).toString());
+                so.setCollectionReceipt(map.get("collection").get(i).toString());
+                
+                sos[i] = so;
+            }
+        }
+        
+        return sos;
+    }
+    private PurchasesObject getPurchaseObject(int stockID, String date){
         PurchasesObject po = new PurchasesObject();
         
         DatabaseFunctions df = new DatabaseFunctions();
         
         String[] keyName = {"stockID", "date", "supplier", "refNumber", "collectionReceipt", "amount"};
-        String query = "SELECT STOCK_IN_ID as stockID, ITEM_DATE_IN as date, ITEM_SUPPLIER as supplier, REFERENCE_NUMBER as refNumber, COLLECTION_RECEIPT as collectionReceipt, SUM((ITEM_QUANTITY * ITEM_COST)) as amount from stockintable WHERE STOCK_IN_ID = " + stockID + ";";
+        String query = "SELECT STOCK_IN_ID as stockID, ITEM_DATE_IN as date, ITEM_SUPPLIER as supplier, REFERENCE_NUMBER as refNumber, COLLECTION_RECEIPT as collectionReceipt, SUM((ITEM_QUANTITY * ITEM_COST)) as amount from stockintable WHERE STOCK_IN_ID = " + stockID + " AND ITEM_DATE_IN LIKE '" + date + "%'";
         
         HashMap<String, ArrayList> map = df.customReturnQuery(query, keyName);
         
@@ -318,9 +379,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         }
         
         return po;
-    }
-    private void processSales(){
-        
     }
 //    private void updateTwoTables()
 //    {
@@ -526,6 +584,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         updateMonthsYears();
         //updateTwoTables();
         processPurchases();
+        processSales();
 //        purchaseTable.addMouseListener(new MouseAdapter() {
 //            @Override
 //            public void mouseClicked(MouseEvent me)
