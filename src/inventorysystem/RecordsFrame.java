@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JMenuItem;
@@ -54,6 +55,10 @@ public class RecordsFrame extends javax.swing.JFrame {
         purchaseTable = new javax.swing.JTable();
         comboBox_month = new javax.swing.JComboBox<>();
         comboBox_year = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        label_purchase = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        label_sales = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -65,6 +70,8 @@ public class RecordsFrame extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1088, 650));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -124,6 +131,18 @@ public class RecordsFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Total Purchases:");
+
+        label_purchase.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_purchase.setText("0.0");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Total Sales:");
+
+        label_sales.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_sales.setText("0.0");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -133,13 +152,24 @@ public class RecordsFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(label_purchase)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(label_sales)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -153,7 +183,14 @@ public class RecordsFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane3))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(label_purchase)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(label_sales)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -185,8 +222,8 @@ public class RecordsFrame extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -197,7 +234,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
         );
 
         pack();
@@ -280,8 +317,8 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"invoiceNumber"});
         ArrayList<String> invoiceIdList = map.get("invoiceNumber");
-        
         Thread t = new Thread(() -> {
+            double total = 0;
             for(int i = 0; i < invoiceIdList.size(); i++){
                 int invoiceID = Integer.parseInt(invoiceIdList.get(i));
                 SalesObject[] sos = getSalesObject(invoiceID, dateQuery);
@@ -296,11 +333,21 @@ public class RecordsFrame extends javax.swing.JFrame {
                         so.getCollectionReceipt()
                     };
                     dtm2.addRow(rowData);
+                    total += Double.parseDouble(so.getTotalPurchase());
                 }
             }
+            updateSales(total);
         });
         t.start();
         salesTable.setRowHeight(30);
+    }
+    private void updatePurchase(double total){
+        DecimalFormat df = new DecimalFormat();
+        label_purchase.setText((char)8369 + " " + df.format(total));
+    }
+    private void updateSales(double total){
+        DecimalFormat df = new DecimalFormat();
+        label_sales.setText((char)8369 + " " + df.format(total));
     }
     private void processPurchases(){
         dtm.setRowCount(0);
@@ -315,6 +362,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         ArrayList<String> stockIdList = map.get("stockID");
         
         Thread t = new Thread(() -> {
+            double total = 0;
             for(int i = 0; i < stockIdList.size(); i++){
                 int stockInID = Integer.parseInt(stockIdList.get(i));
                 PurchasesObject po = getPurchaseObject(stockInID, dateQuery);
@@ -327,7 +375,9 @@ public class RecordsFrame extends javax.swing.JFrame {
                     (char)8369 + " " + po.getAmount()
                 };
                 dtm.addRow(rowData);
+                total += Double.parseDouble(po.getAmount());
             }
+            updatePurchase(total);
         });
         t.start();
         purchaseTable.setRowHeight(30);
@@ -609,13 +659,17 @@ public class RecordsFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBox_month;
     private javax.swing.JComboBox<String> comboBox_year;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel label_purchase;
+    private javax.swing.JLabel label_sales;
     private javax.swing.JTable purchaseTable;
     private javax.swing.JTable salesTable;
     // End of variables declaration//GEN-END:variables
