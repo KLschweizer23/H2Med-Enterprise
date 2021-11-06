@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -49,9 +50,8 @@ public class RecordsFrame extends javax.swing.JFrame {
         salesTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         purchaseTable = new javax.swing.JTable();
-        supplierCombo = new javax.swing.JComboBox<>();
-        jLabel17 = new javax.swing.JLabel();
-        records_payValue = new javax.swing.JLabel();
+        comboBox_month = new javax.swing.JComboBox<>();
+        comboBox_year = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -89,7 +89,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         ));
         salesTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         salesTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
-        salesTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         salesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         salesTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(salesTable);
@@ -107,25 +106,21 @@ public class RecordsFrame extends javax.swing.JFrame {
         ));
         purchaseTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         purchaseTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
-        purchaseTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         purchaseTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         purchaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(purchaseTable);
 
-        supplierCombo.setBackground(new java.awt.Color(255, 255, 255));
-        supplierCombo.addActionListener(new java.awt.event.ActionListener() {
+        comboBox_month.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supplierComboActionPerformed(evt);
+                comboBox_monthActionPerformed(evt);
             }
         });
 
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel17.setText("Amount To Pay");
-
-        records_payValue.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        records_payValue.setForeground(new java.awt.Color(0, 0, 0));
-        records_payValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        records_payValue.setText("0.00");
+        comboBox_year.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_yearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -135,24 +130,23 @@ public class RecordsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(records_payValue))
-                    .addComponent(jScrollPane2))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(supplierCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(records_payValue)
-                    .addComponent(jLabel17))
+                    .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
@@ -216,19 +210,13 @@ public class RecordsFrame extends javax.swing.JFrame {
         myFrame.setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
 
-    private void supplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierComboActionPerformed
-        if(ready)
-        {
-            for(int i = purchaseTable.getRowCount(); i > 0; i--)
-            {
-                dtm.removeRow(i - 1);
-                dtm2.removeRow(i - 1);
-                itemIdList.clear();
-            }
-            processTotalAmount();
-            updateTwoTables();
-        }
-    }//GEN-LAST:event_supplierComboActionPerformed
+    private void comboBox_monthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_monthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBox_monthActionPerformed
+
+    private void comboBox_yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_yearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBox_yearActionPerformed
 
     private void createColumns()
     {
@@ -240,11 +228,11 @@ public class RecordsFrame extends javax.swing.JFrame {
                 return false;
             }
         };
+        dtm.addColumn("Date");
         dtm.addColumn("Supplier");
-        dtm.addColumn("Item");
-        dtm.addColumn("Article");
-        dtm.addColumn("Brand");
-        dtm.addColumn("Cost");
+        dtm.addColumn("Reference #");
+        dtm.addColumn("Collection Receipt");
+        dtm.addColumn("Amount");
         purchaseTable.setModel(dtm);
     }
     private void createColumns2()
@@ -257,103 +245,103 @@ public class RecordsFrame extends javax.swing.JFrame {
                 return false;
             }
         };
-        dtm2.addColumn("No.");
-        dtm2.addColumn("Client");
-        dtm2.addColumn("Date of Sale");
-        dtm2.addColumn("Total Price");
-        dtm2.addColumn("Sales Status");
-        dtm2.addColumn("Payment");
+        dtm2.addColumn("Date");
+        dtm2.addColumn("Customer");
+        dtm2.addColumn("Invoice #");
+        dtm2.addColumn("Total Purchase");
+        dtm2.addColumn("Collection Receipt");
+        dtm2.addColumn(" ");
         salesTable.setModel(dtm2);
-    }    
-    private void updateComboBox()
-    {
-        ArrayList<String> listOfSupplier = new ArrayList<>();
-        listOfSupplier.clear();
-        SupplierDatabaseManager supplierDb = new SupplierDatabaseManager();
-        try
-        {
-            supplierDb.processAllData();
-        }catch(Exception e){ShowFreakingError(e + " - Error 0045");}
-        
-        ArrayList<String> suppliers = supplierDb.getNameList();
-        supplierCombo.addItem("None");
-        for(int i = 0; i < suppliers.size(); i++)
-            supplierCombo.addItem(suppliers.get(i));
     }
-    private void updateTwoTables()
-    {
-        JScrollPane scrollerA = jScrollPane2;
-        JScrollPane scrollerB = jScrollPane3;
-        scrollerA.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollerA.getVerticalScrollBar().setModel(scrollerB.getVerticalScrollBar().getModel());
+    private void updateMonthsYears(){
+        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        String[] years = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         
-        ItemDatabaseManager itemDb = new ItemDatabaseManager();
-        try
-        {
-            itemDb.getItemsBySupplier(goodString(supplierCombo.getSelectedItem().toString()));
-        }catch(Exception e){ShowFreakingError(e + " - Error 0046");}
-        
-        itemIdList = itemDb.getItemIdList();
-        itemNameList = itemDb.getItemNameList();
-        ArrayList<String> itemArticleList = itemDb.getItemArticleList();
-        ArrayList<String> itemBrandList = itemDb.getItemBrandList();
-        ArrayList<Double> itemCostList = itemDb.getItemCostList();
-        ArrayList<String> itemSupplierList = itemDb.getItemSupplierList();
-        
-        extraIdList = new ArrayList<>(itemIdList);
-        extraNameList = new ArrayList<>(itemNameList);
-        int temp = 0;
-        for(int i = 0; i < itemIdList.size(); i++)
-        {
-            final String supplier = itemSupplierList.get(i);
-            final String item = itemNameList.get(i);
-            final String article = itemArticleList.get(i);
-            final String brand = itemBrandList.get(i);
-            final String cost = itemCostList.get(i) +"";
-            final String id = itemIdList.get(i);
-            final int extraRows = findSales(supplier, item);
-            final int finalTemp = temp;
-            Thread t = new Thread()
-            {
-                @Override
-                public void run()
-                {
-                    String[] rowData = {
-                        supplier,
-                        item,
-                        article,
-                        brand,
-                        (char)8369 + " " + cost
-                    };
-                    dtm.addRow(rowData);
-
-                    String[] emptyData = {};
-                    for(int j = 1; j < extraRows; j++)
-                    {
-                        extraIdList.add(finalTemp, id);
-                        extraNameList.add(finalTemp, item);
-                    }
-                    for(int j = 1; j < extraRows; j++)
-                        dtm.addRow(emptyData);
-                }
-            };
-            t.start();
-            temp += extraRows;
-            temp++;
-        }
-        extraIdList2 = extraIdList;
-        if(purchaseTable.getRowCount() >= 1)
-        {
-            purchaseTable.setRowSelectionInterval(0, 0);
-        }
-        purchaseTable.setRowHeight(30);
-        
-        if(salesTable.getRowCount() >= 1)
-        {
-            salesTable.setRowSelectionInterval(0, 0);
-        }
-        salesTable.setRowHeight(30);
+        for(String month : months)
+            comboBox_month.addItem(month);
+        for(String year : years)
+            comboBox_year.addItem(year);
     }
+    private void processPurchases(){
+        
+    }
+    private void processSales(){
+        
+    }
+//    private void updateTwoTables()
+//    {
+//        JScrollPane scrollerA = jScrollPane2;
+//        JScrollPane scrollerB = jScrollPane3;
+//        scrollerA.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+//        scrollerA.getVerticalScrollBar().setModel(scrollerB.getVerticalScrollBar().getModel());
+//        
+//        ItemDatabaseManager itemDb = new ItemDatabaseManager();
+//        try
+//        {
+//            itemDb.getItemsBySupplier(goodString(supplierCombo.getSelectedItem().toString()));
+//        }catch(Exception e){ShowFreakingError(e + " - Error 0046");}
+//        
+//        itemIdList = itemDb.getItemIdList();
+//        itemNameList = itemDb.getItemNameList();
+//        ArrayList<String> itemArticleList = itemDb.getItemArticleList();
+//        ArrayList<String> itemBrandList = itemDb.getItemBrandList();
+//        ArrayList<Double> itemCostList = itemDb.getItemCostList();
+//        ArrayList<String> itemSupplierList = itemDb.getItemSupplierList();
+//        
+//        extraIdList = new ArrayList<>(itemIdList);
+//        extraNameList = new ArrayList<>(itemNameList);
+//        int temp = 0;
+//        for(int i = 0; i < itemIdList.size(); i++)
+//        {
+//            final String supplier = itemSupplierList.get(i);
+//            final String item = itemNameList.get(i);
+//            final String article = itemArticleList.get(i);
+//            final String brand = itemBrandList.get(i);
+//            final String cost = itemCostList.get(i) +"";
+//            final String id = itemIdList.get(i);
+//            final int extraRows = findSales(supplier, item);
+//            final int finalTemp = temp;
+//            Thread t = new Thread()
+//            {
+//                @Override
+//                public void run()
+//                {
+//                    String[] rowData = {
+//                        supplier,
+//                        item,
+//                        article,
+//                        brand,
+//                        (char)8369 + " " + cost
+//                    };
+//                    dtm.addRow(rowData);
+//
+//                    String[] emptyData = {};
+//                    for(int j = 1; j < extraRows; j++)
+//                    {
+//                        extraIdList.add(finalTemp, id);
+//                        extraNameList.add(finalTemp, item);
+//                    }
+//                    for(int j = 1; j < extraRows; j++)
+//                        dtm.addRow(emptyData);
+//                }
+//            };
+//            t.start();
+//            temp += extraRows;
+//            temp++;
+//        }
+//        extraIdList2 = extraIdList;
+//        if(purchaseTable.getRowCount() >= 1)
+//        {
+//            purchaseTable.setRowSelectionInterval(0, 0);
+//        }
+//        purchaseTable.setRowHeight(30);
+//        
+//        if(salesTable.getRowCount() >= 1)
+//        {
+//            salesTable.setRowSelectionInterval(0, 0);
+//        }
+//        salesTable.setRowHeight(30);
+//    }
     private String goodString(String data)
     {
         String temp = data.replaceAll("'", "\\\\'");
@@ -423,41 +411,41 @@ public class RecordsFrame extends javax.swing.JFrame {
                 table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
         }
     }
-    private void openDetailsFrame(int num)
-    {
-        RecordDetailsFrame recordFrame = new RecordDetailsFrame();
-        int id = Integer.parseInt(extraIdList2.get(num));
-        recordFrame.openDetailsFrame(this, id, supplierCombo.getSelectedItem().toString(), extraNameList.get(num));
-        
-        recordFrame.setVisible(true);
-        int x = (myFrame.getWidth() - recordFrame.getWidth()) / 2;
-        int y = (myFrame.getHeight() - recordFrame.getHeight()) / 2;
-        recordFrame.setLocation(x,y);
-        setEnabled(false);
-    }
-    private void processTotalAmount()
-    {
-        StockInDatabaseManager inDb = new StockInDatabaseManager();
-        String tot = "";
-        try
-        {
-            tot = inDb.getTotalAmount(goodString(supplierCombo.getSelectedItem().toString()));
-        }catch(Exception e){System.out.println(e);System.exit(0);}
-        records_payValue.setText(tot);
-    }
-    private void Popup(MouseEvent me, int num)
-    {
-        JPopupMenu sample = new JPopupMenu();
-        JMenuItem adjust = new JMenuItem("View Item");
-        adjust.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                openDetailsFrame(num);
-            }
-        });
-        sample.add(adjust);
-        sample.show(me.getComponent(), me.getX(), me.getY());
-    }
+//    private void openDetailsFrame(int num)
+//    {
+//        RecordDetailsFrame recordFrame = new RecordDetailsFrame();
+//        int id = Integer.parseInt(extraIdList2.get(num));
+//        recordFrame.openDetailsFrame(this, id, supplierCombo.getSelectedItem().toString(), extraNameList.get(num));
+//        
+//        recordFrame.setVisible(true);
+//        int x = (myFrame.getWidth() - recordFrame.getWidth()) / 2;
+//        int y = (myFrame.getHeight() - recordFrame.getHeight()) / 2;
+//        recordFrame.setLocation(x,y);
+//        setEnabled(false);
+//    }
+//    private void processTotalAmount()
+//    {
+//        StockInDatabaseManager inDb = new StockInDatabaseManager();
+//        String tot = "";
+//        try
+//        {
+//            tot = inDb.getTotalAmount(goodString(supplierCombo.getSelectedItem().toString()));
+//        }catch(Exception e){System.out.println(e);System.exit(0);}
+//        records_payValue.setText(tot);
+//    }
+//    private void Popup(MouseEvent me, int num)
+//    {
+//        JPopupMenu sample = new JPopupMenu();
+//        JMenuItem adjust = new JMenuItem("View Item");
+//        adjust.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent arg0) {
+//                openDetailsFrame(num);
+//            }
+//        });
+//        sample.add(adjust);
+//        sample.show(me.getComponent(), me.getX(), me.getY());
+//    }
     public void resizeColumnWidth(JTable table) 
     {
         final TableColumnModel columnModel = table.getColumnModel();
@@ -481,24 +469,24 @@ public class RecordsFrame extends javax.swing.JFrame {
         initComponents();
         createColumns();
         createColumns2();
-        updateComboBox();
-        updateTwoTables();
-        purchaseTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent me)
-            {
-                if(SwingUtilities.isRightMouseButton(me))
-                    Popup(me, purchaseTable.getSelectedRow());
-            }
-        });
+        updateMonthsYears();
+        //updateTwoTables();
+        processPurchases();
+//        purchaseTable.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent me)
+//            {
+//                if(SwingUtilities.isRightMouseButton(me))
+//                    Popup(me, purchaseTable.getSelectedRow());
+//            }
+//        });
         resizeColumnWidth(purchaseTable);
         resizeColumnWidth(salesTable);
         
         setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
         setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
         
-        processTotalAmount();
-        
+//        processTotalAmount();
         ready = true;
     }
     public void ShowFreakingError(String message)
@@ -506,8 +494,9 @@ public class RecordsFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboBox_month;
+    private javax.swing.JComboBox<String> comboBox_year;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -515,8 +504,6 @@ public class RecordsFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable purchaseTable;
-    private javax.swing.JLabel records_payValue;
     private javax.swing.JTable salesTable;
-    private javax.swing.JComboBox<String> supplierCombo;
     // End of variables declaration//GEN-END:variables
 }
