@@ -532,6 +532,7 @@ public class InvoiceDatabaseManager
             ArrayList<String> newIdlist = new ArrayList<>();
             if(result.next())
                 newIdlist.add(result.getString("ID"));
+            con.close();
             return newIdlist.size() > 0;
         }catch(Exception e){System.out.println(e);}
         return false;
