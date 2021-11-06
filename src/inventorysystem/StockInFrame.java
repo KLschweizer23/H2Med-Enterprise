@@ -110,6 +110,10 @@ public class StockInFrame extends javax.swing.JFrame {
         yearCombo1 = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
         purchaseButton = new javax.swing.JButton();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        txtField_referenceNumber = new javax.swing.JTextField();
+        txtField_collectionReceipt = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         oldTable = new javax.swing.JTable();
@@ -255,6 +259,16 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel26.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel26.setText("Reference #:");
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel27.setText("Collection Receipt:");
+
+        txtField_referenceNumber.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txtField_collectionReceipt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -290,7 +304,8 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chequeRadio))
+                            .addComponent(chequeRadio)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(stockin_chequeField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,7 +318,12 @@ public class StockInFrame extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtField_referenceNumber, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(txtField_collectionReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(21, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -339,6 +359,14 @@ public class StockInFrame extends javax.swing.JFrame {
                         .addComponent(dayCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(yearCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtField_referenceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtField_collectionReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelItem)
@@ -348,7 +376,7 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(labelCost)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(103, 103, 103)
+                .addGap(42, 42, 42)
                 .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,7 +401,6 @@ public class StockInFrame extends javax.swing.JFrame {
         oldTable.setFocusable(false);
         oldTable.setRequestFocusEnabled(false);
         oldTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
-        oldTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         oldTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         oldTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(oldTable);
@@ -393,7 +420,6 @@ public class StockInFrame extends javax.swing.JFrame {
         newTable.setFocusable(false);
         newTable.setRequestFocusEnabled(false);
         newTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
-        newTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         newTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         newTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(newTable);
@@ -404,7 +430,6 @@ public class StockInFrame extends javax.swing.JFrame {
             }
         });
 
-        categoryCombo.setForeground(new java.awt.Color(0, 0, 0));
         categoryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Medicine", "Medical Supplies", "Office Supplies", "Janitorial Supplies", "General Merchandise", "Foods", "Laboratory Supplies" }));
         categoryCombo.setFocusable(false);
         categoryCombo.setRequestFocusEnabled(false);
@@ -509,7 +534,7 @@ public class StockInFrame extends javax.swing.JFrame {
                     .addComponent(minusButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -684,7 +709,7 @@ public class StockInFrame extends javax.swing.JFrame {
             StockInDatabaseManager stockInDatabaseManager = new StockInDatabaseManager();
             String newStockInIdValue = "";
             try {
-                newStockInIdValue = stockInDatabaseManager.getDistinctId().size() + "";
+                newStockInIdValue = stockInDatabaseManager.getDistinctId().get(0) + "";
             }catch (Exception e) {ShowFreakingError("" + e + " - Error 0009");} 
 
             if (this.newTable.getRowCount() > 0) 
@@ -715,7 +740,7 @@ public class StockInFrame extends javax.swing.JFrame {
                                 SalesDatabaseManager salesDB = new SalesDatabaseManager();
                                 int trans_id = salesDB.getNewestId();
                                 itemDatabaseManager.updateQuantityById(id, newVal);
-                                stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due, trans_id);
+                                stockInDatabaseManager.insertData(newStockInIdValue, "" + id, newVal, date, cost, supplier, stockIn, method, status, due, trans_id, txtField_referenceNumber.getText(), txtField_collectionReceipt.getText());
                                 salesDB.insertCost(date, total);
                             } catch (Exception e) {ShowFreakingError("" + e + " - Error 0010");} 
                         } 
@@ -1230,6 +1255,8 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1250,6 +1277,8 @@ public class StockInFrame extends javax.swing.JFrame {
     private javax.swing.JTextField stockIn_searchBar;
     private javax.swing.JTextField stockin_chequeField;
     private javax.swing.JComboBox<String> supplierCombo;
+    private javax.swing.JTextField txtField_collectionReceipt;
+    private javax.swing.JTextField txtField_referenceNumber;
     private javax.swing.JComboBox<String> yearCombo;
     private javax.swing.JComboBox<String> yearCombo1;
     // End of variables declaration//GEN-END:variables

@@ -6,10 +6,11 @@ package inventorysystem;
  * @author User
  */
 public class PurchasesObject {
+    private String id;
     private String date;
     private String supplier;
-    private String referenceNumber;
-    private String collectionReceipt;
+    private String referenceNumber = "";
+    private String collectionReceipt = "";
     private String amount;
 
     public String getDate() {
@@ -50,5 +51,13 @@ public class PurchasesObject {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

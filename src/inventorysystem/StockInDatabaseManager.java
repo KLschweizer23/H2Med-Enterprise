@@ -22,6 +22,8 @@ public class StockInDatabaseManager
     final private String TRANSACTION_STATUS = "TRANSACTION_STATUS";
     final private String TRANSACTION_DUE = "TRANSACTION_DUE";
     final private String TRANSACTION_ID = "TRANSACTION_ID";
+    final private String REFERENCE_NUMBER = "REFERENCE_NUMBER";
+    final private String COLLECTION_RECEIPT = "COLLECTION_RECEIPT";
     
     private ArrayList<String> idList = new ArrayList<>();
     private ArrayList<String> stockInIdList = new ArrayList<>();
@@ -35,6 +37,8 @@ public class StockInDatabaseManager
     private ArrayList<Integer> transactionStatusList = new ArrayList<>();
     private ArrayList<String> transactionDueList = new ArrayList<>();
     private ArrayList<Integer> transactionIdList = new ArrayList<>();
+    private ArrayList<String> referenceNumber = new ArrayList<>();
+    private ArrayList<String> collectionReceipt = new ArrayList<>();
     
     private ArrayList<String> distinctId = new ArrayList<String>();
     
@@ -73,6 +77,8 @@ public class StockInDatabaseManager
         transactionStatusList.clear();
         transactionDueList.clear();
         transactionIdList.clear();
+        referenceNumber.clear();
+        collectionReceipt.clear();
         while(result.next())
         {
             idList.add(result.getString(ID));
@@ -87,9 +93,11 @@ public class StockInDatabaseManager
             transactionStatusList.add(result.getInt(TRANSACTION_STATUS));
             transactionDueList.add(result.getString(TRANSACTION_DUE));
             transactionIdList.add(result.getInt(TRANSACTION_ID));
+            referenceNumber.add(result.getString(REFERENCE_NUMBER));
+            collectionReceipt.add(result.getString(COLLECTION_RECEIPT));
         }
     }
-    public void insertData(String _stockInId, String _fkItemName, double _itemQuantity, String _itemDate, double _cost, String _supplier, double _stockIn, String _method, int _status, String _due, int _transaction_id) throws Exception
+    public void insertData(String _stockInId, String _fkItemName, double _itemQuantity, String _itemDate, double _cost, String _supplier, double _stockIn, String _method, int _status, String _due, int _transaction_id, String _reference_number, String _collection_receipt) throws Exception
     {
         Connection con = getConnection();
         PreparedStatement insertQuery = con.prepareStatement("call sp_insertStockInData("+
@@ -103,7 +111,9 @@ public class StockInDatabaseManager
                 _method + "', " +
                 _status + ", '" +
                 _due + "', " +
-                _transaction_id +
+                _transaction_id + ", " +
+                _reference_number + ", " +
+                _collection_receipt + 
                 ");");
         insertQuery.executeUpdate();
         processAllData();
@@ -128,11 +138,11 @@ public class StockInDatabaseManager
     {
         distinctId.clear();
         Connection con = getConnection();
-        PreparedStatement getQuery = con.prepareStatement("SELECT distinct(" + STOCK_IN_ID + ") from " + STOCK_IN_TABLE + ";");
+        PreparedStatement getQuery = con.prepareStatement("SELECT distinct(STOCK_IN_ID) + 1 as 'stockID' from stockintable ORDER BY ID DESC LIMIT 1;");
         ResultSet result = getQuery.executeQuery();
         while(result.next())
         {
-            distinctId.add(result.getString(STOCK_IN_ID));
+            distinctId.add(result.getString("stockID"));
         }
         con.close();
         return distinctId;

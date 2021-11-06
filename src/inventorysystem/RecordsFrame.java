@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import myUtilities.DatabaseFunctions;
+import myUtilities.SystemUtilities;
 
 public class RecordsFrame extends javax.swing.JFrame {
     
@@ -211,11 +213,17 @@ public class RecordsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void comboBox_monthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_monthActionPerformed
-        // TODO add your handling code here:
+        if(ready){
+            processPurchases();
+            processSales();
+        }
     }//GEN-LAST:event_comboBox_monthActionPerformed
 
     private void comboBox_yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_yearActionPerformed
-        // TODO add your handling code here:
+        if(ready){
+            processPurchases();
+            processSales();
+        }
     }//GEN-LAST:event_comboBox_yearActionPerformed
 
     private void createColumns()
@@ -263,7 +271,53 @@ public class RecordsFrame extends javax.swing.JFrame {
             comboBox_year.addItem(year);
     }
     private void processPurchases(){
+        dtm.setRowCount(0);
         
+        DatabaseFunctions df = new DatabaseFunctions();
+        
+        String[] numericMonths = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        String dateQuery = comboBox_year.getSelectedItem().toString() + "-" + numericMonths[comboBox_month.getSelectedIndex()];
+        String query = "SELECT DISTINCT(STOCK_IN_ID) as 'stockID' FROM stockintable WHERE ITEM_DATE_IN LIKE '" + dateQuery + "%' ORDER BY ID DESC;";
+        
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"stockID"});
+        ArrayList<String> stockIdList = map.get("stockID");
+        
+        for(int i = 0; i < stockIdList.size(); i++){
+            int stockInID = Integer.parseInt(stockIdList.get(i));
+            PurchasesObject po = getPurchaseObject(stockInID);
+            
+            String[] rowData = {
+                po.getDate(),
+                po.getSupplier(),
+                po.getReferenceNumber(),
+                po.getCollectionReceipt(),
+                po.getAmount()
+            };
+            dtm.addRow(rowData);
+        }
+        SystemUtilities su = new SystemUtilities();
+        purchaseTable.setRowHeight(30);
+    }
+    private PurchasesObject getPurchaseObject(int stockID){
+        PurchasesObject po = new PurchasesObject();
+        
+        DatabaseFunctions df = new DatabaseFunctions();
+        
+        String[] keyName = {"stockID", "date", "supplier", "refNumber", "collectionReceipt", "amount"};
+        String query = "SELECT STOCK_IN_ID as stockID, ITEM_DATE_IN as date, ITEM_SUPPLIER as supplier, REFERENCE_NUMBER as refNumber, COLLECTION_RECEIPT as collectionReceipt, SUM((ITEM_QUANTITY * ITEM_COST)) as amount from stockintable WHERE STOCK_IN_ID = " + stockID + ";";
+        
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, keyName);
+        
+        if(map.get("stockID") != null){
+            po.setId(map.get("stockID").get(0).toString());
+            po.setDate(map.get("date").get(0).toString());
+            po.setSupplier(map.get("supplier").get(0).toString());
+            po.setReferenceNumber(map.get("refNumber").get(0).toString());
+            po.setCollectionReceipt(map.get("collectionReceipt").get(0).toString());
+            po.setAmount(map.get("amount").get(0).toString());
+        }
+        
+        return po;
     }
     private void processSales(){
         
