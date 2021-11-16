@@ -111,9 +111,9 @@ public class StockInDatabaseManager
                 _method + "', " +
                 _status + ", '" +
                 _due + "', " +
-                _transaction_id + ", " +
-                _reference_number + ", " +
-                _collection_receipt + 
+                _transaction_id + ", '" +
+                _reference_number + "', '" +
+                _collection_receipt + "'" + 
                 ");");
         insertQuery.executeUpdate();
         processAllData();

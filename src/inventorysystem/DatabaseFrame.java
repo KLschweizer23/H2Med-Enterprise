@@ -445,7 +445,7 @@ public class DatabaseFrame extends javax.swing.JFrame
     private void database_deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_database_deleteButtonActionPerformed
         if(database_mainTable.getRowCount() > 0)
         {
-            getSelectedIdByNumber(Integer.parseInt(dtm.getValueAt(database_mainTable.getSelectedRow(), 0).toString()));
+            getSelectedIdByNumber(database_mainTable.getSelectedRow() + 1);
             Object[] options = {"Confirm", "Cancel"};
             JPanel panel = new JPanel();
             panel.add(new JLabel ("Permission to Delete " + database_mainTable.getValueAt(database_mainTable.getSelectedRow(), 1)));
@@ -458,6 +458,7 @@ public class DatabaseFrame extends javax.swing.JFrame
                     switch(selectedButtonID)
                     {
                         case 0:
+                            System.out.println(selectedRowID + " - selectedRowID");
                             ItemDatabaseManager itemDatabaseManager = new ItemDatabaseManager();
                             itemDatabaseManager.deleteData(Integer.parseInt(selectedRowID));
                             break;
@@ -474,7 +475,7 @@ public class DatabaseFrame extends javax.swing.JFrame
                             supplierDatabaseManager.deleteData(Integer.parseInt(selectedRowID));
                             break;
                     }
-                    updateTableData(selectedButtonID, MODE_PROCESS, null, null);
+                    updateTableData(selectedButtonID, MODE_PROCESS, "", "");
                 }catch(Exception e){ShowFreakingError(e + "");}
             }
         }
@@ -533,7 +534,8 @@ public class DatabaseFrame extends javax.swing.JFrame
     private void database_editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_database_editButtonActionPerformed
         if(database_mainTable.getRowCount() > 0)
         {
-            getSelectedIdByNumber(Integer.parseInt(dtm.getValueAt(database_mainTable.getSelectedRow(), 0).toString()));
+            //getSelectedIdByNumber(Integer.parseInt(dtm.getValueAt(database_mainTable.getSelectedRow(), 0).toString()));
+            getSelectedIdByNumber(database_mainTable.getSelectedRow() + 1);
             switch(selectedButtonID)
             {
                 case 0:
@@ -664,11 +666,13 @@ public class DatabaseFrame extends javax.swing.JFrame
 
     private void supplierComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierComboActionPerformed
         String keyword = database_searchBar.getText();
-        try
-        {
-            textField_currentPage.setText("1");
-            updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
-        }catch(Exception e){ShowFreakingError(e + " - Error 0041");}
+        if(ready){
+            try
+            {
+                textField_currentPage.setText("1");
+                updateTableData(selectedButtonID, MODE_FILTER_SEARCH, keyword, categoryCombo.getSelectedItem().toString());
+            }catch(Exception e){ShowFreakingError(e + " - Error 0041");}
+        }
     }//GEN-LAST:event_supplierComboActionPerformed
 
     private void button_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_nextActionPerformed
@@ -701,12 +705,12 @@ public class DatabaseFrame extends javax.swing.JFrame
         //dtm = (DefaultTableModel) database_mainTable.getModel();
         dtm = new DefaultTableModel(0,0)
         {
+            @Override
             public boolean isCellEditable(int row, int column)
             {
                 return false;
             }
         };
-        database_mainTable.setModel(dtm);
         switch(id)
         {
             case 0:
@@ -721,49 +725,47 @@ public class DatabaseFrame extends javax.swing.JFrame
                 dtm.addColumn("Category");
                 dtm.addColumn("Purchase Date");
                 dtm.addColumn("Expiration Date");
+                database_mainTable.setModel(dtm);
                 break;
             case 1:
                 dtm.addColumn("Branch No.");
                 dtm.addColumn("Name");
                 dtm.addColumn("Address");
+                database_mainTable.setModel(dtm);
                 break;
             case 2:
                 dtm.addColumn("Client No.");
                 dtm.addColumn("Name");
                 dtm.addColumn("Address");
                 dtm.addColumn("Contact Info");
+                database_mainTable.setModel(dtm);
                 break;
             case 3:
                 dtm.addColumn("Supplier No.");
                 dtm.addColumn("Name");
                 dtm.addColumn("Address");
                 dtm.addColumn("Contact Info");
+                database_mainTable.setModel(dtm);
                 break;
         }
     }
-    /**
-     *
-     * @param id
-     * @throws Exception
-     */
     public void updateTableData(int id, int mode, String keyword, String category) throws Exception
     {
+        if(keyword.isBlank())
+            keyword = " ";
         switch(id)
         {
-                 
             case 0:
                 // <editor-fold defaultstate="collapsed" desc="Items Code">
                 ItemDatabaseManager itemDatabaseManager = new ItemDatabaseManager();
                 categoryCombo.setEnabled(true);
                 database_searchBar.setEnabled(true);
                 supplierCombo.setEnabled(true);
-                
                 PaginationConfiguration pc = new PaginationConfiguration();
                 
                 int offset = (int) ((Double.parseDouble(textField_currentPage.getText()) - 1) * pc.getLimit());
                 itemDatabaseManager.filterBySearch(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()), MODE_UNSORT, (int)pc.getLimit(), offset);
                 int totalSize = itemDatabaseManager.getTotalData(goodString(keyword), goodString(category), goodString(supplierCombo.getSelectedItem().toString()));
-
                 label_totalPages.setText(((int) Math.ceil(totalSize / pc.getLimit())) + "");
                 
                 itemIdList = itemDatabaseManager.getItemIdList();
@@ -778,7 +780,6 @@ public class DatabaseFrame extends javax.swing.JFrame
                 ArrayList<String> itemSupplierList = itemDatabaseManager.getItemSupplierList();
                 ArrayList<String> itemBrandList = itemDatabaseManager.getItemBrandList();
                 ArrayList<String> itemArticleList = itemDatabaseManager.getItemArticleList();
-
                 dtm.setRowCount(0);
 
                 for(int i = 0; i < itemIdList.size(); i++)
@@ -881,7 +882,6 @@ public class DatabaseFrame extends javax.swing.JFrame
     public void getSelectedIdByNumber(int number)
     {
         boolean found = false;
-        
         switch(selectedButtonID)
         {
             case 0:
@@ -1006,12 +1006,13 @@ public class DatabaseFrame extends javax.swing.JFrame
         myFrame = mainFrame;
         initComponents();
         createColumns(selectedButtonID);
+        
         updateComboBox();
         updateComboBox2();
         categoryCombo.setEnabled(true);
         try
         {
-            updateTableData(selectedButtonID, MODE_PROCESS, database_searchBar.getText(), categoryCombo.getSelectedObjects().toString());
+            updateTableData(selectedButtonID, MODE_PROCESS, database_searchBar.getText(), categoryCombo.getSelectedItem().toString());
         }catch(Exception e){ShowFreakingError(e + " - Error 0016");}
         database_searchBar.requestFocus();
         ready = true;

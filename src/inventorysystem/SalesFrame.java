@@ -66,7 +66,6 @@ public class SalesFrame extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         button_summary = new javax.swing.JButton();
-        button_expenses = new javax.swing.JButton();
         panel_main = new javax.swing.JPanel();
         scroll_summary = new javax.swing.JScrollPane();
         panel_summary = new javax.swing.JPanel();
@@ -178,22 +177,6 @@ public class SalesFrame extends javax.swing.JFrame {
         c_totalCosts = new javax.swing.JLabel();
         button_monthlyReport = new javax.swing.JButton();
         button_previousMonthlyReport = new javax.swing.JButton();
-        panel_expenses = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table_expenses = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        label_totalExpenses = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        label_monthExpenses = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        label_mostExpensesParticular = new javax.swing.JLabel();
-        label_mostExpensesAmount = new javax.swing.JLabel();
-        button_newExpenses = new javax.swing.JButton();
-        button_deleteExpenses = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -236,36 +219,17 @@ public class SalesFrame extends javax.swing.JFrame {
             }
         });
 
-        button_expenses.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        button_expenses.setForeground(new java.awt.Color(255, 255, 255));
-        button_expenses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/summary_back.png"))); // NOI18N
-        button_expenses.setBorder(null);
-        button_expenses.setFocusable(false);
-        button_expenses.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        button_expenses.setLabel("Expenses");
-        button_expenses.setRequestFocusEnabled(false);
-        button_expenses.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/summary_hover.png"))); // NOI18N
-        button_expenses.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/summary_pressed.png"))); // NOI18N
-        button_expenses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_expensesActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(button_summary, javax.swing.GroupLayout.PREFERRED_SIZE, 181, Short.MAX_VALUE)
-            .addComponent(button_expenses, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(button_summary, javax.swing.GroupLayout.PREFERRED_SIZE, 199, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(button_summary, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(button_expenses, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -299,7 +263,7 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(labelSales))
                     .addComponent(jLabel9))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,7 +299,7 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(labelCapital))
                     .addComponent(jLabel12))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,7 +335,7 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(labelProfit))
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +348,6 @@ public class SalesFrame extends javax.swing.JFrame {
         );
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText("From:");
 
@@ -425,7 +388,6 @@ public class SalesFrame extends javax.swing.JFrame {
         });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel15.setText("To:");
 
@@ -471,7 +433,7 @@ public class SalesFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(labelOutstanding))
                     .addComponent(jLabel19))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -709,7 +671,7 @@ public class SalesFrame extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel39)
                     .addComponent(l_mostInInvoice))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(113, 123, 227));
@@ -948,7 +910,7 @@ public class SalesFrame extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel85)
                     .addComponent(r_mostInInvoice))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jLabel89)
                 .addContainerGap())
         );
@@ -1105,7 +1067,7 @@ public class SalesFrame extends javax.swing.JFrame {
                     .addComponent(jLabel41))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(c_mostOutInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(c_mostOutInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
                     .addComponent(c_mostInInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(c_fastMoving)
                     .addComponent(c_topSelling)
@@ -1176,7 +1138,7 @@ public class SalesFrame extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
                     .addComponent(c_mostInInvoice))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1315,203 +1277,6 @@ public class SalesFrame extends javax.swing.JFrame {
 
         panel_main.add(scroll_summary, "scroll_summary");
 
-        panel_expenses.setBackground(new java.awt.Color(255, 255, 255));
-
-        table_expenses.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        table_expenses.setSelectionBackground(new java.awt.Color(177, 0, 0));
-        table_expenses.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        table_expenses.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        table_expenses.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        table_expenses.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(table_expenses);
-
-        jPanel3.setBackground(new java.awt.Color(245, 245, 245));
-
-        jPanel10.setPreferredSize(new java.awt.Dimension(337, 155));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Total Expenses");
-
-        label_totalExpenses.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
-        label_totalExpenses.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_totalExpenses.setText("0.0");
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(0, 59, Short.MAX_VALUE)
-                        .addComponent(label_totalExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 60, Short.MAX_VALUE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(label_totalExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel4.setPreferredSize(new java.awt.Dimension(337, 155));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Expenses this month");
-
-        label_monthExpenses.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
-        label_monthExpenses.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_monthExpenses.setText("0.0");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 59, Short.MAX_VALUE)
-                        .addComponent(label_monthExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 60, Short.MAX_VALUE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(label_monthExpenses, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel11.setPreferredSize(new java.awt.Dimension(337, 155));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Most Expenses");
-
-        label_mostExpensesParticular.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
-        label_mostExpensesParticular.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_mostExpensesParticular.setText("0.0");
-
-        label_mostExpensesAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_mostExpensesAmount.setText("0.0");
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(0, 59, Short.MAX_VALUE)
-                        .addComponent(label_mostExpensesParticular, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 60, Short.MAX_VALUE))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(label_mostExpensesAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(label_mostExpensesParticular, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label_mostExpensesAmount)
-                .addGap(8, 8, 8)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(34, 34, 34)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10))
-        );
-
-        button_newExpenses.setText("New Expenses");
-        button_newExpenses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_newExpensesActionPerformed(evt);
-            }
-        });
-
-        button_deleteExpenses.setText("Delete Expenses");
-        button_deleteExpenses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_deleteExpensesActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panel_expensesLayout = new javax.swing.GroupLayout(panel_expenses);
-        panel_expenses.setLayout(panel_expensesLayout);
-        panel_expensesLayout.setHorizontalGroup(
-            panel_expensesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_expensesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(button_newExpenses)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_deleteExpenses)
-                .addContainerGap())
-            .addGroup(panel_expensesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel_expensesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(8, 8, 8))
-        );
-        panel_expensesLayout.setVerticalGroup(
-            panel_expensesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_expensesLayout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
-                .addGroup(panel_expensesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_newExpenses)
-                    .addComponent(button_deleteExpenses))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        panel_main.add(panel_expenses, "panel_expenses");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1561,43 +1326,11 @@ public class SalesFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_monthComboActionPerformed
 
     private void button_summaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_summaryActionPerformed
-        setButtonSelection(0);
+
     }//GEN-LAST:event_button_summaryActionPerformed
 
-    private void button_expensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_expensesActionPerformed
-        processExpensesData();
-        processExpensesStatus();
-        setButtonSelection(1);
-    }//GEN-LAST:event_button_expensesActionPerformed
-
-    private void button_newExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_newExpensesActionPerformed
-        ExpensesFormDialog efd = new ExpensesFormDialog(this, true);
-        int x = (myFrame.getWidth() - efd.getWidth()) / 2;
-        int y = (myFrame.getHeight() - efd.getHeight()) / 2;
-        efd.setLocation(x,y);
-        efd.setVisible(true);
-    }//GEN-LAST:event_button_newExpensesActionPerformed
-
-    private void button_deleteExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteExpensesActionPerformed
-        if(table_expenses.getRowCount() > 0)
-        {
-            ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
-            int id = Integer.parseInt(dtm.getValueAt(table_expenses.getSelectedRow(), 0).toString());
-            try
-            {
-                edb.deleteExpense(id);
-            }catch(Exception e){System.out.println(e);System.exit(0);}
-        }
-        processExpensesData();
-        processExpensesStatus();
-    }//GEN-LAST:event_button_deleteExpensesActionPerformed
-
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        if(selectedCard.equals("panel_expenses"))
-        {
-            processExpensesData();
-            processExpensesStatus();
-        }
+
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void button_monthlyReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_monthlyReportActionPerformed
@@ -1677,26 +1410,6 @@ public class SalesFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-    private void processExpensesStatus()
-    {
-        ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
-        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        
-        double totalExpenses = edb.getExpenses();
-        double monthlyExpenses = edb.getExpenses(date.split("-")[0], date.split("-")[1], date.split("-")[2]);
-        String mostExpense = edb.getMostExpenses();
-        String mostExpenseAmount = "", mostExpenseParticular = "";
-        if(mostExpense.split("`").length > 0)
-        {
-            mostExpenseAmount = mostExpense.split("`")[0];
-            mostExpenseParticular = mostExpense.split("`")[1];
-        }
-        
-        label_totalExpenses.setText((char)8369 + " " + properAmount(totalExpenses));
-        label_monthExpenses.setText((char)8369 + " " + properAmount(monthlyExpenses));
-        label_mostExpensesParticular.setText(mostExpenseParticular);
-        label_mostExpensesAmount.setText((char)8369 + " " + mostExpenseAmount + " in total!");
-    }
     public String properAmount(double amount)
     {
         String amountString = amount + "";
@@ -1704,28 +1417,6 @@ public class SalesFrame extends javax.swing.JFrame {
             if(amountString.charAt(i) == '.' && amountString.length() > i + 2)
                 return amountString.substring(0, i + 2);
         return amountString;
-    }
-    private void setButtonSelection(int buttonIndex)
-    {
-        switch(buttonIndex)
-        {
-            case 0:
-                button_summary.setSelected(true);
-                button_expenses.setSelected(false);
-                
-                selectedCard = "scroll_summary";
-                card.show(panel_main, selectedCard);
-                
-                break;
-                
-            case 1:
-                button_expenses.setSelected(true);
-                button_summary.setSelected(false);
-                
-                selectedCard = "panel_expenses";
-                card.show(panel_main, selectedCard);
-                break;
-        }
     }
     private void processStatus()
     {
@@ -1892,50 +1583,6 @@ public class SalesFrame extends javax.swing.JFrame {
         };
         SwingUtilities.invokeLater(r);
     }
-    private void createColumns()
-    {
-        dtm = new DefaultTableModel(0,0)
-        {
-            @Override
-            public boolean isCellEditable(int row, int column)
-            {
-                return false;
-            }
-        };
-        table_expenses.setModel(dtm);
-        dtm.addColumn("ID");
-        dtm.addColumn("Date");
-        dtm.addColumn("Particulars");
-        dtm.addColumn("Amount");
-        dtm.addColumn("Description");
-        dtm.addColumn("Status");
-        dtm.addColumn("Transaction Method");
-        dtm.addColumn("Due Date");
-    }
-    private void processExpensesData()
-    {
-        for(int i = 0; dtm.getRowCount() != 0;)
-            dtm.removeRow(i);
-        ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
-        ArrayList<ExpensesObject> eoList = edb.getListObject();
-        for(ExpensesObject eo : eoList)
-        {
-            String[] rowData = {
-                eo.getId(), 
-                eo.getDate(), 
-                eo.getParticulars(), 
-                (char)8369 + " " + eo.getAmount(), 
-                eo.getReason() + (eo.getOtherReason().isBlank() ? "" : ": " + eo.getOtherReason()),
-                eo.isPaid() ? "Paid" : "Unpaid",
-                eo.getMethod(),
-                eo.getDueDate()
-            };
-            dtm.addRow(rowData);
-        }
-        if(dtm.getRowCount() > 0)
-            table_expenses.setRowSelectionInterval(0, 0);
-        table_expenses.setRowHeight(30);
-    }
     private void processThreeMonths()
     {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -1995,9 +1642,6 @@ public class SalesFrame extends javax.swing.JFrame {
         myFrame = main;
         initComponents();
         processGraph();
-        createColumns();
-        TableColumnModel tcm = table_expenses.getColumnModel();
-        table_expenses.removeColumn(tcm.getColumn(0));
         updateDate(monthCombo, dayCombo, yearCombo, 1);
         setDate();
         card = (CardLayout)panel_main.getLayout();
@@ -2011,10 +1655,7 @@ public class SalesFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button_deleteExpenses;
-    private javax.swing.JButton button_expenses;
     private javax.swing.JButton button_monthlyReport;
-    private javax.swing.JButton button_newExpenses;
     private javax.swing.JButton button_previousMonthlyReport;
     private javax.swing.JButton button_summary;
     private javax.swing.JLabel c_additionalExpenses;
@@ -2043,18 +1684,15 @@ public class SalesFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel47;
@@ -2084,19 +1722,14 @@ public class SalesFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_additionalExpenses;
     private javax.swing.JLabel l_fastMoving;
     private javax.swing.JLabel l_month;
@@ -2114,13 +1747,8 @@ public class SalesFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelOutstanding;
     private javax.swing.JLabel labelProfit;
     private javax.swing.JLabel labelSales;
-    private javax.swing.JLabel label_monthExpenses;
-    private javax.swing.JLabel label_mostExpensesAmount;
-    private javax.swing.JLabel label_mostExpensesParticular;
-    private javax.swing.JLabel label_totalExpenses;
     private javax.swing.JComboBox<String> monthCombo;
     private javax.swing.JComboBox<String> monthCombo1;
-    private javax.swing.JPanel panel_expenses;
     private javax.swing.JPanel panel_main;
     private javax.swing.JPanel panel_summary;
     private javax.swing.JButton processButton;
@@ -2138,7 +1766,6 @@ public class SalesFrame extends javax.swing.JFrame {
     private javax.swing.JLabel r_totalProfit;
     private javax.swing.JLabel r_totalSales;
     private javax.swing.JScrollPane scroll_summary;
-    private javax.swing.JTable table_expenses;
     private javax.swing.JComboBox<String> yearCombo;
     private javax.swing.JComboBox<String> yearCombo1;
     // End of variables declaration//GEN-END:variables

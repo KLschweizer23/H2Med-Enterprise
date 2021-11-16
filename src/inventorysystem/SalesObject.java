@@ -11,7 +11,8 @@ public class SalesObject {
     private String invoiceNumber;
     private String totalPurchase;
     private String collectionReceipt;
-
+    private Double paid;
+    
     public String getDate() {
         return date;
     }
@@ -50,5 +51,13 @@ public class SalesObject {
 
     public void setCollectionReceipt(String collectionReceipt) {
         this.collectionReceipt = collectionReceipt;
+    }
+
+    public Double getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Double paid) {
+        this.paid = paid;
     }
 }

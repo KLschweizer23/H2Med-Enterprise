@@ -2,18 +2,14 @@ package inventorysystem;
 
 public class ExpensesFormDialog extends javax.swing.JDialog {
     
-    SalesFrame sf;
-    
     /**
      * Creates new form ExpensesFormDialog
      * @param parent
      * @param modal
      */
-    public ExpensesFormDialog(SalesFrame parent, boolean modal) {
+    public ExpensesFormDialog(RecordsFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        sf = parent;
         
         buttonGroup.add(radio_cash);
         buttonGroup.add(radio_postDatedCheck);
@@ -49,6 +45,10 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         field_pdc = new javax.swing.JTextField();
         button_create = new javax.swing.JButton();
         button_cancel = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        field_collectionReceipt = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        field_referenceNumber = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -76,14 +76,13 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Amount");
 
-        combo_reason.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Investment", "Capital", "Gas", "Salary", "Personal", "Others" }));
+        combo_reason.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Education Expenses", "Freight Cost", "Gasoline Expenses", "Insurance Plan", "License and Legal Expenses", "Loans", "Office and Store Lease", "Office Equipment And Supplies", "Payroll and Employment Benefits: PAG-IBIG", "Payroll and Employment Benefits: PHILHEALTH", "Payroll and Employment Benefits: SSS", "Personal Expenses", "Sales Commission", "Telephone Expenses", "Utility Expenses", "Others" }));
         combo_reason.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_reasonActionPerformed(evt);
             }
         });
 
-        pane_otherReason.setEnabled(false);
         jScrollPane1.setViewportView(pane_otherReason);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -112,6 +111,12 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel4.setText("Collection Receipt");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel5.setText("Reference Number");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,8 +128,17 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
                     .addComponent(field_particulars)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(field_pdc, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(radio_postDatedCheck, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(button_create)))
+                    .addComponent(field_referenceNumber)
+                    .addComponent(field_collectionReceipt)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radio_cash)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
@@ -134,19 +148,14 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
                                 .addComponent(combo_day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(combo_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(radio_cash)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(combo_reason, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(checkBox_isPaid)))
-                        .addGap(0, 115, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(field_pdc, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(radio_postDatedCheck, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(button_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(button_create, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(checkBox_isPaid))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(0, 115, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -168,6 +177,14 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(field_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(field_collectionReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(field_referenceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combo_reason, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_isPaid))
@@ -183,7 +200,7 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(field_pdc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button_cancel))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,15 +211,16 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void combo_reasonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_reasonActionPerformed
-        boolean isOthers = combo_reason.getSelectedItem().toString().equals("Others");    
-        pane_otherReason.setEnabled(isOthers);
+
     }//GEN-LAST:event_combo_reasonActionPerformed
 
     private void radio_postDatedCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio_postDatedCheckActionPerformed
@@ -223,6 +241,8 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         String otherReason = pane_otherReason.getText();
         String method = radio_cash.isSelected() ? "Cash" : "Post Dated Check";
         String dueDate = radio_cash.isSelected() ? "" : field_pdc.getText();
+        String collection = field_collectionReceipt.getText();
+        String reference = field_referenceNumber.getText();
         
         eo.setDate(date);
         eo.setParticulars(particulars);
@@ -232,6 +252,8 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
         eo.setPaid(checkBox_isPaid.isSelected());
         eo.setMethod(method);
         eo.setDueDate(dueDate);
+        eo.setCollection_receipt(collection);
+        eo.setReference_number(reference);
         
         ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
         
@@ -263,11 +285,15 @@ public class ExpensesFormDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> combo_reason;
     private javax.swing.JComboBox<String> combo_year;
     private javax.swing.JTextField field_amount;
+    private javax.swing.JTextField field_collectionReceipt;
     private javax.swing.JTextField field_particulars;
     private javax.swing.JTextField field_pdc;
+    private javax.swing.JTextField field_referenceNumber;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane pane_otherReason;

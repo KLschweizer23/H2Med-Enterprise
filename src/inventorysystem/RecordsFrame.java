@@ -28,7 +28,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     
     MainFrame myFrame;
     
-    DefaultTableModel dtm, dtm2;
+    DefaultTableModel dtm, dtm2, dtm3;
     
     boolean ready = false;
     
@@ -46,19 +46,30 @@ public class RecordsFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         salesTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         purchaseTable = new javax.swing.JTable();
-        comboBox_month = new javax.swing.JComboBox<>();
-        comboBox_year = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         label_purchase = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        label_sales = new javax.swing.JLabel();
+        label_paidSales = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        label_unpaidSales = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        expensesTable = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        label_expenses = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        comboBox_supplier = new javax.swing.JComboBox<>();
+        comboBox_customer = new javax.swing.JComboBox<>();
+        btn_newExpenses = new javax.swing.JButton();
+        btn_newExpenses1 = new javax.swing.JButton();
+        comboBox_year = new javax.swing.JComboBox<>();
+        comboBox_month = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -76,14 +87,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Records");
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Sales");
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Purchase");
 
         salesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -119,18 +122,6 @@ public class RecordsFrame extends javax.swing.JFrame {
         purchaseTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(purchaseTable);
 
-        comboBox_month.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBox_monthActionPerformed(evt);
-            }
-        });
-
-        comboBox_year.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBox_yearActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Total Purchases:");
 
@@ -138,10 +129,78 @@ public class RecordsFrame extends javax.swing.JFrame {
         label_purchase.setText("0.0");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Total Sales:");
+        jLabel2.setText("Total Paid Sales:");
 
-        label_sales.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        label_sales.setText("0.0");
+        label_paidSales.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_paidSales.setText("0.0");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Total Unpaid Sales:");
+
+        label_unpaidSales.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_unpaidSales.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        label_unpaidSales.setText("0.0");
+
+        expensesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            }, new String[]
+            {
+
+            }
+        ));
+        expensesTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        expensesTable.setSelectionBackground(new java.awt.Color(177, 0, 0));
+        expensesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        expensesTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(expensesTable);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Purchase");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Sales");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Total Expenses:");
+
+        label_expenses.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        label_expenses.setText("0.0");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Expenses");
+
+        comboBox_supplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_supplierActionPerformed(evt);
+            }
+        });
+
+        comboBox_customer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_customerActionPerformed(evt);
+            }
+        });
+
+        btn_newExpenses.setText("New Expenses");
+        btn_newExpenses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newExpensesActionPerformed(evt);
+            }
+        });
+
+        btn_newExpenses1.setText("Delete Selected Expense");
+        btn_newExpenses1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_newExpenses1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -150,91 +209,134 @@ public class RecordsFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
-                        .addGap(40, 40, 40))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(label_purchase))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(comboBox_supplier, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_newExpenses)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_newExpenses1))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label_purchase)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(label_expenses)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_sales)))
+                    .addComponent(comboBox_customer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(label_paidSales)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(label_unpaidSales))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBox_supplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBox_customer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_newExpenses)
+                        .addComponent(btn_newExpenses1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(label_purchase)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(label_sales)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(label_paidSales)
+                        .addComponent(jLabel3)
+                        .addComponent(label_unpaidSales))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(label_expenses))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(label_purchase)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        comboBox_year.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_yearActionPerformed(evt);
+            }
+        });
+
+        comboBox_month.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox_monthActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(480, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(440, 440, 440))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(210, 210, 210))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addGap(11, 11, 11)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
+                    .addComponent(comboBox_month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBox_year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1312, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
         );
 
         pack();
@@ -253,6 +355,7 @@ public class RecordsFrame extends javax.swing.JFrame {
         if(ready){
             processPurchases();
             processSales();
+            processExpenses();
         }
     }//GEN-LAST:event_comboBox_monthActionPerformed
 
@@ -260,8 +363,42 @@ public class RecordsFrame extends javax.swing.JFrame {
         if(ready){
             processPurchases();
             processSales();
+            processExpenses();
         }
     }//GEN-LAST:event_comboBox_yearActionPerformed
+
+    private void btn_newExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newExpensesActionPerformed
+        ExpensesFormDialog efd = new ExpensesFormDialog(this, true);
+        int x = (myFrame.getWidth() - efd.getWidth()) / 2;
+        int y = (myFrame.getHeight() - efd.getHeight()) / 2;
+        efd.setLocation(x,y);
+        efd.setVisible(true);
+    }//GEN-LAST:event_btn_newExpensesActionPerformed
+
+    private void btn_newExpenses1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newExpenses1ActionPerformed
+        if(expensesTable.getRowCount() > 0)
+        {
+            ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
+            int id = Integer.parseInt(dtm3.getValueAt(expensesTable.getSelectedRow(), 0).toString());
+            try
+            {
+                edb.deleteExpense(id);
+            }catch(Exception e){System.out.println(e);System.exit(0);}
+            processExpenses();
+        }
+    }//GEN-LAST:event_btn_newExpenses1ActionPerformed
+
+    private void comboBox_supplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_supplierActionPerformed
+        if(ready){
+            processPurchases();
+        }
+    }//GEN-LAST:event_comboBox_supplierActionPerformed
+
+    private void comboBox_customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox_customerActionPerformed
+        if(ready){
+            processSales();
+        }
+    }//GEN-LAST:event_comboBox_customerActionPerformed
 
     private void createColumns()
     {
@@ -299,7 +436,7 @@ public class RecordsFrame extends javax.swing.JFrame {
     }
     private void updateMonthsYears(){
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        String[] years = {"2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
+        String[] years = {"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
         
         for(String month : months)
             comboBox_month.addItem(month);
@@ -313,12 +450,15 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         String[] numericMonths = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         String dateQuery = comboBox_year.getSelectedItem().toString() + "-" + numericMonths[comboBox_month.getSelectedIndex()];
-        String query = "SELECT DISTINCT(INVOICE_NUMBER) as invoiceNumber from invoicetable WHERE INVOICE_DATE LIKE '" + dateQuery + "%' ORDER BY ID DESC;";
+        String customer = comboBox_customer.getSelectedItem().toString();
+        customer = customer.equals("All") ? "" : customer;
+        String query = "SELECT DISTINCT(INVOICE_NUMBER) as invoiceNumber from invoicetable WHERE INVOICE_DATE LIKE '" + dateQuery + "%' AND ADDRESS LIKE '%" + customer + "%' ORDER BY ID DESC;";
         
         HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"invoiceNumber"});
         ArrayList<String> invoiceIdList = map.get("invoiceNumber");
         Thread t = new Thread(() -> {
-            double total = 0;
+            double totalPaid = 0;
+            double totalUnpaid = 0;
             for(int i = 0; i < invoiceIdList.size(); i++){
                 int invoiceID = Integer.parseInt(invoiceIdList.get(i));
                 SalesObject[] sos = getSalesObject(invoiceID, dateQuery);
@@ -333,21 +473,26 @@ public class RecordsFrame extends javax.swing.JFrame {
                         so.getCollectionReceipt()
                     };
                     dtm2.addRow(rowData);
-                    total += Double.parseDouble(so.getTotalPurchase());
+                    totalUnpaid += Double.parseDouble(so.getTotalPurchase());
+                    totalPaid += so.getPaid();
                 }
             }
-            updateSales(total);
+            System.out.println(totalUnpaid + " - " + totalPaid);
+            totalUnpaid -= totalPaid;
+            updateSales(totalPaid, totalUnpaid);
         });
         t.start();
         salesTable.setRowHeight(30);
+        resizeColumnWidth(salesTable);
     }
     private void updatePurchase(double total){
         DecimalFormat df = new DecimalFormat();
         label_purchase.setText((char)8369 + " " + df.format(total));
     }
-    private void updateSales(double total){
+    private void updateSales(double totalPaid, double totalUnpaid){
         DecimalFormat df = new DecimalFormat();
-        label_sales.setText((char)8369 + " " + df.format(total));
+        label_paidSales.setText((char)8369 + " " + df.format(totalPaid));
+        label_unpaidSales.setText((char)8369 + " " + df.format(totalUnpaid));
     }
     private void processPurchases(){
         dtm.setRowCount(0);
@@ -356,7 +501,9 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         String[] numericMonths = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         String dateQuery = comboBox_year.getSelectedItem().toString() + "-" + numericMonths[comboBox_month.getSelectedIndex()];
-        String query = "SELECT DISTINCT(STOCK_IN_ID) as 'stockID' FROM stockintable WHERE ITEM_DATE_IN LIKE '" + dateQuery + "%' ORDER BY ID DESC;";
+        String supplier = comboBox_supplier.getSelectedItem().toString();
+        supplier = supplier.equals("All") ? "" : supplier;
+        String query = "SELECT DISTINCT(STOCK_IN_ID) as 'stockID' FROM stockintable WHERE ITEM_DATE_IN LIKE '" + dateQuery + "%' AND ITEM_SUPPLIER LIKE '%" + supplier + "%' ORDER BY ID DESC;";
         
         HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"stockID"});
         ArrayList<String> stockIdList = map.get("stockID");
@@ -380,15 +527,16 @@ public class RecordsFrame extends javax.swing.JFrame {
             updatePurchase(total);
         });
         t.start();
-        purchaseTable.setRowHeight(30);
+        purchaseTable.setRowHeight(30);        
+        resizeColumnWidth(purchaseTable);
     }
     private SalesObject[] getSalesObject(int invoiceID, String date){
         SalesObject[] sos = new SalesObject[0];
         
         DatabaseFunctions df = new DatabaseFunctions();
         
-        String[] keyName = {"date", "customer", "invoiceNumber", "total", "collection"};
-        String query = "SELECT INVOICE_DATE as date,  ADDRESS as customer, INVOICE_NUMBER as invoiceNumber, SUM(COST * PRICE) as total, COLLECTION as collection FROM invoicetable WHERE INVOICE_NUMBER = " + invoiceID + " AND INVOICE_DATE LIKE '" + date + "%' GROUP BY ADDRESS;";
+        String[] keyName = {"date", "customer", "invoiceNumber", "total", "collection", "paid"};
+        String query = "SELECT INVOICE_DATE as date,  ADDRESS as customer, INVOICE_NUMBER as invoiceNumber, SUM(PRICE * QUANTITY) as total, COLLECTION as collection, PAID as paid FROM invoicetable WHERE INVOICE_NUMBER = " + invoiceID + " AND INVOICE_DATE LIKE '" + date + "%' GROUP BY ADDRESS;";
         
         HashMap<String, ArrayList> map = df.customReturnQuery(query, keyName);
         if(map.get("invoiceNumber") != null)
@@ -402,9 +550,11 @@ public class RecordsFrame extends javax.swing.JFrame {
                 so.setCustomer(map.get("customer").get(i).toString());
                 so.setTotalPurchase(map.get("total").get(i).toString());
                 so.setCollectionReceipt(map.get("collection").get(i).toString());
-                
+                so.setPaid(Double.parseDouble(map.get("paid").get(i).toString()));
+                System.out.println(so.getPaid());
                 sos[i] = so;
             }
+            System.out.println(sos.length);
         }
         
         return sos;
@@ -430,137 +580,77 @@ public class RecordsFrame extends javax.swing.JFrame {
         
         return po;
     }
-//    private void updateTwoTables()
-//    {
-//        JScrollPane scrollerA = jScrollPane2;
-//        JScrollPane scrollerB = jScrollPane3;
-//        scrollerA.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-//        scrollerA.getVerticalScrollBar().setModel(scrollerB.getVerticalScrollBar().getModel());
-//        
-//        ItemDatabaseManager itemDb = new ItemDatabaseManager();
-//        try
-//        {
-//            itemDb.getItemsBySupplier(goodString(supplierCombo.getSelectedItem().toString()));
-//        }catch(Exception e){ShowFreakingError(e + " - Error 0046");}
-//        
-//        itemIdList = itemDb.getItemIdList();
-//        itemNameList = itemDb.getItemNameList();
-//        ArrayList<String> itemArticleList = itemDb.getItemArticleList();
-//        ArrayList<String> itemBrandList = itemDb.getItemBrandList();
-//        ArrayList<Double> itemCostList = itemDb.getItemCostList();
-//        ArrayList<String> itemSupplierList = itemDb.getItemSupplierList();
-//        
-//        extraIdList = new ArrayList<>(itemIdList);
-//        extraNameList = new ArrayList<>(itemNameList);
-//        int temp = 0;
-//        for(int i = 0; i < itemIdList.size(); i++)
-//        {
-//            final String supplier = itemSupplierList.get(i);
-//            final String item = itemNameList.get(i);
-//            final String article = itemArticleList.get(i);
-//            final String brand = itemBrandList.get(i);
-//            final String cost = itemCostList.get(i) +"";
-//            final String id = itemIdList.get(i);
-//            final int extraRows = findSales(supplier, item);
-//            final int finalTemp = temp;
-//            Thread t = new Thread()
-//            {
-//                @Override
-//                public void run()
-//                {
-//                    String[] rowData = {
-//                        supplier,
-//                        item,
-//                        article,
-//                        brand,
-//                        (char)8369 + " " + cost
-//                    };
-//                    dtm.addRow(rowData);
-//
-//                    String[] emptyData = {};
-//                    for(int j = 1; j < extraRows; j++)
-//                    {
-//                        extraIdList.add(finalTemp, id);
-//                        extraNameList.add(finalTemp, item);
-//                    }
-//                    for(int j = 1; j < extraRows; j++)
-//                        dtm.addRow(emptyData);
-//                }
-//            };
-//            t.start();
-//            temp += extraRows;
-//            temp++;
-//        }
-//        extraIdList2 = extraIdList;
-//        if(purchaseTable.getRowCount() >= 1)
-//        {
-//            purchaseTable.setRowSelectionInterval(0, 0);
-//        }
-//        purchaseTable.setRowHeight(30);
-//        
-//        if(salesTable.getRowCount() >= 1)
-//        {
-//            salesTable.setRowSelectionInterval(0, 0);
-//        }
-//        salesTable.setRowHeight(30);
-//    }
-    private String goodString(String data)
+    private void createColumns3()
     {
-        String temp = data.replaceAll("'", "\\\\'");
-        return temp;
+        dtm3 = new DefaultTableModel(0,0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
+        expensesTable.setModel(dtm3);
+        dtm3.addColumn("ID");
+        dtm3.addColumn("Date");
+        dtm3.addColumn("Particulars");
+        dtm3.addColumn("Amount");
+        dtm3.addColumn("Description");
+        dtm3.addColumn("Collection Receipt");
+        dtm3.addColumn("Reference #");
     }
-    private int findSales(String _supplier, String _name)
+    
+    private void listOfSuppliers()
     {
-        int count = 0;
+        DatabaseFunctions df = new DatabaseFunctions();
+        String query = "SELECT DISTINCT(ITEM_SUPPLIER) as suppliers FROM stockintable ORDER BY ITEM_SUPPLIER ASC;";
         
-        InvoiceDatabaseManager invoiceDb = new InvoiceDatabaseManager();
-        try
-        {
-            invoiceDb.getDataBySupplier(goodString(_supplier), goodString(_name));
-        }catch(Exception e){ShowFreakingError(e + " - Error 0047");}
-        ArrayList<String> clientList = invoiceDb.getAddressList();
-        ArrayList<String> dateList = invoiceDb.getInvoiceDateList();
-        ArrayList<Double> priceList = invoiceDb.getPriceList();
-        ArrayList<Double> quantityList = invoiceDb.getQuantityList();
-        ArrayList<Integer> saleStatusList = invoiceDb.getInvoiceStatusList();
-        ArrayList<Double> paymentList = invoiceDb.getPaidList();
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"suppliers"});
+        comboBox_supplier.addItem("All");
+        for(int i = 0; i < (map.get("suppliers") == null ? 0 : map.get("suppliers").size()); i++)
+            comboBox_supplier.addItem(map.get("suppliers").get(i).toString());
+    }
+    
+    private void listOfCustomers()
+    {
+        DatabaseFunctions df = new DatabaseFunctions();
+        String query = "SELECT DISTINCT(ADDRESS) as customers FROM invoicetable i ORDER BY ADDRESS ASC;";
         
-        for(int i = 0; i < invoiceDb.getItemsList().size(); i++)
-        {
-            double totalPrice = priceList.get(i) * quantityList.get(i);
+        HashMap<String, ArrayList> map = df.customReturnQuery(query, new String[]{"customers"});
+        comboBox_customer.addItem("All");
+        for(int i = 0; i < (map.get("customers") == null ? 0 : map.get("customers").size()); i++)
+            comboBox_customer.addItem(map.get("customers").get(i).toString());
+    }
+    
+    private void processExpenses()
+    {
+        dtm3.setRowCount(0);
+        
+        ExpensesDatabaseManager edb = new ExpensesDatabaseManager();
+        String[] numericMonths = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        String dateQuery = comboBox_year.getSelectedItem().toString() + "-" + numericMonths[comboBox_month.getSelectedIndex()];
+        
+        ArrayList<ExpensesObject> eoList = edb.getListObject(dateQuery);
+        double totalExpenses = 0;
+        for(ExpensesObject eo : eoList){
             String[] rowData = {
-                i + 1 + "", clientList.get(i), dateList.get(i).substring(0,10),totalPrice + "", 
-                setProperStatus(saleStatusList.get(i)), (char)8369 + " " + paymentList.get(i)
+                eo.getId(),
+                eo.getDate(),
+                eo.getParticulars(),
+                (char)8369 + " " + eo.getAmount(),
+                eo.getReason() + (eo.getOtherReason().isBlank() ? "" : ": " + eo.getOtherReason()),
+                eo.getCollection_receipt(),
+                eo.getReference_number()
             };
-            
-            dtm2.addRow(rowData);
-            count++;
+            dtm3.addRow(rowData);
+            System.out.println(eo.getAmount());
+            totalExpenses += Double.parseDouble(eo.getAmount().replace(",", ""));
         }
-        if(count == 0)
-        {
-            String[] rowData = {"- - / - -","- - / - -","- - / - -","- - / - -","- - / - -","- - / - -"};
-            dtm2.addRow(rowData);
-        }
-        return count;
-    }
-    private String setProperStatus (int status)
-    {
-        String returnVal = "";
-        switch (status) {
-            case 0:
-                returnVal = "Outstanding";
-                break;
-            case 1:
-                returnVal = "Partial";
-                break;
-            case 2:
-                returnVal = "Paid";
-                break;
-            default:
-                break;
-        }
-        
-        return returnVal;
+        if(dtm.getRowCount() > 0)
+            expensesTable.setRowSelectionInterval(0, 0);
+        expensesTable.setRowHeight(30);
+        label_expenses.setText((char)8369 + " " + totalExpenses);    
+        resizeColumnWidth(expensesTable);
     }
     private void setupTable(JTable table, Color background, Dimension dim, Color foreground)
     {
@@ -631,10 +721,14 @@ public class RecordsFrame extends javax.swing.JFrame {
         initComponents();
         createColumns();
         createColumns2();
+        createColumns3();
         updateMonthsYears();
         //updateTwoTables();
+        listOfSuppliers();
+        listOfCustomers();
         processPurchases();
         processSales();
+        processExpenses();
 //        purchaseTable.addMouseListener(new MouseAdapter() {
 //            @Override
 //            public void mouseClicked(MouseEvent me)
@@ -643,8 +737,6 @@ public class RecordsFrame extends javax.swing.JFrame {
 //                    Popup(me, purchaseTable.getSelectedRow());
 //            }
 //        });
-        resizeColumnWidth(purchaseTable);
-        resizeColumnWidth(salesTable);
         
         setupTable(purchaseTable, Color.WHITE, new Dimension(0,30), Color.black);
         setupTable(salesTable, Color.WHITE, new Dimension(0,30), Color.black);
@@ -657,19 +749,30 @@ public class RecordsFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_newExpenses;
+    private javax.swing.JButton btn_newExpenses1;
+    private javax.swing.JComboBox<String> comboBox_customer;
     private javax.swing.JComboBox<String> comboBox_month;
+    private javax.swing.JComboBox<String> comboBox_supplier;
     private javax.swing.JComboBox<String> comboBox_year;
+    private javax.swing.JTable expensesTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel label_expenses;
+    private javax.swing.JLabel label_paidSales;
     private javax.swing.JLabel label_purchase;
-    private javax.swing.JLabel label_sales;
+    private javax.swing.JLabel label_unpaidSales;
     private javax.swing.JTable purchaseTable;
     private javax.swing.JTable salesTable;
     // End of variables declaration//GEN-END:variables

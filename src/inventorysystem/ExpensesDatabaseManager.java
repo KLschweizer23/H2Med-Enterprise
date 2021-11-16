@@ -18,6 +18,8 @@ public class ExpensesDatabaseManager {
     final private String PAID = "PAID";
     final private String METHOD = "METHOD";
     final private String DUEDATE = "DUEDATE";
+    final private String COLLECTION_RECEIPT = "COLLECTION_RECEIPT";
+    final private String REFERENCE_NUMBER = "REFERENCE_NUMBER";
     
     private ArrayList<ExpensesObject> eoList = new ArrayList<>();
     
@@ -36,6 +38,8 @@ public class ExpensesDatabaseManager {
             "  " + PAID + " BOOLEAN NOT NULL," +
             "  " + METHOD + " VARCHAR(20) NOT NULL," +
             "  " + DUEDATE + " VARCHAR(150) NOT NULL," +
+            "  " + COLLECTION_RECEIPT + " VARCHAR(150) NOT NULL," +
+            "  " + REFERENCE_NUMBER + " VARCHAR(150) NOT NULL," + 
             "  PRIMARY KEY (" + ID + ")" +
             ")");
             createQuery.executeUpdate();
@@ -66,6 +70,8 @@ public class ExpensesDatabaseManager {
                 + "," + PAID 
                 + "," + METHOD 
                 + "," + DUEDATE 
+                + "," + COLLECTION_RECEIPT
+                + "," + REFERENCE_NUMBER
                 + ") VALUES ("
                 + "'" + eo.getDate() + "',"
                 + "'" + goodString(eo.getParticulars()) + "',"
@@ -74,7 +80,9 @@ public class ExpensesDatabaseManager {
                 + "'" + goodString(eo.getOtherReason()) + "',"
                 + "'" + (eo.isPaid() ? "1" : "0") + "',"
                 + "'" + eo.getMethod() + "',"
-                + "'" + eo.getDueDate()+ "'"
+                + "'" + eo.getDueDate()+ "',"
+                + "'" + eo.getCollection_receipt() + "',"
+                + "'" + eo.getReference_number() + "'"
                 + ")");
         insertQuery.executeUpdate();
         con.close();
@@ -104,6 +112,33 @@ public class ExpensesDatabaseManager {
                 eo.setPaid(result.getBoolean(PAID));
                 eo.setMethod(result.getString(METHOD));
                 eo.setDueDate(result.getString(DUEDATE));
+                eo.setCollection_receipt(result.getString(COLLECTION_RECEIPT));
+                eo.setReference_number(result.getString(REFERENCE_NUMBER));
+                eoList.add(eo);
+            }
+        }catch(Exception e){System.out.println(e);System.exit(0);}
+        return eoList;
+    }
+    public ArrayList<ExpensesObject> getListObject(String dateLike)
+    {
+        try{
+            Connection con = getConnection();
+            PreparedStatement getQuery = con.prepareStatement("Select * from " + table + " WHERE " + DATE + " LIKE '" + dateLike + "%'");
+            ResultSet result = getQuery.executeQuery();
+            while(result.next())
+            {
+                ExpensesObject eo = new ExpensesObject();
+                eo.setId(result.getString(ID));
+                eo.setDate(result.getString(DATE));
+                eo.setParticulars(result.getString(PARTICULARS));
+                eo.setAmount(result.getString(AMOUNT));
+                eo.setReason(result.getString(REASON));
+                eo.setOtherReason(result.getString(OTHERREASON));
+                eo.setPaid(result.getBoolean(PAID));
+                eo.setMethod(result.getString(METHOD));
+                eo.setDueDate(result.getString(DUEDATE));
+                eo.setCollection_receipt(result.getString(COLLECTION_RECEIPT));
+                eo.setReference_number(result.getString(REFERENCE_NUMBER));
                 eoList.add(eo);
             }
         }catch(Exception e){System.out.println(e);

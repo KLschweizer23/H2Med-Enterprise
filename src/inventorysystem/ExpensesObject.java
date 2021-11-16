@@ -10,6 +10,8 @@ public class ExpensesObject {
     private boolean paid;
     private String method;
     private String dueDate = "";
+    private String collection_receipt = "";
+    private String reference_number = "";
 
     public String getDate() {
         return date;
@@ -81,5 +83,21 @@ public class ExpensesObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCollection_receipt() {
+        return collection_receipt;
+    }
+
+    public void setCollection_receipt(String collection_receipt) {
+        this.collection_receipt = collection_receipt;
+    }
+
+    public String getReference_number() {
+        return reference_number;
+    }
+
+    public void setReference_number(String reference_number) {
+        this.reference_number = reference_number;
     }
 }
